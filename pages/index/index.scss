@@ -300,8 +300,7 @@ p {
   &__header {
     width: 100%;
     display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
+    justify-content: space-between;
     gap: 0.5em;
 
     span {
