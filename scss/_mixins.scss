@@ -1,0 +1,10 @@
+@use './common' as common;
+
+@mixin adaptiv-font($mobSize, $pcSize) {
+    $addSize: $pcSize - $mobSize;
+    $maxWidth: common.$containerWidth - common.$minWidth;
+    font-size: min(
+        calc(#{$mobSize + px} + #{$addSize} * ((100vw - #{common.$minWidth + px}) / #{$maxWidth})),
+        #{$pcSize + px}
+    );
+}

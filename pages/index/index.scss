@@ -1,0 +1,389 @@
+@use "../../scss/common" as common;
+@use "../../scss/_mixins" as mixins;
+
+$title-description-margin: 4vh;
+$about-us-transform-size: 1000px;
+$section-gap: 10vh;
+$slider-transform-size: 554px;
+
+h2 {
+  margin-bottom: 4vh;
+}
+
+p {
+  @include mixins.adaptiv-font(16, 20);
+  line-height: 143.4%;
+}
+
+.title {
+  font-weight: 800;
+  @include mixins.adaptiv-font(40, 60);
+  text-transform: uppercase;
+}
+
+.description {
+  margin-bottom: 4vh;
+}
+
+.main-header {
+  width: 100%;
+  height: min(100vh, 1280px); // размер изображения на компах
+
+  // нужно для того чтобы зелёный круг не заходил на кнопки
+  @media (max-height: 700px) {
+    height: min(110vh, 1280px);
+  }
+
+  background: url("/pages/index/img/header_photo-desktop-dark.jpg") no-repeat;
+  background-position: center;
+  padding-top: 3vh;
+
+  position: relative;
+
+  // сделать для 4к
+  // @media (max-width: 750px) {
+  //   background: url('/pages/index/img/header_photo-mobile-dark.jpg');
+  //   height: 680px;
+  // }
+
+  &__top {
+    width: 100%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2em;
+  }
+
+  &__logo {
+    height: max(5vmax, 70px);
+  }
+
+  &__content {
+    // margin-top: 15vh;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+
+    display: flex;
+    flex-direction: column;
+    gap: 3vh;
+  }
+
+  &__title {
+    font-weight: 800;
+    @include mixins.adaptiv-font(40, 60);
+  }
+
+  &__description {
+    line-height: 2em;
+    @include mixins.adaptiv-font(16, 20);
+    max-width: 620px;
+  }
+}
+
+.header-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 2vw;
+
+  @media (max-width: #{common.$hideNavSize + px}) {
+    display: none;
+  }
+
+  &__link {
+    @include mixins.adaptiv-font(16, 20);
+    font-weight: 700;
+    text-transform: capitalize;
+    white-space: nowrap;
+  }
+}
+
+.booking-btn {
+  outline: none;
+  border: none;
+
+  @include mixins.adaptiv-font(16, 20);
+  font-weight: 700;
+  text-transform: capitalize;
+  white-space: nowrap;
+
+  padding: 0.8em 1.2em;
+  background-color: common.$green;
+  border-radius: 60px;
+
+  width: max-content;
+  cursor: pointer;
+}
+
+.side-social-links {
+  position: absolute;
+
+  @media (max-width: #{common.$hideNavSize + px}) {
+    display: none;
+  }
+
+  right: 2vw;
+  top: 40%;
+
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.main-header__down-icon {
+  width: 70px;
+  position: absolute;
+  top: 80%;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: down-icon-animation 2s infinite;
+
+  @keyframes down-icon-animation {
+    0% {
+      opacity: 0;
+      transform: translateX(-50%) translateY(-20px);
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      transform: translateX(-50%) translateY(20px);
+    }
+  }
+}
+
+.about-us {
+  height: max-content;
+  position: relative;
+  top: -10vh;
+  z-index: 10;
+  overflow-x: hidden;
+
+  &::before {
+    content: "";
+    width: 150vw;
+    height: 100%;
+    position: absolute;
+    background-color: common.$green;
+    z-index: -1;
+    border-radius: 50%;
+    left: -25vw;
+
+    @media (max-width: $about-us-transform-size) {
+      width: 250vw;
+      left: -75vw;
+    }
+  }
+
+  &__container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2vw;
+    padding-top: 10vh;
+    padding-bottom: 10vh;
+
+    @media (max-width: $about-us-transform-size) {
+      flex-direction: column;
+      gap: 3vh;
+    }
+  }
+
+  &__text-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2vh;
+
+    @media (max-width: $about-us-transform-size) {
+      width: 100%;
+    }
+  }
+
+  &__header {
+    font-weight: bold;
+  }
+
+  &__photo {
+    border-radius: 50% / 15%;
+    width: 40%;
+    filter: drop-shadow(5px 5px 10px black);
+    pointer-events: none;
+
+    @media (max-width: $about-us-transform-size) {
+      display: none;
+    }
+  }
+}
+
+// splide
+
+.splide {
+  cursor: grab;
+}
+
+.splide__arrow svg {
+  fill: white !important;
+  filter: drop-shadow(0px 0px 3px black);
+  width: 100%;
+}
+
+.splide__slide {
+  filter: drop-shadow(-10px 15px 3px rgba(0, 0, 0, 0.415));
+
+  &:has(.is-selected) {
+    padding-left: 15px;
+
+    @media (max-width: $slider-transform-size) {
+      padding-left: 0;
+    }
+  }
+
+  @media (max-width: $slider-transform-size) {
+    filter: none;
+  }
+}
+
+.splide__track {
+  padding-bottom: 30px;
+}
+
+.slide {
+  max-width: 420px;
+  height: max-content;
+  max-height: 600px;
+  aspect-ratio: 7 / 10;
+
+  @media (max-width: $slider-transform-size) {
+    width: 89vw;
+  }
+
+  background-color: common.$white;
+  border-radius: 50px;
+  overflow: hidden;
+
+  .f-carousel {
+    &__slide {
+      max-width: 420px;
+    }
+  }
+
+  &__photos {
+    height: 50%;
+    margin: 0 !important;
+
+    // кастомизируем fancbox карусель
+    .f-carousel {
+      &__dots {
+        transform: translateY(-30px);
+      }
+
+      &__nav {
+        .f-button svg {
+          width: 50px;
+          height: 50px;
+        }
+      }
+    }
+  }
+
+  &__content {
+    padding: 20px;
+    height: 50%;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 0.3fr 1fr 0.5fr;
+    row-gap: 1vh;
+  }
+
+  &__header {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 0.5em;
+
+    span {
+      color: common.$black;
+    }
+  }
+
+  &__title {
+    font-family: "Vulgat";
+    @include mixins.adaptiv-font(28, 36);
+
+    @media (max-width: 359px) {
+      font-size: 20px;
+    }
+
+    font-weight: bold;
+    line-height: .8em;
+  }
+
+  &__price {
+    @include mixins.adaptiv-font(18, 24);
+    font-weight: 700;
+    white-space: nowrap;
+
+    &::before {
+      font-size: 0.6em;
+      font-weight: 600;
+      content: "ОТ ";
+    }
+
+    .period {
+      font-size: 0.6em;
+      font-weight: 600;
+      text-transform: uppercase;
+
+      &::before {
+        content: "₽/";
+      }
+    }
+  }
+
+  &__description {
+    color: common.$black;
+    @include mixins.adaptiv-font(14, 15);
+    overflow-y: auto;
+
+    /* width */
+    &::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    /* Track */
+    &::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 20px;
+    }
+
+    /* Handle */
+    &::-webkit-scrollbar-thumb {
+      background: common.$green;
+      border-radius: 20px;
+    }
+
+    /* Handle on hover */
+    &::-webkit-scrollbar-thumb:hover {
+      background: common.$green;
+    }
+  }
+
+  &__booking-btn {
+    justify-self: center;
+  }
+}
+
+section.actions {
+  margin-top: $section-gap;
+
+  &__container {
+    .slide__price {
+      &::after {
+        content: "/ЧАС";
+      }
+    }
+  }
+}
