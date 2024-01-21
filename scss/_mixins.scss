@@ -1,4 +1,4 @@
-@use './common' as common;
+@use "./common" as common;
 
 @mixin adaptiv-font($mobSize, $pcSize) {
     $addSize: $pcSize - $mobSize;
@@ -7,4 +7,33 @@
         calc(#{$mobSize + px} + #{$addSize} * ((100vw - #{common.$minWidth + px}) / #{$maxWidth})),
         #{$pcSize + px}
     );
+}
+
+@mixin use-custom-scrollbar() {
+    /* width */
+    &::-webkit-scrollbar {
+        @media (orientation: landscape) {
+            width: 10px;
+        }
+        @media (orientation: portrait) {
+            width: 5px;
+        }
+    }
+
+    /* Track */
+    &::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 20px;
+    }
+
+    /* Handle */
+    &::-webkit-scrollbar-thumb {
+        background: common.$green;
+        border-radius: 20px;
+    }
+
+    /* Handle on hover */
+    &::-webkit-scrollbar-thumb:hover {
+        background: common.$green;
+    }
 }

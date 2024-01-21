@@ -7,14 +7,11 @@ slidePhotos.forEach(carousel => {
   });
 })
 
-const offersSliders = document.querySelectorAll(".offers-slider");
-
-offersSliders.forEach(carousel => {
-  new Carousel(carousel, {
-    'slidesPerPage' : 4,
-    'preload' : '1'
-  });
-})
+const ourProductsCarousel = document.querySelector(".our-products__carousel");
+new Carousel(ourProductsCarousel, {
+  'slidesPerPage': 1,
+  'preload': 1
+});
 
 Fancybox.bind("[data-fancybox]", {
   // Your custom options

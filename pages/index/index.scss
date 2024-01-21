@@ -6,18 +6,23 @@ $about-us-transform-size: 1000px;
 $section-gap: 10vh;
 $slider-transform-size: 554px;
 
+body {
+  @include mixins.use-custom-scrollbar();
+}
+
 h2 {
   margin-bottom: 4vh;
 }
 
-p {
+p,
+li {
   @include mixins.adaptiv-font(16, 20);
   line-height: 143.4%;
 }
 
 .title {
   font-weight: 800;
-  @include mixins.adaptiv-font(40, 60);
+  @include mixins.adaptiv-font(36, 60);
   text-transform: uppercase;
 }
 
@@ -317,7 +322,7 @@ p {
     }
 
     font-weight: bold;
-    line-height: .8em;
+    line-height: 0.8em;
   }
 
   &__price {
@@ -347,27 +352,12 @@ p {
     @include mixins.adaptiv-font(14, 15);
     overflow-y: auto;
 
-    /* width */
-    &::-webkit-scrollbar {
-      width: 10px;
+    b {
+      color: inherit;
+      font-weight: bold;
     }
 
-    /* Track */
-    &::-webkit-scrollbar-track {
-      background: #f1f1f1;
-      border-radius: 20px;
-    }
-
-    /* Handle */
-    &::-webkit-scrollbar-thumb {
-      background: common.$green;
-      border-radius: 20px;
-    }
-
-    /* Handle on hover */
-    &::-webkit-scrollbar-thumb:hover {
-      background: common.$green;
-    }
+    @include mixins.use-custom-scrollbar();
   }
 
   &__booking-btn {
@@ -377,12 +367,187 @@ p {
 
 section.actions {
   margin-top: $section-gap;
+}
 
-  &__container {
-    .slide__price {
-      &::after {
-        content: "/ЧАС";
+.no-scroll {
+  overflow: hidden;
+}
+
+.dialog {
+  position: fixed;
+  top: 0;
+  left: 0;
+  margin: 50vh auto;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: clamp(280px, 100vw, #{common.$containerWidth + px} - 30%);
+  max-height: 80vh;
+  padding: 2vh;
+  border: none;
+  outline: none;
+  box-shadow: -3px 5px 10px black;
+
+  border-radius: 8px;
+
+  &__title {
+    color: common.$black;
+    font-weight: bold;
+    padding: 4vh 1vw;
+    @include mixins.adaptiv-font(20, 30);
+  }
+
+  &__content {
+    color: common.$black;
+    overflow-y: auto;
+    max-height: 60vh;
+
+    @media (orientation: landscape) {
+      @include mixins.use-custom-scrollbar();
+    }
+
+    li {
+      color: common.$black;
+      margin-left: max(4vw, 30px);
+      margin-bottom: 2vh;
+    }
+  }
+
+  .close-dialog-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    outline: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+  }
+}
+
+.open-dialog-btn {
+  color: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+  transition: color 0.2s ease-in-out;
+
+  &:hover {
+    color: common.$green;
+  }
+}
+
+.actions-list {
+  list-style: "🍀";
+  margin-top: 4vh;
+
+  li {
+    margin-top: 2vh;
+    margin-left: 30px;
+  }
+}
+
+.our-products {
+  margin-top: $section-gap;
+
+  &__carousel {
+    height: 400px;
+
+    // кастомизируем fancbox карусель
+    .f-carousel {
+      &__nav {
+        .f-button svg {
+          width: 50px;
+          height: 50px;
+        }
+      }
+    }
+
+    .f-carousel__slide {
+      width: max-content;
+    }
+
+    img {
+      max-width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+}
+
+.contacts {
+  margin-top: $section-gap;
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 3vh;
+
+    .contacts-item {
+      width: min(max-content, 100%);
+      display: flex;
+      align-items: center;
+      gap: 2vw;
+
+      &__icon {
+        width: min(12%, 50px);
+        aspect-ratio: 1 / 1;
+      }
+
+      &__text {
+        @include mixins.adaptiv-font(14, 24);
+
+        &:hover:is(a) {
+          text-decoration: underline;
+        }
+
+        &::after:is(a) {
+          content: "";
+          background: url(/svg/touch-icon.svg) no-repeat;
+          background-size: 1em;
+          display: inline-block;
+          width: 1em;
+          height: 1em;
+          position: relative;
+          left: 0.3em;
+          top: 0.1em;
+        }
+      }
+
+      &__suggest {
+        font-size: 0.5em;
+        text-decoration: none;
       }
     }
   }
+}
+
+.main-footer {
+  margin-top: $section-gap;
+  height: max-content;
+  background-color: common.$brown-dark;
+
+  &__container {
+    padding-top: 4vh;
+    padding-bottom: 4vh;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4vh;
+  }
+
+  &__logo {
+    max-width: 90vw;
+  }
+
+  // &__links {
+  //   display: flex;
+  //   gap: 4vw;
+  // }
+
+  // &__link {
+  //   img {
+  //     width: min(12vw, 50px);
+  //   }
+  // }
 }
