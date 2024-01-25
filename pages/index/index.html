@@ -27,21 +27,21 @@
   <header class="main-header">
     <div class="main-header__container container">
       <div class="main-header__top">
-        <img src="../../img/logo-transparent.png" alt="Логотип" class="main-header__logo">
+        <img src="../../img/logo.svg" alt="Логотип" class="main-header__logo">
         <nav class="header-nav-links">
-          <!-- <a href="#" class="header-nav-links__link font-shadow">Главная</a> -->
-          <a href="#" class="header-nav-links__link font-shadow">Домики</a>
-          <a href="#" class="header-nav-links__link font-shadow">Досуг</a>
-          <a href="#" class="header-nav-links__link font-shadow">Наша продукция</a>
-          <button class="booking-btn">Написать</button>
+          <a href="#houses" class="header-nav-links__link font-shadow">Домики</a>
+          <a href="#actions" class="header-nav-links__link font-shadow">Досуг</a>
+          <a href="#our-products" class="header-nav-links__link font-shadow">Наша продукция</a>
+          <a href="#contacts" class="header-nav-links__link font-shadow">Контакты</a>
+          <a href="https://wa.me/79269159153" class="booking-btn">Напишите Нам</a>
         </nav>
       </div>
       <div class="main-header__content">
-        <h1 class="main-header__title font-shadow title">Отдохни на природе</h1>
+        <h1 class="main-header__title font-shadow title">Отдохните на природе</h1>
         <p class="main-header__description font-shadow">Откройте для себя Экоферму Немцово – уединенный уголок природы.
           Аренда коттеджей, разнообразные развлечения и собственные натуральные продукты.
           Забронируйте&nbsp;прямо&nbsp;сейчас!</p>
-        <button class="booking-btn">Забронировать</button>
+        <a href="https://wa.me/79269159153" class="booking-btn">Забронировать</a>
       </div>
       <div class="side-social-links">
         <a href="https://wa.me/79269159153" class="side-social-links__link">
@@ -76,6 +76,7 @@
           fill="#fff" />
       </svg>
     </div>
+    <img id="menu-btn" src="/svg/burger-menu-icon.svg">
   </header>
   <main>
     <section class="about-us">
@@ -97,12 +98,12 @@
               пасущихся коз, милых поросят, ласковых овец, прекрасных лошадей и курочек!</p>
           </div>
         </div>
-        <img class="about-us__photo" src="./svg/goat.svg" alt="Козочка">
+        <img class="about-us__photo" src="/svg/goat.svg" alt="Козочка" loading="lazy">
       </div>
     </section>
 
     <!-- домики -->
-    <section class="houses">
+    <section class="houses" id="houses">
       <div class="houses__container container">
         <h2 class="houses__title title">Домики&nbsp;🏠</h2>
         <p class="houses-description description">
@@ -117,13 +118,103 @@
                 <article class="slide">
                   <div class="slide__photos">
                     <div class="f-carousel__slide">
-                      <a data-fancybox="1" data-src="../index/../../img/houses/big/20220822_192504.jpg">
-                        <img src="../index/../../img/houses/mini/20220822_192504.jpg">
+                      <a data-fancybox="house-1" data-src="/img/houses/house/big/1.jpg">
+                        <img src="/img/houses/house/mini/1.jpg" loading="lazy">
                       </a>
                     </div>
                     <div class="f-carousel__slide">
-                      <a data-fancybox="1" data-src="../index/../../img/houses/big/20230425_172720.jpg">
-                        <img src="../index/../../img/houses/mini/20230425_172720.jpg">
+                      <a data-fancybox="house-1" data-src="/img/houses/house/big/2.jpg">
+                        <img src="/img/houses/house/mini/2.jpg" loading="lazy">
+                      </a>
+                    </div>
+                    <div class="f-carousel__slide">
+                      <a data-fancybox="house-1" data-src="/img/houses/house/big/3.jpg">
+                        <img src="/img/houses/house/mini/3.jpg" loading="lazy">
+                      </a>
+                    </div>
+                    <div class="f-carousel__slide">
+                      <a data-fancybox="house-1" data-src="/img/houses/house/big/4.jpg">
+                        <img src="/img/houses/house/mini/4.jpg" loading="lazy">
+                      </a>
+                    </div>
+                    <div class="f-carousel__slide">
+                      <a data-fancybox="house-1" data-src="/img/houses/house/big/5.jpg">
+                        <img src="/img/houses/house/mini/5.jpg" loading="lazy">
+                      </a>
+                    </div>
+                    <div class="f-carousel__slide">
+                      <a data-fancybox="house-1" data-src="/img/houses/house/big/6.jpg">
+                        <img src="/img/houses/house/mini/6.jpg" loading="lazy">
+                      </a>
+                    </div>
+                    <div class="f-carousel__slide">
+                      <a data-fancybox="house-1" data-src="/img/houses/house/big/7.jpg">
+                        <img src="/img/houses/house/mini/7.jpg" loading="lazy">
+                      </a>
+                    </div>
+                    <div class="f-carousel__slide">
+                      <a data-fancybox="house-1" data-src="/img/houses/house/big/8.jpg">
+                        <img src="/img/houses/house/mini/8.jpg" loading="lazy">
+                      </a>
+                    </div>
+                    <div class="f-carousel__slide">
+                      <a data-fancybox="house-1" data-src="/img/houses/house/big/9.jpg">
+                        <img src="/img/houses/house/mini/9.jpg" loading="lazy">
+                      </a>
+                    </div>
+                    <div class="f-carousel__slide">
+                      <a data-fancybox="house-1" data-src="/img/houses/house/big/10.jpg">
+                        <img src="/img/houses/house/mini/10.jpg" loading="lazy">
+                      </a>
+                    </div>
+                    <div class="f-carousel__slide">
+                      <a data-fancybox="house-1" data-src="/img/houses/house/big/11.jpg">
+                        <img src="/img/houses/house/mini/11.jpg" loading="lazy">
+                      </a>
+                    </div>
+                    <div class="f-carousel__slide">
+                      <a data-fancybox="house-1" data-src="/img/houses/house/big/12.jpg">
+                        <img src="/img/houses/house/mini/12.jpg" loading="lazy">
+                      </a>
+                    </div>
+                    <div class="f-carousel__slide">
+                      <a data-fancybox="house-1" data-src="/img/houses/house/big/13.jpg">
+                        <img src="/img/houses/house/mini/13.jpg" loading="lazy">
+                      </a>
+                    </div>
+                    <div class="f-carousel__slide">
+                      <a data-fancybox="house-1" data-src="/img/houses/house/big/14.jpg">
+                        <img src="/img/houses/house/mini/14.jpg" loading="lazy">
+                      </a>
+                    </div>
+                    <div class="f-carousel__slide">
+                      <a data-fancybox="house-1" data-src="/img/houses/house/big/15.jpg">
+                        <img src="/img/houses/house/mini/15.jpg" loading="lazy">
+                      </a>
+                    </div>
+                    <div class="f-carousel__slide">
+                      <a data-fancybox="house-1" data-src="/img/houses/house/big/16.jpg">
+                        <img src="/img/houses/house/mini/16.jpg" loading="lazy">
+                      </a>
+                    </div>
+                    <div class="f-carousel__slide">
+                      <a data-fancybox="house-1" data-src="/img/houses/house/big/17.jpg">
+                        <img src="/img/houses/house/mini/17.jpg" loading="lazy">
+                      </a>
+                    </div>
+                    <div class="f-carousel__slide">
+                      <a data-fancybox="house-1" data-src="/img/houses/house/big/18.jpg">
+                        <img src="/img/houses/house/mini/18.jpg" loading="lazy">
+                      </a>
+                    </div>
+                    <div class="f-carousel__slide">
+                      <a data-fancybox="house-1" data-src="/img/houses/house/big/19.jpg">
+                        <img src="/img/houses/house/mini/19.jpg" loading="lazy">
+                      </a>
+                    </div>
+                    <div class="f-carousel__slide">
+                      <a data-fancybox="house-1" data-src="/img/houses/house/big/20.jpg">
+                        <img src="/img/houses/house/mini/20.jpg" loading="lazy">
                       </a>
                     </div>
                   </div>
@@ -139,7 +230,9 @@
                       свободный. Аренда бани и массажа со скидкой 30%.
                       <span class="open-dialog-btn" dialog="house-accommodations">Условия&nbsp;проживания</span>
                     </p>
-                    <button class="slide__booking-btn booking-btn">Забронировать</button>
+                    <a class="slide__booking-btn booking-btn"
+                      href="https://wa.me/79269159153?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%98%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D1%83%D0%B5%D1%82%20%D1%81%D1%83%D1%82%D0%BE%D1%87%D0%BD%D0%B0%D1%8F%20%D0%B0%D1%80%D0%B5%D0%BD%D0%B4%D0%B0%20%D0%B4%D0%BE%D0%BC%D0%B8%D0%BA%D0%B0.%20%D0%9F%D0%BE%D0%B4%D1%81%D0%BA%D0%B0%D0%B6%D0%B8%D1%82%D0%B5%20%D0%BF%D0%BE%D0%B6%D0%B0%D0%BB%D1%83%D0%B9%D1%81%D1%82%D0%B0%2C%20">
+                      Забронировать</a>
                   </section>
                 </article>
               </li>
@@ -147,13 +240,103 @@
                 <article class="slide">
                   <div class="slide__photos">
                     <div class="f-carousel__slide">
-                      <a data-fancybox="2" data-src="../index/../../img/houses/big/20220822_192504.jpg">
-                        <img src="../index/../../img/houses/mini/20220822_192504.jpg">
+                      <a data-fancybox="house-2" data-src="/img/houses/house/big/1.jpg">
+                        <img src="/img/houses/house/mini/1.jpg" loading="lazy">
                       </a>
                     </div>
                     <div class="f-carousel__slide">
-                      <a data-fancybox="2" data-src="../index/../../img/houses/big/20230425_172720.jpg">
-                        <img src="../index/../../img/houses/mini/20230425_172720.jpg">
+                      <a data-fancybox="house-2" data-src="/img/houses/house/big/2.jpg">
+                        <img src="/img/houses/house/mini/2.jpg" loading="lazy">
+                      </a>
+                    </div>
+                    <div class="f-carousel__slide">
+                      <a data-fancybox="house-2" data-src="/img/houses/house/big/3.jpg">
+                        <img src="/img/houses/house/mini/3.jpg" loading="lazy">
+                      </a>
+                    </div>
+                    <div class="f-carousel__slide">
+                      <a data-fancybox="house-2" data-src="/img/houses/house/big/4.jpg">
+                        <img src="/img/houses/house/mini/4.jpg" loading="lazy">
+                      </a>
+                    </div>
+                    <div class="f-carousel__slide">
+                      <a data-fancybox="house-2" data-src="/img/houses/house/big/5.jpg">
+                        <img src="/img/houses/house/mini/5.jpg" loading="lazy">
+                      </a>
+                    </div>
+                    <div class="f-carousel__slide">
+                      <a data-fancybox="house-2" data-src="/img/houses/house/big/6.jpg">
+                        <img src="/img/houses/house/mini/6.jpg" loading="lazy">
+                      </a>
+                    </div>
+                    <div class="f-carousel__slide">
+                      <a data-fancybox="house-2" data-src="/img/houses/house/big/7.jpg">
+                        <img src="/img/houses/house/mini/7.jpg" loading="lazy">
+                      </a>
+                    </div>
+                    <div class="f-carousel__slide">
+                      <a data-fancybox="house-2" data-src="/img/houses/house/big/8.jpg">
+                        <img src="/img/houses/house/mini/8.jpg" loading="lazy">
+                      </a>
+                    </div>
+                    <div class="f-carousel__slide">
+                      <a data-fancybox="house-2" data-src="/img/houses/house/big/9.jpg">
+                        <img src="/img/houses/house/mini/9.jpg" loading="lazy">
+                      </a>
+                    </div>
+                    <div class="f-carousel__slide">
+                      <a data-fancybox="house-2" data-src="/img/houses/house/big/10.jpg">
+                        <img src="/img/houses/house/mini/10.jpg" loading="lazy">
+                      </a>
+                    </div>
+                    <div class="f-carousel__slide">
+                      <a data-fancybox="house-2" data-src="/img/houses/house/big/11.jpg">
+                        <img src="/img/houses/house/mini/11.jpg" loading="lazy">
+                      </a>
+                    </div>
+                    <div class="f-carousel__slide">
+                      <a data-fancybox="house-2" data-src="/img/houses/house/big/12.jpg">
+                        <img src="/img/houses/house/mini/12.jpg" loading="lazy">
+                      </a>
+                    </div>
+                    <div class="f-carousel__slide">
+                      <a data-fancybox="house-2" data-src="/img/houses/house/big/13.jpg">
+                        <img src="/img/houses/house/mini/13.jpg" loading="lazy">
+                      </a>
+                    </div>
+                    <div class="f-carousel__slide">
+                      <a data-fancybox="house-2" data-src="/img/houses/house/big/14.jpg">
+                        <img src="/img/houses/house/mini/14.jpg" loading="lazy">
+                      </a>
+                    </div>
+                    <div class="f-carousel__slide">
+                      <a data-fancybox="house-2" data-src="/img/houses/house/big/15.jpg">
+                        <img src="/img/houses/house/mini/15.jpg" loading="lazy">
+                      </a>
+                    </div>
+                    <div class="f-carousel__slide">
+                      <a data-fancybox="house-2" data-src="/img/houses/house/big/16.jpg">
+                        <img src="/img/houses/house/mini/16.jpg" loading="lazy">
+                      </a>
+                    </div>
+                    <div class="f-carousel__slide">
+                      <a data-fancybox="house-2" data-src="/img/houses/house/big/17.jpg">
+                        <img src="/img/houses/house/mini/17.jpg" loading="lazy">
+                      </a>
+                    </div>
+                    <div class="f-carousel__slide">
+                      <a data-fancybox="house-2" data-src="/img/houses/house/big/18.jpg">
+                        <img src="/img/houses/house/mini/18.jpg" loading="lazy">
+                      </a>
+                    </div>
+                    <div class="f-carousel__slide">
+                      <a data-fancybox="house-2" data-src="/img/houses/house/big/19.jpg">
+                        <img src="/img/houses/house/mini/19.jpg" loading="lazy">
+                      </a>
+                    </div>
+                    <div class="f-carousel__slide">
+                      <a data-fancybox="house-2" data-src="/img/houses/house/big/20.jpg">
+                        <img src="/img/houses/house/mini/20.jpg" loading="lazy">
                       </a>
                     </div>
                   </div>
@@ -169,7 +352,8 @@
                       свободный. Аренда бани и массажа со скидкой 30%.
                       <span class="open-dialog-btn" dialog="house-accommodations">Условия&nbsp;проживания</span>
                     </p>
-                    <button class="slide__booking-btn booking-btn">Забронировать</button>
+                    <a class="slide__booking-btn booking-btn"
+                      href="https://wa.me/79269159153?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%98%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D1%83%D0%B5%D1%82%20%D1%81%D1%83%D1%82%D0%BE%D1%87%D0%BD%D0%B0%D1%8F%20%D0%B0%D1%80%D0%B5%D0%BD%D0%B4%D0%B0%20%D0%B4%D0%BE%D0%BC%D0%B8%D0%BA%D0%B0.%20%D0%9F%D0%BE%D0%B4%D1%81%D0%BA%D0%B0%D0%B6%D0%B8%D1%82%D0%B5%20%D0%BF%D0%BE%D0%B6%D0%B0%D0%BB%D1%83%D0%B9%D1%81%D1%82%D0%B0%2C%20">Забронировать</a>
                   </section>
                 </article>
               </li>
@@ -177,13 +361,78 @@
                 <article class="slide">
                   <div class="slide__photos">
                     <div class="f-carousel__slide">
-                      <a data-fancybox="3" data-src="../index/../../img/houses/big/20220822_192504.jpg">
-                        <img src="../index/../../img/houses/mini/20220822_192504.jpg">
+                      <a data-fancybox="bathhouse" data-src="/img/houses/bathhouse/big/1.jpg">
+                        <img src="/img/houses/bathhouse/mini/1.jpg" loading="lazy">
                       </a>
                     </div>
                     <div class="f-carousel__slide">
-                      <a data-fancybox="3" data-src="../index/../../img/houses/big/20230425_172720.jpg">
-                        <img src="../index/../../img/houses/mini/20230425_172720.jpg">
+                      <a data-fancybox="bathhouse" data-src="/img/houses/bathhouse/big/2.jpg">
+                        <img src="/img/houses/bathhouse/mini/2.jpg" loading="lazy">
+                      </a>
+                    </div>
+                    <div class="f-carousel__slide">
+                      <a data-fancybox="bathhouse" data-src="/img/houses/bathhouse/big/3.jpg">
+                        <img src="/img/houses/bathhouse/mini/3.jpg" loading="lazy">
+                      </a>
+                    </div>
+                    <div class="f-carousel__slide">
+                      <a data-fancybox="bathhouse" data-src="/img/houses/bathhouse/big/4.jpg">
+                        <img src="/img/houses/bathhouse/mini/4.jpg" loading="lazy">
+                      </a>
+                    </div>
+                    <div class="f-carousel__slide">
+                      <a data-fancybox="bathhouse" data-src="/img/houses/bathhouse/big/5.jpg">
+                        <img src="/img/houses/bathhouse/mini/5.jpg" loading="lazy">
+                      </a>
+                    </div>
+                    <div class="f-carousel__slide">
+                      <a data-fancybox="bathhouse" data-src="/img/houses/bathhouse/big/6.jpg">
+                        <img src="/img/houses/bathhouse/mini/6.jpg" loading="lazy">
+                      </a>
+                    </div>
+                    <div class="f-carousel__slide">
+                      <a data-fancybox="bathhouse" data-src="/img/houses/bathhouse/big/7.jpg">
+                        <img src="/img/houses/bathhouse/mini/7.jpg" loading="lazy">
+                      </a>
+                    </div>
+                    <div class="f-carousel__slide">
+                      <a data-fancybox="bathhouse" data-src="/img/houses/bathhouse/big/8.jpg">
+                        <img src="/img/houses/bathhouse/mini/8.jpg" loading="lazy">
+                      </a>
+                    </div>
+                    <div class="f-carousel__slide">
+                      <a data-fancybox="bathhouse" data-src="/img/houses/bathhouse/big/9.jpg">
+                        <img src="/img/houses/bathhouse/mini/9.jpg" loading="lazy">
+                      </a>
+                    </div>
+                    <div class="f-carousel__slide">
+                      <a data-fancybox="bathhouse" data-src="/img/houses/bathhouse/big/10.jpg">
+                        <img src="/img/houses/bathhouse/mini/10.jpg" loading="lazy">
+                      </a>
+                    </div>
+                    <div class="f-carousel__slide">
+                      <a data-fancybox="bathhouse" data-src="/img/houses/bathhouse/big/11.jpg">
+                        <img src="/img/houses/bathhouse/mini/11.jpg" loading="lazy">
+                      </a>
+                    </div>
+                    <div class="f-carousel__slide">
+                      <a data-fancybox="bathhouse" data-src="/img/houses/bathhouse/big/12.jpg">
+                        <img src="/img/houses/bathhouse/mini/12.jpg" loading="lazy">
+                      </a>
+                    </div>
+                    <div class="f-carousel__slide">
+                      <a data-fancybox="bathhouse" data-src="/img/houses/bathhouse/big/13.jpg">
+                        <img src="/img/houses/bathhouse/mini/13.jpg" loading="lazy">
+                      </a>
+                    </div>
+                    <div class="f-carousel__slide">
+                      <a data-fancybox="bathhouse" data-src="/img/houses/bathhouse/big/14.jpg">
+                        <img src="/img/houses/bathhouse/mini/14.jpg" loading="lazy">
+                      </a>
+                    </div>
+                    <div class="f-carousel__slide">
+                      <a data-fancybox="bathhouse" data-src="/img/houses/bathhouse/big/15.jpg">
+                        <img src="/img/houses/bathhouse/mini/15.jpg" loading="lazy">
                       </a>
                     </div>
                   </div>
@@ -197,7 +446,8 @@
                       Беседка с мангальной зоной +2000₽.
                       Заезд/выезд с разницей в 2 часа, заехать нужно не позже 21.00. Только будни.
                     </p>
-                    <button class="slide__booking-btn booking-btn">Забронировать</button>
+                    <a class="slide__booking-btn booking-btn"
+                      href="https://wa.me/79269159153?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%98%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D1%83%D0%B5%D1%82%20%D1%81%D1%83%D1%82%D0%BE%D1%87%D0%BD%D0%B0%D1%8F%20%D0%B0%D1%80%D0%B5%D0%BD%D0%B4%D0%B0%20%D0%B4%D0%BE%D0%BC-%D0%B1%D0%B0%D0%BD%D0%B8.%20%D0%9F%D0%BE%D0%B4%D1%81%D0%BA%D0%B0%D0%B6%D0%B8%D1%82%D0%B5%20%D0%BF%D0%BE%D0%B6%D0%B0%D0%BB%D1%83%D0%B9%D1%81%D1%82%D0%B0%2C%20">Забронировать</a>
                   </section>
                 </article>
               </li>
@@ -208,7 +458,7 @@
     </section>
 
     <!-- чем у нас можно заняться -->
-    <section class="actions">
+    <section class="actions" id="actions">
       <div class="actions__container container">
         <h2 class="actions__title title">Чем у нас можно заняться? 🐎</h2>
         <p class="actions__description description">Отдыхайте полностью! На нашей экоферме есть множество развлечений
@@ -224,12 +474,12 @@
                   <div class="slide__photos">
                     <div class="f-carousel__slide">
                       <a data-fancybox="4" data-src="../index/../../img/houses/big/20220822_192504.jpg">
-                        <img src="../index/../../img/houses/mini/20220822_192504.jpg">
+                        <img src="../index/../../img/houses/mini/20220822_192504.jpg" loading="lazy">
                       </a>
                     </div>
                     <div class="f-carousel__slide">
                       <a data-fancybox="4" data-src="../index/../../img/houses/big/20230425_172720.jpg">
-                        <img src="../index/../../img/houses/mini/20230425_172720.jpg">
+                        <img src="../index/../../img/houses/mini/20230425_172720.jpg" loading="lazy">
                       </a>
                     </div>
                   </div>
@@ -247,7 +497,8 @@
                       бассейн 4.5м +1500₽, набор "Копчёная курочка 1кг +медовуха 1л" 1150₽.
                       <span class="open-dialog-btn" dialog="bathhouse-conditions">Условия бронирования</span>
                     </p>
-                    <button class="slide__booking-btn booking-btn">Забронировать</button>
+                    <a class="slide__booking-btn booking-btn"
+                      href="https://wa.me/79269159153?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%98%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D1%83%D0%B5%D1%82%20%D0%B0%D1%80%D0%B5%D0%BD%D0%B4%D0%B0%20%D0%B4%D0%BE%D0%BC-%D0%B1%D0%B0%D0%BD%D0%B8.%20%D0%9F%D0%BE%D0%B4%D1%81%D0%BA%D0%B0%D0%B6%D0%B8%D1%82%D0%B5%20%D0%BF%D0%BE%D0%B6%D0%B0%D0%BB%D1%83%D0%B9%D1%81%D1%82%D0%B0%2C%20">Забронировать</a>
                   </section>
                 </article>
               </li>
@@ -256,27 +507,28 @@
                   <div class="slide__photos">
                     <div class="f-carousel__slide">
                       <a data-fancybox="7" data-src="../index/../../img/houses/big/20220822_192504.jpg">
-                        <img src="../index/../../img/houses/mini/20220822_192504.jpg">
+                        <img src="../index/../../img/houses/mini/20220822_192504.jpg" loading="lazy">
                       </a>
                     </div>
                     <div class="f-carousel__slide">
                       <a data-fancybox="7" data-src="../index/../../img/houses/big/20230425_172720.jpg">
-                        <img src="../index/../../img/houses/mini/20230425_172720.jpg">
+                        <img src="../index/../../img/houses/mini/20230425_172720.jpg" loading="lazy">
                       </a>
                     </div>
                   </div>
                   <section class="slide__content">
                     <header class="slide__header">
-                      <span class="slide__title">Дом-баня +&nbsp;веранда</span>
+                      <span class="slide__title">Дом-баня +&nbsp;беседка</span>
                       <span class="slide__price">1800<span class="period">час</span></span>
                     </header>
                     <p class="slide__description">
-                      Большая Веранда 6х6 с мангальной зоной, обогревом, пледами, музыкальной колонкой, кальяном и
+                      Большая беседка 6х6 с мангальной зоной, обогревом, пледами, музыкальной колонкой, кальяном и
                       играми.
                       Аренда кальяна на время пребывания 700₽ (табак ваш).
                       <span class="open-dialog-btn" dialog="bathhouse-conditions">Условия бронирования</span>
                     </p>
-                    <button class="slide__booking-btn booking-btn">Забронировать</button>
+                    <a class="slide__booking-btn booking-btn"
+                      href="https://wa.me/79269159153?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%98%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D1%83%D0%B5%D1%82%20%D0%B0%D1%80%D0%B5%D0%BD%D0%B4%D0%B0%20%D0%B4%D0%BE%D0%BC-%D0%B1%D0%B0%D0%BD%D0%B8%20%D1%81%20%D0%B2%D0%B5%D1%80%D0%B0%D0%BD%D0%B4%D0%BE%D0%B9.%20%D0%9F%D0%BE%D0%B4%D1%81%D0%BA%D0%B0%D0%B6%D0%B8%D1%82%D0%B5%20%D0%BF%D0%BE%D0%B6%D0%B0%D0%BB%D1%83%D0%B9%D1%81%D1%82%D0%B0%2C%20">Забронировать</a>
                   </section>
                 </article>
               </li>
@@ -285,12 +537,12 @@
                   <div class="slide__photos">
                     <div class="f-carousel__slide">
                       <a data-fancybox="5" data-src="../index/../../img/houses/big/20220822_192504.jpg">
-                        <img src="../index/../../img/houses/mini/20220822_192504.jpg">
+                        <img src="../index/../../img/houses/mini/20220822_192504.jpg" loading="lazy">
                       </a>
                     </div>
                     <div class="f-carousel__slide">
                       <a data-fancybox="5" data-src="../index/../../img/houses/big/20230425_172720.jpg">
-                        <img src="../index/../../img/houses/mini/20230425_172720.jpg">
+                        <img src="../index/../../img/houses/mini/20230425_172720.jpg" loading="lazy">
                       </a>
                     </div>
                   </div>
@@ -306,7 +558,8 @@
                       2 часа массажа.
                       <span class="open-dialog-btn" dialog="bathhouse-conditions">Условия бронирования</span>
                     </p>
-                    <button class="slide__booking-btn booking-btn">Забронировать</button>
+                    <a class="slide__booking-btn booking-btn"
+                      href="https://wa.me/79269159153?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%98%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D1%83%D0%B5%D1%82%20%D0%B0%D1%80%D0%B5%D0%BD%D0%B4%D0%B0%20%D0%B4%D0%BE%D0%BC-%D0%B1%D0%B0%D0%BD%D0%B8%20%D1%81%20%D0%BC%D0%B0%D1%81%D1%81%D0%B0%D0%B6%D0%B5%D0%BC.%20%D0%9F%D0%BE%D0%B4%D1%81%D0%BA%D0%B0%D0%B6%D0%B8%D1%82%D0%B5%20%D0%BF%D0%BE%D0%B6%D0%B0%D0%BB%D1%83%D0%B9%D1%81%D1%82%D0%B0%2C%20">Забронировать</a>
                   </section>
                 </article>
               </li>
@@ -315,12 +568,12 @@
                   <div class="slide__photos">
                     <div class="f-carousel__slide">
                       <a data-fancybox="6" data-src="../index/../../img/houses/big/20220822_192504.jpg">
-                        <img src="../index/../../img/houses/mini/20220822_192504.jpg">
+                        <img src="../index/../../img/houses/mini/20220822_192504.jpg" loading="lazy">
                       </a>
                     </div>
                     <div class="f-carousel__slide">
                       <a data-fancybox="6" data-src="../index/../../img/houses/big/20230425_172720.jpg">
-                        <img src="../index/../../img/houses/mini/20230425_172720.jpg">
+                        <img src="../index/../../img/houses/mini/20230425_172720.jpg" loading="lazy">
                       </a>
                     </div>
                   </div>
@@ -336,7 +589,8 @@
                       1.5 часа массажа каждому.
                       <span class="open-dialog-btn" dialog="bathhouse-conditions">Условия бронирования</span>
                     </p>
-                    <button class="slide__booking-btn booking-btn">Забронировать</button>
+                    <a class="slide__booking-btn booking-btn"
+                      href="https://wa.me/79269159153?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%98%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D1%83%D0%B5%D1%82%20%D0%B0%D1%80%D0%B5%D0%BD%D0%B4%D0%B0%20%D0%B4%D0%BE%D0%BC-%D0%B1%D0%B0%D0%BD%D0%B8%20%D1%81%20%D0%BC%D0%B0%D1%81%D1%81%D0%B0%D0%B6%D0%B5%D0%BC%20%D0%B4%D0%BB%D1%8F%20%D0%B4%D0%B2%D0%BE%D0%B8%D1%85.%20%D0%9F%D0%BE%D0%B4%D1%81%D0%BA%D0%B0%D0%B6%D0%B8%D1%82%D0%B5%20%D0%BF%D0%BE%D0%B6%D0%B0%D0%BB%D1%83%D0%B9%D1%81%D1%82%D0%B0%2C%20">Забронировать</a>
                   </section>
                 </article>
               </li>
@@ -370,76 +624,77 @@
     </section>
 
     <!-- Наша продукция -->
-    <section class="our-products">
+    <section class="our-products" id="our-products">
       <div class="our-products__container container">
         <h2 class="out-products__title title">Наша продукция 🧀</h2>
         <p class="our-products__description description">
-          На нашей экоферме вы можете продегустировать и купить продукцию нашего собственного производства. Также у нас есть доставка.
+          На нашей экоферме вы можете продегустировать и купить продукцию нашего собственного производства. Также у нас
+          есть доставка.
         </p>
         <div class="our-products__carousel">
           <div class="f-carousel__slide">
             <a data-fancybox="products" data-src="../index/../../img/products/1.jpg">
-              <img src="../index/../../img/products/1.jpg">
+              <img src="../index/../../img/products/1.jpg" loading="lazy">
             </a>
           </div>
           <div class="f-carousel__slide">
             <a data-fancybox="products" data-src="../index/../../img/products/2.jpg">
-              <img src="../index/../../img/products/2.jpg">
+              <img src="../index/../../img/products/2.jpg" loading="lazy">
             </a>
           </div>
           <div class="f-carousel__slide">
             <a data-fancybox="products" data-src="../index/../../img/products/3.jpg">
-              <img src="../index/../../img/products/3.jpg">
+              <img src="../index/../../img/products/3.jpg" loading="lazy">
             </a>
           </div>
           <div class="f-carousel__slide">
             <a data-fancybox="products" data-src="../index/../../img/products/4.jpg">
-              <img src="../index/../../img/products/4.jpg">
+              <img src="../index/../../img/products/4.jpg" loading="lazy">
             </a>
           </div>
           <div class="f-carousel__slide">
             <a data-fancybox="products" data-src="../index/../../img/products/5.jpg">
-              <img src="../index/../../img/products/5.jpg">
+              <img src="../index/../../img/products/5.jpg" loading="lazy">
             </a>
           </div>
           <div class="f-carousel__slide">
             <a data-fancybox="products" data-src="../index/../../img/products/6.jpg">
-              <img src="../index/../../img/products/6.jpg">
+              <img src="../index/../../img/products/6.jpg" loading="lazy">
             </a>
           </div>
           <div class="f-carousel__slide">
             <a data-fancybox="products" data-src="../index/../../img/products/7.jpg">
-              <img src="../index/../../img/products/7.jpg">
+              <img src="../index/../../img/products/7.jpg" loading="lazy">
             </a>
           </div>
           <div class="f-carousel__slide">
             <a data-fancybox="products" data-src="../index/../../img/products/8.jpg">
-              <img src="../index/../../img/products/8.jpg">
+              <img src="../index/../../img/products/8.jpg" loading="lazy">
             </a>
           </div>
           <div class="f-carousel__slide">
             <a data-fancybox="products" data-src="../index/../../img/products/9.jpg">
-              <img src="../index/../../img/products/9.jpg">
+              <img src="../index/../../img/products/9.jpg" loading="lazy">
             </a>
           </div>
           <div class="f-carousel__slide">
             <a data-fancybox="products" data-src="../index/../../img/products/10.jpg">
-              <img src="../index/../../img/products/10.jpg">
+              <img src="../index/../../img/products/10.jpg" loading="lazy">
             </a>
           </div>
           <div class="f-carousel__slide">
             <a data-fancybox="products" data-src="../index/../../img/products/11.jpg">
-              <img src="../index/../../img/products/11.jpg">
+              <img src="../index/../../img/products/11.jpg" loading="lazy">
             </a>
           </div>
           <div class="f-carousel__slide">
             <a data-fancybox="products" data-src="../index/../../img/products/12.jpg">
-              <img src="../index/../../img/products/12.jpg">
+              <img src="../index/../../img/products/12.jpg" loading="lazy">
             </a>
           </div>
           <div class="f-carousel__slide">
             <a data-fancybox="products" data-src="../index/../../img/products/13.jpg">
-              <img src="../index/../../img/products/13.jpg">
+              <img src="../index/../../img/products/13.jpg" loading="lazy">
             </a>
           </div>
         </div>
@@ -447,21 +702,21 @@
     </section>
 
     <!-- Контакты -->
-    <section class="contacts">
+    <section class="contacts" id="contacts">
       <div class="contacts__container container">
         <h2 class="contacts__title title">Контакты</h2>
         <div class="contacts__content">
           <div class="contacts-item">
-            <img class="contacts-item__icon" src="/svg/whatsapp-icon.svg">
+            <img class="contacts-item__icon" src="/svg/whatsapp-icon.svg" loading="lazy">
             <a class="contacts-item__text" href='https://wa.me/79269159153'>+7 926 915-91-53</a>
           </div>
           <div class="contacts-item">
-            <img class="contacts-item__icon" src="/svg/instagram-icon.svg">
+            <img class="contacts-item__icon" src="/svg/instagram-icon.svg" loading="lazy">
             <a class="contacts-item__text"
               href='http://instagram.com/_u/nemtsovo_life_ecofarm/'>@nemtsovo_life_ecofarm</a>
           </div>
           <div class="contacts-item">
-            <img class="contacts-item__icon" src="/svg/address-icon.svg">
+            <img class="contacts-item__icon" src="/svg/address-icon.svg" loading="lazy">
             <a class="contacts-item__text" href='https://yandex.ru/maps/org/semeynaya_ekoferma/89743823636'>Московская
               область, городской округ Домодедово, деревня Немцово</a>
           </div>
@@ -478,15 +733,7 @@
   <footer class="main-footer">
     <div class="main-footer__container container">
       <a class="main-footer__btn booking-btn" href="https://wa.me/79269159153">Написать нам</a>
-      <img class="main-footer__logo" src="../../img/logo-transparent.png" alt="Логотип">
-      <!-- <span class="main-footer__links">
-        <a class="main-footer__link" href="https://wa.me/79269159153">
-          <img src="/svg/whatsapp-icon.svg">
-        </a>
-        <a class='main-footer__link' href="http://instagram.com/_u/nemtsovo_life_ecofarm/">
-          <img src="/svg/instagram-icon.svg">
-        </a>
-      </span> -->
+      <img class="main-footer__logo" src="../../img/logo-transparent.png" alt="Логотип" loading="lazy">
     </div>
   </footer>
 

@@ -22,4 +22,21 @@ openDialogBtns.forEach(openDialogBtn => {
     document.body.classList.add('no-scroll');
     dialog.showModal();
   }
-})
+});
+
+const menuBtn = document.querySelector('#menu-btn');
+const headerNavLinks = document.querySelector('.header-nav-links');
+const navLinks = headerNavLinks.querySelectorAll('a');
+const sideSocialLinks = document.querySelector('.side-social-links');
+
+menuBtn.onclick = evt => {
+  headerNavLinks.classList.toggle('menu-open');
+  document.body.classList.toggle('no-scroll');
+  sideSocialLinks.classList.toggle('menu-open');
+}
+
+navLinks.forEach(navLink => navLink.onclick = evt => {
+  headerNavLinks.classList.remove('menu-open');
+  document.body.classList.remove('no-scroll');
+  sideSocialLinks.classList.remove('menu-open');
+});
