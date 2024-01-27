@@ -10,7 +10,8 @@ slidePhotos.forEach(carousel => {
 const ourProductsCarousel = document.querySelector(".our-products__carousel");
 new Carousel(ourProductsCarousel, {
   'slidesPerPage': 1,
-  'preload': 0
+  'preload': 0,
+  'initialPage': 3
 });
 
 Fancybox.bind("[data-fancybox]", {

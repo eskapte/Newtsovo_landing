@@ -28,6 +28,11 @@ body {
 
 a {
   text-decoration: none;
+  border-bottom: 2px solid transparent;
+  transition: border-color 0.3s ease-out;
+}
+a:hover {
+  border-color: #fff;
 }
 
 .container {
@@ -196,13 +201,21 @@ li {
   padding: 0.8em 1.2em;
   background-color: #516938;
   border-radius: 60px;
+  height: -moz-max-content;
+  height: max-content;
   width: -moz-max-content;
   width: max-content;
   cursor: pointer;
+  transition: background-color 0.3s ease-out, border-color 0.3s ease-out;
+  border: 2px solid #516938;
+}
+.booking-btn:hover {
+  background-color: #473225;
+  border-color: #36271D;
 }
 
 .side-social-links {
-  position: fixed;
+  position: absolute;
   transition: opacity 0.3s ease;
   z-index: 12;
   right: 2vw;
@@ -213,6 +226,7 @@ li {
 }
 @media (max-width: 1030px) {
   .side-social-links {
+    position: fixed;
     top: auto;
     bottom: 2vh;
     left: 50vw;
@@ -563,6 +577,11 @@ section.actions {
 .our-products {
   margin-top: 10vh;
 }
+.our-products__btn-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 6vh;
+}
 .our-products__carousel {
   height: 400px;
 }
@@ -602,9 +621,6 @@ section.actions {
 }
 .contacts__content .contacts-item__text {
   font-size: min(14px + 10 * (100vw - 360px) / 1080, 24px);
-}
-.contacts__content .contacts-item__text:hover:is(a) {
-  text-decoration: underline;
 }
 .contacts__content .contacts-item__text::after:is(a) {
   content: "";

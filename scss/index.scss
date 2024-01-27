@@ -152,17 +152,26 @@ li {
   padding: 0.8em 1.2em;
   background-color: common.$green;
   border-radius: 60px;
+  height: max-content;
 
   width: max-content;
   cursor: pointer;
+  transition: background-color .3s ease-out, border-color .3s ease-out;
+  border: 2px solid common.$green;
+
+  &:hover {
+    background-color: common.$brown;
+    border-color: common.$brown-dark;
+  }
 }
 
 .side-social-links {
-  position: fixed;
+  position: absolute;
   transition: opacity .3s ease;
   z-index: 12;
 
   @media (max-width: #{common.$hideNavSize + px}) {
+    position: fixed;
     top: auto;
     bottom: 2vh;
     left: 50vw;
@@ -501,6 +510,12 @@ section.actions {
 .our-products {
   margin-top: $section-gap;
 
+  &__btn-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 6vh;
+  }
+
   &__carousel {
     height: 400px;
 
@@ -549,9 +564,9 @@ section.actions {
       &__text {
         @include mixins.adaptiv-font(14, 24);
 
-        &:hover:is(a) {
-          text-decoration: underline;
-        }
+        // &:hover:is(a) {
+        //   text-decoration: underline;
+        // }
 
         &::after:is(a) {
           content: "";
