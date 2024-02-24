@@ -123,7 +123,7 @@ class House(models.Model):
         verbose_name='Доп. информация',
         help_text='Добавляется в конец описания и открывается отдельном окном при нажатии')
 
-    order = models.PositiveSmallIntegerField("Порядок отображения")
+    order = models.PositiveIntegerField("Порядок отображения", default=0, db_index=True)
 
     media = GenericRelation(Attachment)
 
@@ -144,6 +144,7 @@ class House(models.Model):
     class Meta:
         verbose_name = 'Домик'
         verbose_name_plural = 'Домики'
+        ordering = ['order']
 
     def __str__(self):
         return self.name
@@ -165,7 +166,7 @@ class WellnessTreatment(models.Model):
         blank=True,
         verbose_name='Доп. информация',
         help_text='Добавляется в конец описания и открывается отдельном окном при нажатии')
-    order = models.PositiveIntegerField("Порядок отображения", default=1)
+    order = models.PositiveIntegerField("Порядок отображения", default=0, db_index=True)
 
     media = GenericRelation(Attachment)
 
@@ -186,6 +187,7 @@ class WellnessTreatment(models.Model):
     class Meta:
         verbose_name = 'Оздоровительная процедура'
         verbose_name_plural = 'Оздоровительные процедуры'
+        ordering = ['order']
 
     def __str__(self):
         return self.name
@@ -207,7 +209,7 @@ class Action(models.Model):
         blank=True,
         verbose_name='Доп. информация',
         help_text='Добавляется в конец описания и открывается отдельном окном при нажатии')
-    order = models.PositiveIntegerField("Порядок отображения", default=1)
+    order = models.PositiveIntegerField("Порядок отображения", default=0, db_index=True)
 
     media = GenericRelation(Attachment)
 
@@ -228,6 +230,7 @@ class Action(models.Model):
     class Meta:
         verbose_name = 'Досуг'
         verbose_name_plural = 'Досуг'
+        ordering = ['order']
 
     def __str__(self):
         return self.name
@@ -249,7 +252,6 @@ class OurProduct(models.Model):
     count = models.PositiveIntegerField('Кол-во', default=1)
     measure = models.CharField("Ед. измерения", choices=MEASURE_CHOICES, max_length=4, default=('шт', 'штука'))
     is_available = models.BooleanField("В наличии", default=True)
-    order = models.PositiveIntegerField("Порядок отображения", default=1)
 
     media = GenericRelation(Attachment)
 

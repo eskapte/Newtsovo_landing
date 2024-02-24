@@ -5,7 +5,7 @@ from landing.models import House, AdditionalInfo, WellnessTreatment, Action, Our
 
 
 def index(request):
-    houses = House.objects.order_by("start_price").all()
+    houses = House.objects.all()
     additional_info = AdditionalInfo.objects.all()
     wellness_treatments = WellnessTreatment.objects.all()
     actions = Action.objects.all()

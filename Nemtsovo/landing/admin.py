@@ -1,39 +1,8 @@
 from .models import *
-from django.contrib.contenttypes.admin import GenericTabularInline, GenericStackedInline
+from django.contrib.contenttypes.admin import GenericTabularInline
 import admin_thumbnails
-from django.forms import TextInput, Select
-from django.db.models import F, Max
-from adminsortable2.admin import SortableAdminBase, SortableGenericInlineAdminMixin
-
-
-class AdminModelWithOrder(admin.ModelAdmin):
-    def get_form(self, request, obj=None, **kwargs):
-        form = super().get_form(request, obj, **kwargs)
-
-        if not hasattr(self.model, 'order'):
-            return form
-
-        current_max_order = 0
-        if self.model.objects.exists():
-            current_max_order = self.model.objects.aggregate(Max("order"))['order__max']
-
-        if obj and obj.pk:
-            form.base_fields['order'].widget = Select(choices=[(x, x) for x in range(1, current_max_order + 1)])
-        else:
-            form.base_fields['order'].widget = Select(choices=[(x, x) for x in range(1, current_max_order + 2)])
-            form.base_fields['order'].initial = current_max_order + 1
-
-        return form
-
-    def save_model(self, request, obj, form, change):
-        if hasattr(self.model, 'order'):
-            self.model.objects.filter(order__gte=obj.order).update(order=F("order") + 1)
-        return super().save_model(request, obj, form, change)
-
-    def delete_model(self, request, obj):
-        if hasattr(self.model, 'order'):
-            self.model.objects.filter(order__gt=obj.order).update(order=F("order") - 1)
-        return super().delete_model(request, obj)
+from django.forms import TextInput
+from adminsortable2.admin import SortableAdminBase, SortableGenericInlineAdminMixin, SortableAdminMixin
 
 
 @admin_thumbnails.thumbnail('miniature', 'Миниатюра')
@@ -44,10 +13,9 @@ class AttachmentInline(SortableGenericInlineAdminMixin, GenericTabularInline):
 
 
 @admin.register(House)
-class HouseAdmin(SortableAdminBase, AdminModelWithOrder):
-    list_display = ("name", "start_price")
+class HouseAdmin(SortableAdminMixin, admin.ModelAdmin):
+    list_display = ("name", "start_price", 'order')
     inlines = [AttachmentInline]
-    list_filter = ("start_price",)
     search_fields = ("name", "description", "start_price")
     save_on_top = True
 
@@ -69,19 +37,17 @@ class AdditionalInfoAdmin(admin.ModelAdmin):
 
 
 @admin.register(WellnessTreatment)
-class WellnessTreatmentAdmin(SortableAdminBase, AdminModelWithOrder):
-    list_display = ("name", "start_price")
+class WellnessTreatmentAdmin(SortableAdminMixin, admin.ModelAdmin):
+    list_display = ("name", "start_price", 'order')
     inlines = [AttachmentInline]
-    list_filter = ("start_price",)
     search_fields = ("name", "description", "start_price")
     save_on_top = True
 
 
 @admin.register(Action)
-class ActionAdmin(SortableAdminBase, AdminModelWithOrder):
-    list_display = ("name", 'get_price_or_display_free')
+class ActionAdmin(SortableAdminMixin, admin.ModelAdmin):
+    list_display = ("name", 'get_price_or_display_free', 'order')
     inlines = [AttachmentInline]
-    list_filter = ("start_price",)
     search_fields = ("name", "description", "start_price")
     save_on_top = True
 
@@ -91,10 +57,10 @@ class ActionAdmin(SortableAdminBase, AdminModelWithOrder):
 
 
 @admin.register(OurProduct)
-class OurProductAdmin(SortableAdminBase, AdminModelWithOrder):
+class OurProductAdmin(SortableAdminBase, admin.ModelAdmin):
     list_display = ("name", "price", "is_available")
     inlines = [AttachmentInline]
-    list_filter = ("is_available", 'price')
+    list_filter = ("is_available",)
     search_fields = ('name', 'description', 'price')
     save_on_top = True
     list_editable = ('is_available',)
