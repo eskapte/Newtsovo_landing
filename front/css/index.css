@@ -96,7 +96,7 @@ li {
 .main-header {
   width: 100%;
   height: min(100vh, 1280px);
-  background: url("/img/header-photo-compressed.jpg") no-repeat;
+  background: url("../img/header-photo-compressed.jpg") no-repeat;
   background-position: center;
   padding-top: 3vh;
   position: relative;
@@ -108,7 +108,7 @@ li {
 }
 @media (min-width: 1981px) {
   .main-header {
-    background: url("/img/header-photo-4k-compressed.jpg") no-repeat;
+    background: url("../img/header-photo-4k-compressed.jpg") no-repeat;
     background-position: 50% 30%;
   }
 }
@@ -211,7 +211,6 @@ li {
 }
 .booking-btn:hover {
   background-color: #473225;
-  border-color: #36271D;
 }
 
 .side-social-links {
@@ -223,6 +222,10 @@ li {
   display: flex;
   flex-direction: column;
   gap: 16px;
+}
+.side-social-links__link img {
+  width: 32px;
+  height: 32px;
 }
 @media (max-width: 1030px) {
   .side-social-links {
@@ -375,9 +378,12 @@ li {
 .slide .f-carousel__slide {
   max-width: 420px;
 }
-.slide .f-carousel__slide a img {
+.slide .f-carousel__slide a img, .slide .f-carousel__slide a video {
   width: 100%;
   max-width: 420px;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 .slide__photos {
   height: 50%;
@@ -624,7 +630,7 @@ section.actions {
 }
 .contacts__content .contacts-item__text::after:is(a) {
   content: "";
-  background: url(/svg/touch-icon.svg) no-repeat;
+  background: url(../svg/touch-icon.svg) no-repeat;
   background-size: 1em;
   display: inline-block;
   width: 1em;
@@ -654,5 +660,5 @@ section.actions {
   gap: 4vh;
 }
 .main-footer__logo {
-  max-width: 90vw;
+  width: clamp(250px, 50%, 90vw);
 }

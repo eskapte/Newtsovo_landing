@@ -1,0 +1,43 @@
+{% extends 'landing/base.html' %}
+{% load static %}
+
+{% block title %}
+  {{ event.title }}
+{% endblock %}
+
+{% block content %}
+  <main class="block-after-header">
+    <section class="event-detail">
+      <div class="event-detail__container container">
+        <h2 class="event-detail__title small-title">{{ event.title }}</h2>
+        <i class="event-detail__date-time">{{ event.date }}</i>
+        <p class="event-detail__description">
+          {{ event.description }}
+        </p>
+        {% if event.media.exists %}
+          <div class="gallery event-detail__gallery">
+            {% for media in event.media.all %}
+              <a class="gallery__item"
+                 data-fancybox="{{ event.get_unique_name }}"
+                 data-src="{{ media.file.url }}"
+                 {% if media.is_video %}data-thumb="{% static 'landing/img/video-stub.png' %}"{% endif %}
+              >
+                {% if media.is_video %}
+                  <video src="{{ media.file.url }}"></video>
+                {% else %}
+                  <img src="{{ media.get_miniature_or_original }}"
+                       loading="lazy" alt="Фото или видео с мероприятия">
+                {% endif %}
+              </a>
+            {% endfor %}
+          </div>
+        {% endif %}
+        <a href="{% url 'events' %}" class="booking-btn">Все мероприятия</a>
+      </div>
+    </section>
+  </main>
+{% endblock %}
+
+{% block javascript %}
+  <script src="{% static 'landing/js/init-fancybox.js' %}"></script>
+{% endblock %}

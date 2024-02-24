@@ -1,0 +1,37 @@
+{% extends 'landing/base.html' %}
+
+{% block title %}
+  Мероприятия
+{% endblock %}
+
+{% block content %}
+  <main class="block-after-header">
+    <section class="events-list">
+      <div class="events-list__container container">
+        <h1 class="events-list__title main-title">Мероприятия</h1>
+
+        <article class="future-events">
+          <h2 class="future-events__title small-title">Предстоящие</h2>
+          <div class="future-events__list">
+            {% for future_event in future_events %}
+              <a href="{% url 'event-detail' future_event.id %}">
+                {{ future_event }}
+              </a>
+            {% endfor %}
+          </div>
+        </article>
+
+        <article class="past-events">
+          <h2 class="past-events__title small-title">Прошедшие</h2>
+          <div class="past-events__list">
+            {% for past_event in past_events %}
+              <a href="{% url 'event-detail' past_event.id %}">
+                {{ past_event }}
+              </a>
+            {% endfor %}
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+{% endblock %}

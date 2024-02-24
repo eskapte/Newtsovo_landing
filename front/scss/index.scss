@@ -39,10 +39,10 @@ li {
     height: min(110vh, 1280px);
   }
 
-  background: url("/img/header-photo-compressed.jpg") no-repeat;
+  background: url("../img/header-photo-compressed.jpg") no-repeat;
 
   @media (min-width: 1981px) {
-    background: url("/img/header-photo-4k-compressed.jpg") no-repeat;
+    background: url("../img/header-photo-4k-compressed.jpg") no-repeat;
     background-position: 50% 30%;
   }
 
@@ -161,7 +161,6 @@ li {
 
   &:hover {
     background-color: common.$brown;
-    border-color: common.$brown-dark;
   }
 }
 
@@ -169,6 +168,13 @@ li {
   position: absolute;
   transition: opacity .3s ease;
   z-index: 12;
+
+  &__link {
+    img {
+      width: 32px;
+      height: 32px;
+    }
+  }
 
   @media (max-width: #{common.$hideNavSize + px}) {
     position: fixed;
@@ -329,9 +335,11 @@ li {
     &__slide {
       max-width: 420px;
 
-      a img {
+      a img, a video {
         width: 100%;
         max-width: 420px;
+        height: 100%;
+        object-fit: cover;
       }
     }
   }
@@ -564,13 +572,9 @@ section.actions {
       &__text {
         @include mixins.adaptiv-font(14, 24);
 
-        // &:hover:is(a) {
-        //   text-decoration: underline;
-        // }
-
         &::after:is(a) {
           content: "";
-          background: url(/svg/touch-icon.svg) no-repeat;
+          background: url(../svg/touch-icon.svg) no-repeat;
           background-size: 1em;
           display: inline-block;
           width: 1em;
@@ -605,6 +609,6 @@ section.actions {
   }
 
   &__logo {
-    max-width: 90vw;
+    width: clamp(250px, 50%, 90vw);
   }
 }

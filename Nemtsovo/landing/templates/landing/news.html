@@ -1,0 +1,22 @@
+{% extends 'landing/base.html' %}
+
+{% block title %}Новости{% endblock %}
+
+{% block content %}
+  <main class="block-after-header">
+    <section class="news-list">
+      <div class="news-list__container container">
+        <h1 class="news-list__title main-title">Новости</h1>
+        <article class="news-list__list">
+          {% for news_item in news %}
+            <a href="{% url 'news-detail' news_item.id %}">
+              {{ news_item }}
+            </a>
+          {% empty %}
+            <h2 class="no-news small-title">Новостей нет</h2>
+          {% endfor %}
+        </article>
+      </div>
+    </section>
+  </main>
+{% endblock %}

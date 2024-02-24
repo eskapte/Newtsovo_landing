@@ -1,0 +1,89 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+        content="Добро пожаловать на нашу семейную &quot;Экоферму в Немцово&quot;. У нас вы найдете Комфортный отдых в окружении природы и прекрасных животных, а так же незабываемые эмоции и максимальное расслабление!">
+  <meta name="keywords"
+        content="экоферма, экоферма немцово, немцово, домодедово, натуральные продукты, отдых на природе, аренда домиков, животные, русская баня, семейная ферма">
+
+  <link rel="stylesheet" href="{% static 'landing/css/index.css' %}">
+  <link rel="icon" type="image/x-icon" href="{% static 'landing/favicon.png' %}">
+
+  <!-- Fancybox -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/carousel/carousel.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css"/>
+
+  <!-- Splide -->
+  <link href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/themes/splide-skyblue.min.css"
+        rel="stylesheet">
+
+  <title>{% block title %}{% endblock %}</title>
+</head>
+
+<body>
+<header class="main-header">
+  <div class="main-header__container container">
+    <a href="{% url 'index' %}" class="main-header__logo">
+      <img src="{% static 'landing/svg/logo.svg' %}" alt="Логотип">
+    </a>
+    <nav class="header-nav-links">
+      <a href="{% url 'events' %}" class="header-nav-links__link font-shadow">Мероприятия</a>
+      <a href="{% url 'news' %}" class="header-nav-links__link font-shadow">Новости</a>
+      <a href="{% url 'our_products' %}" class="header-nav-links__link font-shadow">Продукция</a>
+      <a href="{% if request.path == '/' %}#contacts{% else %}{% url 'index' %}#contacts{% endif %}"
+         class="header-nav-links__link font-shadow">Контакты</a>
+      <a href="https://wa.me/79269159153" class="booking-btn">Напишите Нам</a>
+    </nav>
+    <img id="menu-btn" src="{% static 'landing/svg/burger-menu-icon.svg' %}">
+  </div>
+</header>
+
+{% block content %}
+
+{% endblock %}
+
+<footer class="main-footer">
+  <div class="main-footer__container container">
+    <a class="main-footer__btn booking-btn" href="https://wa.me/79269159153">Написать нам</a>
+    <img class="main-footer__logo" src="{% static 'landing/svg/logo.svg' %}" alt="Логотип" loading="lazy">
+  </div>
+</footer>
+
+<div class="dialogs">
+  {% if additional_info %}
+    {% for info in additional_info %}
+      <dialog class="dialog" id="{{ info.get_unique_name }}">
+        <header class="dialog__header">
+          <h3 class="dialog__title">{{ info.displayed_name }}</h3>
+          <button class="close-dialog-btn">❌</button>
+        </header>
+        <div class="dialog__content">
+          <ul>
+            {% for item in info.additionalinfoitem_set.all %}
+              <li>{{ item.text }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </dialog>
+    {% endfor %}
+  {% endif %}
+</div>
+
+<!-- Fancybox -->
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/carousel/carousel.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+
+<!-- splide -->
+<script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+<script src="{% static 'landing/js/main.js' %}"></script>
+
+{% block javascript %}
+
+{% endblock %}
+</body>
+</html>

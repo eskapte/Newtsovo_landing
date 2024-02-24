@@ -1,0 +1,359 @@
+{% extends 'landing/base.html' %}
+{% load static %}
+
+{% block title %}
+  Экоферма в Немцово
+{% endblock %}
+
+{% block content %}
+  <section class="introduction">
+    <div class="introduction__container container">
+      <h1 class="introduction__title font-shadow main-title">Отдохните на природе</h1>
+      <p class="introduction__description font-shadow">
+        Откройте для себя Экоферму Немцово – уединенный уголок
+        природы.
+        Аренда коттеджей, разнообразные развлечения и собственные натуральные продукты.
+        Забронируйте&nbsp;прямо&nbsp;сейчас!
+      </p>
+      <a href="#houses" class="booking-btn">Забронировать</a>
+      <div class="side-social-links">
+        <a href="https://wa.me/79269159153" class="side-social-links__link">
+          <img src="{% static 'landing/svg/whatsapp-icon.svg' %}" alt="whatsapp">
+        </a>
+        <a href="https://instagram.com/_u/nemtsovo_life_ecofarm/" class="side-social-links__link">
+          <img src="{% static 'landing/svg/instagram-icon.svg' %}" alt="instagram">
+        </a>
+      </div>
+      <img src="{% static 'landing/svg/down.svg' %}" class="main-header__down-icon" alt="стрелка вниз">
+    </div>
+  </section>
+
+  <main>
+    <section class="about-us">
+      <div class="about-us__container container">
+        <div class="about-us__content">
+          <h2 class="about-us__title title">О Нас</h2>
+          <div class="about-us__text-container">
+            <p class="about-us__header">Добро пожаловать на нашу семейную
+              "Экоферму&nbsp;в&nbsp;Немцово"&nbsp;❤️</p>
+            <p class="about-us__text">🌿У нас вы найдете Комфортный отдых в окружении природы и прекрасных
+              животных, а
+              так
+              же незабываемые эмоции
+              и максимальное расслабление!</p>
+            <p class="about-us__text">☀️ Это способ вернуться к себе и восстановить баланс сил и духа - побыть
+              наедине
+              с
+              природой - вне
+              зависимости от сезона.</p>
+            <p class="about-us__text">🤍 Вас ждут просторные домики, уютная атмосфера и настоящая русская баня.
+              На
+              экоферме можно увидеть
+              пасущихся коз, милых поросят, ласковых овец, прекрасных лошадей и курочек!</p>
+          </div>
+        </div>
+        <img class="about-us__photo" src="{% static 'landing/svg/goat.svg' %}" alt="Козочка" loading="lazy">
+      </div>
+    </section>
+
+    <!-- мероприятия и новости -->
+    <section class="events-news" id="events-news">
+      <div class="events-news__container container">
+        <section class="events">
+          <h3 class="events__title small-title">Мероприятия</h3>
+          <div class="links-list">
+            {% for future_event in future_events %}
+              <a href="{% url 'event-detail' future_event.id %}" class="links-list__item">
+                {{ future_event.title|truncatechars:"40" }} - {{ future_event.date|date:"d.m.Y" }}
+              </a>
+            {% empty %}
+              <p>В ближайшее время мероприятий нет</p>
+            {% endfor %}
+            {% if future_events %}
+              <a href="{% url 'events' %}" class="links-list__show-all-btn booking-btn">Посмотреть все</a>
+            {% endif %}
+          </div>
+        </section>
+        <section class="news">
+          <h3 class="news__title small-title">Новости</h3>
+          <div class="links-list">
+            {% for news_item in news %}
+              <a href="{% url 'news-detail' news_item.id %}" class="links-list__item">
+                {{ news_item.title|truncatechars:"40" }}
+              </a>
+            {% empty %}
+              <p>Новостей нет</p>
+            {% endfor %}
+            {% if news %}
+              <a href="{% url 'news' %}" class="links-list__show-all-btn booking-btn">Посмотреть все</a>
+            {% endif %}
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <!-- домики -->
+    <section class="houses" id="houses">
+      <div class="houses__container container">
+        <h2 class="houses__title title">Домики&nbsp;🏠</h2>
+        <p class="houses-description description">
+          У нас Вы можете арендовать различные домики со всеми условиями для проживания. Для детей: кровать-манеж,
+          стульчик для кормления. Скидки при длительном
+          проживании от 5 дней!
+        </p>
+        <section class="splide" id="houses-slider" aria-label="Домики">
+          <div class="splide__track">
+            <ul class="splide__list">
+              {% for house in houses %}
+                <li class="splide__slide">
+                  <article class="slide">
+                    <div class="slide__photos">
+                      {% for media in house.media.all %}
+                        <div class="f-carousel__slide">
+                          <a data-fancybox="{{ house.get_unique_name }}"
+                             data-src="{{ media.file.url }}"
+                             {% if media.is_video %}data-thumb="{% static 'landing/img/video-stub.png' %}"{% endif %}>
+                            {% if media.is_video %}
+                              <video src="{{ media.file.url }}"></video>
+                            {% else %}
+                              <img data-lazy-src="{{ media.get_miniature_or_original }}"
+                                   loading="lazy" alt="Фото или видео домика">
+                            {% endif %}
+                          </a>
+                        </div>
+                      {% endfor %}
+                    </div>
+                    <section class="slide__content">
+                      <header class="slide__header">
+                        <span class="slide__title">{{ house.name }}</span>
+                        {% if house.is_free %}
+                          <span class="slide__price free">Бесплатно</span>
+                        {% else %}
+                          <span class="slide__price">{{ house.start_price }}<span
+                              class="period">{{ house.get_duration_if_it_gte_1|default:"" }}{{ house.get_pluralized_period }}</span>
+                        </span>
+                        {% endif %}
+                      </header>
+                      <p class="slide__description">
+                        {{ house.description }}
+                        {% if house.additional_info %}
+                          <span class="open-dialog-btn" dialog="{{ house.additional_info.get_unique_name }}">
+                          {{ house.additional_info.displayed_name }}
+                        </span>
+                        {% endif %}
+                      </p>
+                      <a class="slide__booking-btn booking-btn"
+                         href="https://wa.me/79269159153">
+                        Забронировать</a>
+                    </section>
+                  </article>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <!-- Полезно для здоровья  -->
+    <section class="wellness-treatments" id="wellness-treatments">
+      <div class="wellness-treatments__container container">
+        <h2 class="wellness-treatments__title title">
+          Полезно для здоровья 😊
+        </h2>
+        <p class="wellness-treatments__description description">
+          Оздоровительные процедуры на нашей экоферме представляют собой уникальное сочетание природных элементов и
+          профессионального ухода, направленного на восстановление здоровья и гармонии организма
+        </p>
+        <section class="splide" id="wellness-treatments-slider" aria-label="Оздоровительные процедуры">
+          <div class="splide__track">
+            <ul class="splide__list">
+              {% for wellness_treatment in wellness_treatments %}
+                <li class="splide__slide">
+                  <article class="slide">
+                    <div class="slide__photos">
+                      {% for media in wellness_treatment.media.all %}
+                        <div class="f-carousel__slide">
+                          <a data-fancybox="{{ wellness_treatment.get_unique_name }}"
+                             data-src="{{ media.file.url }}"
+                             {% if media.is_video %}data-thumb="{% static 'landing/img/video-stub.png' %}"{% endif %}>
+                            {% if media.is_video %}
+                              <video src="{{ media.file.url }}"></video>
+                            {% else %}
+                              <img data-lazy-src="{{ media.get_miniature_or_original }}"
+                                   loading="lazy" alt="Фото или видео оздоровительных процедур">
+                            {% endif %}
+                          </a>
+                        </div>
+                      {% endfor %}
+                    </div>
+                    <section class="slide__content">
+                      <header class="slide__header">
+                        <span class="slide__title">{{ wellness_treatment.name }}</span>
+                        {% if wellness_treatment.is_free %}
+                          <span class="slide__price free">Бесплатно</span>
+                        {% else %}
+                          <span class="slide__price">{{ wellness_treatment.start_price }}<span
+                              class="period">{{ wellness_treatment.get_duration_if_it_gte_1|default:"" }}{{ wellness_treatment.get_pluralized_period }}</span>
+                        </span>
+                        {% endif %}
+                      </header>
+                      <p class="slide__description">
+                        {{ wellness_treatment.description }}
+                        {% if wellness_treatment.additional_info %}
+                          <span class="open-dialog-btn"
+                                dialog="{{ wellness_treatment.additional_info.get_unique_name }}">
+                          {{ wellness_treatment.additional_info.displayed_name }}
+                        </span>
+                        {% endif %}
+                      </p>
+                      <a class="slide__booking-btn booking-btn"
+                         href="https://wa.me/79269159153">
+                        Забронировать</a>
+                    </section>
+                  </article>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <!-- Досуг -->
+    <section class="actions" id="actions">
+      <div class="actions__container container">
+        <h2 class="actions__title title">Чем у нас можно заняться? 🐎</h2>
+        <p class="actions__description description">
+          Заведите дружбу с нашими милыми
+          животными и многое другое. У нас всегда найдется что-то увлекательное для каждого
+          посетителя!
+        <section class="splide" id="actions-slider" aria-label="Досуг">
+          <div class="splide__track">
+            <ul class="splide__list">
+              {% for action in actions %}
+                <li class="splide__slide">
+                  <article class="slide">
+                    <div class="slide__photos">
+                      {% for media in action.media.all %}
+                        <div class="f-carousel__slide">
+                          <a data-fancybox="{{ action.get_unique_name }}"
+                             data-src="{{ media.file.url }}"
+                             {% if media.is_video %}data-thumb="{% static 'landing/img/video-stub.png' %}"{% endif %}>
+                            {% if media.is_video %}
+                              <video src="{{ media.file.url }}"></video>
+                            {% else %}
+                              <img data-lazy-src="{{ media.get_miniature_or_original }}"
+                                   loading="lazy" alt="Фото или видео досуга">
+                            {% endif %}
+                          </a>
+                        </div>
+                      {% endfor %}
+                    </div>
+                    <section class="slide__content">
+                      <header class="slide__header">
+                        <span class="slide__title">{{ action.name }}</span>
+                        {% if action.is_free %}
+                          <span class="slide__price free">Бесплатно</span>
+                        {% else %}
+                          <span class="slide__price">{{ action.start_price }}<span
+                              class="period">{{ action.get_duration_if_it_gte_1|default:"" }}{{ action.get_pluralized_period }}</span>
+                        </span>
+                        {% endif %}
+                      </header>
+                      <p class="slide__description">
+                        {{ action.description }}
+                        {% if action.additional_info %}
+                          <span class="open-dialog-btn" dialog="{{ action.additional_info.get_unique_name }}">
+                          {{ action.additional_info.displayed_name }}
+                        </span>
+                        {% endif %}
+                      </p>
+                      <a class="slide__booking-btn booking-btn"
+                         href="https://wa.me/79269159153">
+                        Забронировать</a>
+                    </section>
+                  </article>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </section>
+        <ul class="actions-list">
+          <li>В зимний период работает большая тюбинговая горка</li>
+          <li>Услуги по копчению мяса</li>
+          <li>Большая территория и выходы в поле, в лес</li>
+          <li>Большая зимняя горка для катания на тюбинге</li>
+          <li>Спортивная площадка (воркаут)</li>
+          <li>Платная рыбалка - летняя и зимняя</li>
+          <li>Для любителей сноуборда и лыж - FHPark. В 15 минутах езды. Катание за лебедкой. С 12.00 до 18.00
+          </li>
+          <li>Для любителей большого тенниса - СК Михнево. В 10 минутах езды. Свободно для аренды площадка в
+            выходные
+            дни, с 8.00 первая половина дня
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Наша продукция -->
+    <section class="our-products" id="our-products">
+      <div class="our-products__container container">
+        <h2 class="our-products__title title">Наша продукция 🧀</h2>
+        <p class="our-products__description description">
+          На нашей экоферме вы можете продегустировать и купить продукцию нашего собственного производства. Также
+          у нас
+          есть доставка.
+        </p>
+        <ul class="our-products__list">
+          {% for our_product in our_products %}
+            <li class="our-products__list-item">{{ our_product.name }}</li>
+          {% empty %}
+            <p class="description">Нет в наличии</p>
+          {% endfor %}
+
+        </ul>
+        <div class="our-products__btn-container">
+          <a href='{% url "our_products" %}' class="our-products__btn booking-btn">Посмотреть всё</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Контакты -->
+    <section class="contacts" id="contacts">
+      <div class="contacts__container container">
+        <h2 class="contacts__title title">Контакты</h2>
+        <div class="contacts__content">
+          <div class="contacts-item">
+            <img class="contacts-item__icon" src="{% static 'landing/svg/whatsapp-icon.svg' %}" loading="lazy"
+                 alt="whatsapp">
+            <a class="contacts-item__text" href='https://wa.me/79269159153'>+7 926 915-91-53</a>
+          </div>
+          <div class="contacts-item">
+            <img class="contacts-item__icon" src="{% static 'landing/svg/instagram-icon.svg' %}" loading="lazy"
+                 alt="instagram">
+            <a class="contacts-item__text"
+               href='https://instagram.com/_u/nemtsovo_life_ecofarm/'>@nemtsovo_life_ecofarm</a>
+          </div>
+          <div class="contacts-item">
+            <img class="contacts-item__icon" src="{% static 'landing/svg/address-icon.svg' %}" loading="lazy"
+                 alt="address">
+            <a class="contacts-item__text" href='https://yandex.ru/maps/org/semeynaya_ekoferma/89743823636'>Московская
+              область, городской округ Домодедово, деревня Немцово</a>
+          </div>
+          <div class="contacts-item">
+            <img class="contacts-item__icon" src="{% static 'landing/svg/clock-icon.svg' %}" alt="clock">
+            <span class="contacts-item__text">Время работы: 08:00-21:00</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+{% endblock %}
+
+{% block javascript %}
+  <script src="{% static 'landing/js/init-splide.js' %}"></script>
+  <script src="{% static 'landing/js/init-fancybox-index-carousels.js' %}"></script>
+  <script src="{% static 'landing/js/init-fancybox.js' %}"></script>
+{% endblock %}
