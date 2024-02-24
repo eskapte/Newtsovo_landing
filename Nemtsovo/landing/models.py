@@ -83,6 +83,7 @@ class Attachment(models.Model):
         blank=True,
         help_text='Изображение, чье разрешение должно быть приближено к 420х300, но не меньше. ' +
                   'Опционально, но так сайт будет грузиться быстрее')
+    order = models.PositiveIntegerField("Порядок отображения", default=0, db_index=True)
 
     def is_video(self):
         return self.file.name.endswith('.mp4')
@@ -102,6 +103,7 @@ class Attachment(models.Model):
         ]
         verbose_name = 'Фото/Видео'
         verbose_name_plural = verbose_name
+        ordering = ['order']
 
 
 class House(models.Model):

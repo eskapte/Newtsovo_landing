@@ -3,6 +3,7 @@ from django.contrib.contenttypes.admin import GenericTabularInline, GenericStack
 import admin_thumbnails
 from django.forms import TextInput, Select
 from django.db.models import F, Max
+from adminsortable2.admin import SortableAdminBase, SortableGenericInlineAdminMixin
 
 
 class AdminModelWithOrder(admin.ModelAdmin):
@@ -37,13 +38,13 @@ class AdminModelWithOrder(admin.ModelAdmin):
 
 @admin_thumbnails.thumbnail('miniature', 'Миниатюра')
 @admin_thumbnails.thumbnail('file', 'Фото/Видео')
-class AttachmentInline(GenericTabularInline):
+class AttachmentInline(SortableGenericInlineAdminMixin, GenericTabularInline):
     model = Attachment
     extra = 5
 
 
 @admin.register(House)
-class HouseAdmin(AdminModelWithOrder):
+class HouseAdmin(SortableAdminBase, AdminModelWithOrder):
     list_display = ("name", "start_price")
     inlines = [AttachmentInline]
     list_filter = ("start_price",)
@@ -68,7 +69,7 @@ class AdditionalInfoAdmin(admin.ModelAdmin):
 
 
 @admin.register(WellnessTreatment)
-class WellnessTreatmentAdmin(AdminModelWithOrder):
+class WellnessTreatmentAdmin(SortableAdminBase, AdminModelWithOrder):
     list_display = ("name", "start_price")
     inlines = [AttachmentInline]
     list_filter = ("start_price",)
@@ -77,7 +78,7 @@ class WellnessTreatmentAdmin(AdminModelWithOrder):
 
 
 @admin.register(Action)
-class ActionAdmin(AdminModelWithOrder):
+class ActionAdmin(SortableAdminBase, AdminModelWithOrder):
     list_display = ("name", 'get_price_or_display_free')
     inlines = [AttachmentInline]
     list_filter = ("start_price",)
@@ -90,7 +91,7 @@ class ActionAdmin(AdminModelWithOrder):
 
 
 @admin.register(OurProduct)
-class OurProductAdmin(AdminModelWithOrder):
+class OurProductAdmin(SortableAdminBase, AdminModelWithOrder):
     list_display = ("name", "price", "is_available")
     inlines = [AttachmentInline]
     list_filter = ("is_available", 'price')
@@ -100,7 +101,7 @@ class OurProductAdmin(AdminModelWithOrder):
 
 
 @admin.register(Event)
-class EventAdmin(admin.ModelAdmin):
+class EventAdmin(SortableAdminBase, admin.ModelAdmin):
     list_display = ("title", "date", 'is_passed')
     inlines = [AttachmentInline]
     list_filter = ["date"]
@@ -110,7 +111,7 @@ class EventAdmin(admin.ModelAdmin):
 
 
 @admin.register(News)
-class NewsAdmin(admin.ModelAdmin):
+class NewsAdmin(SortableAdminBase, admin.ModelAdmin):
     list_display = ("title", "date")
     inlines = [AttachmentInline]
     list_filter = ["date"]
