@@ -22,6 +22,9 @@
   <link href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/themes/splide-skyblue.min.css"
         rel="stylesheet">
 
+  <!-- air datepicker -->
+  <link rel="stylesheet" href="{% static 'landing/js/packages/air-datepicker/dist/air-datepicker.css' %}">
+
   <title>{% block title %}{% endblock %}</title>
 </head>
 
@@ -54,32 +57,16 @@
   </div>
 </footer>
 
-<div class="dialogs">
-  {% if additional_info %}
-    {% for info in additional_info %}
-      <dialog class="dialog" id="{{ info.get_unique_name }}">
-        <header class="dialog__header">
-          <h3 class="dialog__title">{{ info.displayed_name }}</h3>
-          <button class="close-dialog-btn">❌</button>
-        </header>
-        <div class="dialog__content">
-          <ul>
-            {% for item in info.additionalinfoitem_set.all %}
-              <li>{{ item.text }}</li>
-            {% endfor %}
-          </ul>
-        </div>
-      </dialog>
-    {% endfor %}
-  {% endif %}
-</div>
-
 <!-- Fancybox -->
 <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/carousel/carousel.umd.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
 
 <!-- splide -->
 <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+
+<!-- air datepicker -->
+<script src="{% static 'landing/js/packages/air-datepicker/dist/air-datepicker.js' %}"></script>
+
 <script src="{% static 'landing/js/main.js' %}"></script>
 
 {% block javascript %}

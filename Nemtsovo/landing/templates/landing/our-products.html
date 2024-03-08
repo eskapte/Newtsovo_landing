@@ -13,12 +13,9 @@
         <div class="our-products-list__list">
           {% for product in products %}
             <article class="product-item">
-              <h3 class="product-item__name small-title">
+              <span class="product-item__name{% if product.is_available == False %}--not-available{% endif %} small-title">
                 {{ product.name }}
-                {% if product.is_available == False %}
-                  (нет в наличии)
-                {% endif %}
-              </h3>
+              </span>
               <i class="product-item__price">{{ product.price }}₽ за {{ product.count }} {{ product.measure }}.</i>
               <p class="product-item__description description">{{ product.description }}</p>
               {% if product.media.exists %}
@@ -43,7 +40,7 @@
           {% empty %}
             <p class="description">Пока что ничего нет</p>
           {% endfor %}
-          <a href="{% url 'index' %}#our-products" class="booking-btn">Назад</a>
+          <a href="{% url 'index' %}#our-products" class="booking-btn">На главную</a>
         </div>
       </div>
     </section>

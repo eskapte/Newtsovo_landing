@@ -32,7 +32,6 @@ $brown-dark: #36271D;
   padding: 0;
   font-family: "Montserrat";
   font-weight: 400;
-  color: $white;
 }
 
 body {
@@ -45,6 +44,7 @@ a {
 
   border-bottom: 2px solid transparent;
   transition: border-color .3s ease-out;
+  color: $white;
 
   &:hover {
     border-color: $white;

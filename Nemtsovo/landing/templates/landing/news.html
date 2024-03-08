@@ -1,22 +1,54 @@
 {% extends 'landing/base.html' %}
+{% load static %}
 
 {% block title %}Новости{% endblock %}
 
 {% block content %}
-  <main class="block-after-header">
-    <section class="news-list">
-      <div class="news-list__container container">
-        <h1 class="news-list__title main-title">Новости</h1>
-        <article class="news-list__list">
-          {% for news_item in news %}
-            <a href="{% url 'news-detail' news_item.id %}">
-              {{ news_item }}
-            </a>
-          {% empty %}
-            <h2 class="no-news small-title">Новостей нет</h2>
-          {% endfor %}
-        </article>
+  <main class="block-after-header news-page">
+    <div class="container">
+      <h1 class="main-title">Новости</h1>
+      <section class="news">
+        {% for news_item in news %}
+          <article class="news-item">
+            <p class="news-item__title small-title">{{ news_item.title }}</p>
+            <p class="news-item__date-time description">{{ news_item.date }}</p>
+            <p class="news-item__description description">{{ news_item.description }}</p>
+            {% if news_item.media.exists %}
+              <div class="gallery event-detail__gallery">
+                {% for media in news_item.media.all %}
+                  <a class="gallery__item"
+                     data-fancybox="{{ news_item.get_unique_name }}"
+                     data-src="{{ media.file.url }}"
+                     {% if media.is_video %}data-thumb="{% static 'landing/img/video-stub.png' %}"{% endif %}
+                  >
+                    {% if media.is_video %}
+                      <video src="{{ media.file.url }}"></video>
+                    {% else %}
+                      <img src="{{ media.get_miniature_or_original }}"
+                           loading="lazy" alt="Фото или видео с мероприятия">
+                    {% endif %}
+                  </a>
+                {% endfor %}
+              </div>
+            {% endif %}
+          </article>
+        {% empty %}
+          <p class="description">В ближайшее время мероприятий не планируется</p>
+        {% endfor %}
+      </section>
+      <div class="paginator">
+        {% if news.has_previous %}
+          <a href='?page={{ news.previous_page_number }}' class="previous booking-btn">Пред.</a>
+        {% endif %}
+        {% if news.has_next %}
+          <a href='?page={{ news.next_page_number }}' class="next booking-btn">След.</a>
+        {% endif %}
       </div>
-    </section>
+{#      <a href="{% url 'index' %}#events-news" class="booking-btn">На главную</a>#}
+    </div>
   </main>
+{% endblock %}
+
+{% block javascript %}
+  <script src="{% static 'landing/js/init-fancybox.js' %}"></script>
 {% endblock %}

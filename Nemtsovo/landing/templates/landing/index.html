@@ -63,24 +63,24 @@
           <h3 class="events__title small-title">Мероприятия</h3>
           <div class="links-list">
             {% for future_event in future_events %}
-              <a href="{% url 'event-detail' future_event.id %}" class="links-list__item">
+              <span class="links-list__item">
                 {{ future_event.title|truncatechars:"40" }} - {{ future_event.date|date:"d.m.Y" }}
-              </a>
+              </span>
             {% empty %}
               <p>В ближайшее время мероприятий нет</p>
             {% endfor %}
-            {% if future_events %}
-              <a href="{% url 'events' %}" class="links-list__show-all-btn booking-btn">Посмотреть все</a>
-            {% endif %}
+            <a href="{% url 'events' %}" class="links-list__show-all-btn booking-btn">
+              Посмотреть все
+            </a>
           </div>
         </section>
         <section class="news">
           <h3 class="news__title small-title">Новости</h3>
           <div class="links-list">
             {% for news_item in news %}
-              <a href="{% url 'news-detail' news_item.id %}" class="links-list__item">
+              <span class="links-list__item">
                 {{ news_item.title|truncatechars:"40" }}
-              </a>
+              </span>
             {% empty %}
               <p>Новостей нет</p>
             {% endfor %}
@@ -92,209 +92,237 @@
       </div>
     </section>
 
+
     <!-- домики -->
-    <section class="houses" id="houses">
-      <div class="houses__container container">
-        <h2 class="houses__title title">Домики&nbsp;🏠</h2>
-        <p class="houses-description description">
-          У нас Вы можете арендовать различные домики со всеми условиями для проживания. Для детей: кровать-манеж,
-          стульчик для кормления. Скидки при длительном
-          проживании от 5 дней!
-        </p>
-        <section class="splide" id="houses-slider" aria-label="Домики">
-          <div class="splide__track">
-            <ul class="splide__list">
-              {% for house in houses %}
-                <li class="splide__slide">
-                  <article class="slide">
-                    <div class="slide__photos">
-                      {% for media in house.media.all %}
-                        <div class="f-carousel__slide">
-                          <a data-fancybox="{{ house.get_unique_name }}"
-                             data-src="{{ media.file.url }}"
-                             {% if media.is_video %}data-thumb="{% static 'landing/img/video-stub.png' %}"{% endif %}>
-                            {% if media.is_video %}
-                              <video src="{{ media.file.url }}"></video>
-                            {% else %}
-                              <img data-lazy-src="{{ media.get_miniature_or_original }}"
-                                   loading="lazy" alt="Фото или видео домика">
-                            {% endif %}
-                          </a>
-                        </div>
-                      {% endfor %}
-                    </div>
-                    <section class="slide__content">
-                      <header class="slide__header">
-                        <span class="slide__title">{{ house.name }}</span>
-                        {% if house.is_free %}
-                          <span class="slide__price free">Бесплатно</span>
-                        {% else %}
-                          <span class="slide__price">{{ house.start_price }}<span
-                              class="period">{{ house.get_duration_if_it_gte_1|default:"" }}{{ house.get_pluralized_period }}</span>
+    {% if houses %}
+      <section class="houses" id="houses">
+        <div class="houses__container container">
+          <h2 class="houses__title title">Домики&nbsp;🏠</h2>
+          <p class="houses-description description">
+            У нас Вы можете арендовать различные домики со всеми условиями для проживания. Для детей: кровать-манеж,
+            стульчик для кормления. Скидки при длительном
+            проживании от 5 дней!
+          </p>
+          <section class="splide" id="houses-slider" aria-label="Домики">
+            <div class="splide__track">
+              <ul class="splide__list">
+                {% for house in houses %}
+                  <li class="splide__slide">
+                    <article class="slide">
+                      <div class="slide__photos">
+                        {% for media in house.media.all %}
+                          <div class="f-carousel__slide">
+                            <a data-fancybox="{{ house.get_unique_name }}"
+                               data-src="{{ media.file.url }}"
+                               {% if media.is_video %}data-thumb="{% static 'landing/img/video-stub.png' %}"{% endif %}>
+                              {% if media.is_video %}
+                                <video src="{{ media.file.url }}"></video>
+                              {% else %}
+                                <img data-lazy-src="{{ media.get_miniature_or_original }}"
+                                     loading="lazy" alt="Фото или видео домика">
+                              {% endif %}
+                            </a>
+                          </div>
+                        {% endfor %}
+                      </div>
+                      <section class="slide__content">
+                        <header class="slide__header">
+                          <span class="slide__title">{{ house.name }}</span>
+                          {% if house.is_free %}
+                            <span class="slide__price free">Бесплатно</span>
+                          {% else %}
+                            <span class="slide__price">{{ house.start_price }}<span
+                                class="period">{{ house.get_duration_if_it_gte_1|default:"" }}{{ house.get_pluralized_period }}</span>
                         </span>
-                        {% endif %}
-                      </header>
-                      <p class="slide__description">
-                        {{ house.description }}
-                        {% if house.additional_info %}
-                          <span class="open-dialog-btn" dialog="{{ house.additional_info.get_unique_name }}">
+                          {% endif %}
+                        </header>
+                        <p class="slide__description">
+                          {{ house.description }}
+                          {% if house.additional_info %}
+                            <span class="open-dialog-btn" dialog="{{ house.additional_info.get_unique_name }}">
                           {{ house.additional_info.displayed_name }}
                         </span>
+                          {% endif %}
+                        </p>
+                        {% if house.booking_identifier %}
+                          <button
+                              class="slide__booking-btn booking-btn open-booking-dialog"
+                              onclick="onOpenBookingDialog(
+                                  '{{ house.name }}',
+                                  '{{ house.booking_identifier_id }}',
+                                  {{ house.period_id }})">
+                            Забронировать
+                          </button>
                         {% endif %}
-                      </p>
-                      <a class="slide__booking-btn booking-btn"
-                         href="https://wa.me/79269159153">
-                        Забронировать</a>
-                    </section>
-                  </article>
-                </li>
-              {% endfor %}
-            </ul>
-          </div>
-        </section>
-      </div>
-    </section>
+                      </section>
+                    </article>
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+          </section>
+        </div>
+      </section>
+    {% endif %}
 
     <!-- Полезно для здоровья  -->
-    <section class="wellness-treatments" id="wellness-treatments">
-      <div class="wellness-treatments__container container">
-        <h2 class="wellness-treatments__title title">
-          Полезно для здоровья 😊
-        </h2>
-        <p class="wellness-treatments__description description">
-          Оздоровительные процедуры на нашей экоферме представляют собой уникальное сочетание природных элементов и
-          профессионального ухода, направленного на восстановление здоровья и гармонии организма
-        </p>
-        <section class="splide" id="wellness-treatments-slider" aria-label="Оздоровительные процедуры">
-          <div class="splide__track">
-            <ul class="splide__list">
-              {% for wellness_treatment in wellness_treatments %}
-                <li class="splide__slide">
-                  <article class="slide">
-                    <div class="slide__photos">
-                      {% for media in wellness_treatment.media.all %}
-                        <div class="f-carousel__slide">
-                          <a data-fancybox="{{ wellness_treatment.get_unique_name }}"
-                             data-src="{{ media.file.url }}"
-                             {% if media.is_video %}data-thumb="{% static 'landing/img/video-stub.png' %}"{% endif %}>
-                            {% if media.is_video %}
-                              <video src="{{ media.file.url }}"></video>
-                            {% else %}
-                              <img data-lazy-src="{{ media.get_miniature_or_original }}"
-                                   loading="lazy" alt="Фото или видео оздоровительных процедур">
-                            {% endif %}
-                          </a>
-                        </div>
-                      {% endfor %}
-                    </div>
-                    <section class="slide__content">
-                      <header class="slide__header">
-                        <span class="slide__title">{{ wellness_treatment.name }}</span>
-                        {% if wellness_treatment.is_free %}
-                          <span class="slide__price free">Бесплатно</span>
-                        {% else %}
-                          <span class="slide__price">{{ wellness_treatment.start_price }}<span
-                              class="period">{{ wellness_treatment.get_duration_if_it_gte_1|default:"" }}{{ wellness_treatment.get_pluralized_period }}</span>
+    {% if wellness_treatments %}
+      <section class="wellness-treatments" id="wellness-treatments">
+        <div class="wellness-treatments__container container">
+          <h2 class="wellness-treatments__title title">
+            Полезно для здоровья 😊
+          </h2>
+          <p class="wellness-treatments__description description">
+            Оздоровительные процедуры на нашей экоферме представляют собой уникальное сочетание природных элементов и
+            профессионального ухода, направленного на восстановление здоровья и гармонии организма
+          </p>
+          <section class="splide" id="wellness-treatments-slider" aria-label="Оздоровительные процедуры">
+            <div class="splide__track">
+              <ul class="splide__list">
+                {% for wellness_treatment in wellness_treatments %}
+                  <li class="splide__slide">
+                    <article class="slide">
+                      <div class="slide__photos">
+                        {% for media in wellness_treatment.media.all %}
+                          <div class="f-carousel__slide">
+                            <a data-fancybox="{{ wellness_treatment.get_unique_name }}"
+                               data-src="{{ media.file.url }}"
+                               {% if media.is_video %}data-thumb="{% static 'landing/img/video-stub.png' %}"{% endif %}>
+                              {% if media.is_video %}
+                                <video src="{{ media.file.url }}"></video>
+                              {% else %}
+                                <img data-lazy-src="{{ media.get_miniature_or_original }}"
+                                     loading="lazy" alt="Фото или видео оздоровительных процедур">
+                              {% endif %}
+                            </a>
+                          </div>
+                        {% endfor %}
+                      </div>
+                      <section class="slide__content">
+                        <header class="slide__header">
+                          <span class="slide__title">{{ wellness_treatment.name }}</span>
+                          {% if wellness_treatment.is_free %}
+                            <span class="slide__price free">Бесплатно</span>
+                          {% else %}
+                            <span class="slide__price">{{ wellness_treatment.start_price }}<span
+                                class="period">{{ wellness_treatment.get_duration_if_it_gte_1|default:"" }}{{ wellness_treatment.get_pluralized_period }}</span>
                         </span>
-                        {% endif %}
-                      </header>
-                      <p class="slide__description">
-                        {{ wellness_treatment.description }}
-                        {% if wellness_treatment.additional_info %}
-                          <span class="open-dialog-btn"
-                                dialog="{{ wellness_treatment.additional_info.get_unique_name }}">
+                          {% endif %}
+                        </header>
+                        <p class="slide__description">
+                          {{ wellness_treatment.description }}
+                          {% if wellness_treatment.additional_info %}
+                            <span class="open-dialog-btn"
+                                  dialog="{{ wellness_treatment.additional_info.get_unique_name }}">
                           {{ wellness_treatment.additional_info.displayed_name }}
                         </span>
+                          {% endif %}
+                        </p>
+                        {% if wellness_treatment.booking_identifier %}
+                          <button
+                              class="slide__booking-btn booking-btn open-booking-dialog"
+                              onclick="onOpenBookingDialog(
+                                  '{{ wellness_treatment.name }}',
+                                  '{{ wellness_treatment.booking_identifier_id }}',
+                                  {{ wellness_treatment.period_id }})">
+                            Забронировать
+                          </button>
                         {% endif %}
-                      </p>
-                      <a class="slide__booking-btn booking-btn"
-                         href="https://wa.me/79269159153">
-                        Забронировать</a>
-                    </section>
-                  </article>
-                </li>
-              {% endfor %}
-            </ul>
-          </div>
-        </section>
-      </div>
-    </section>
+                      </section>
+                    </article>
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+          </section>
+        </div>
+      </section>
+    {% endif %}
 
     <!-- Досуг -->
-    <section class="actions" id="actions">
-      <div class="actions__container container">
-        <h2 class="actions__title title">Чем у нас можно заняться? 🐎</h2>
-        <p class="actions__description description">
-          Заведите дружбу с нашими милыми
-          животными и многое другое. У нас всегда найдется что-то увлекательное для каждого
-          посетителя!
-        <section class="splide" id="actions-slider" aria-label="Досуг">
-          <div class="splide__track">
-            <ul class="splide__list">
-              {% for action in actions %}
-                <li class="splide__slide">
-                  <article class="slide">
-                    <div class="slide__photos">
-                      {% for media in action.media.all %}
-                        <div class="f-carousel__slide">
-                          <a data-fancybox="{{ action.get_unique_name }}"
-                             data-src="{{ media.file.url }}"
-                             {% if media.is_video %}data-thumb="{% static 'landing/img/video-stub.png' %}"{% endif %}>
-                            {% if media.is_video %}
-                              <video src="{{ media.file.url }}"></video>
-                            {% else %}
-                              <img data-lazy-src="{{ media.get_miniature_or_original }}"
-                                   loading="lazy" alt="Фото или видео досуга">
-                            {% endif %}
-                          </a>
-                        </div>
-                      {% endfor %}
-                    </div>
-                    <section class="slide__content">
-                      <header class="slide__header">
-                        <span class="slide__title">{{ action.name }}</span>
-                        {% if action.is_free %}
-                          <span class="slide__price free">Бесплатно</span>
-                        {% else %}
-                          <span class="slide__price">{{ action.start_price }}<span
-                              class="period">{{ action.get_duration_if_it_gte_1|default:"" }}{{ action.get_pluralized_period }}</span>
+    {% if actions %}
+      <section class="actions" id="actions">
+        <div class="actions__container container">
+          <h2 class="actions__title title">Чем у нас можно заняться? 🐎</h2>
+          <p class="actions__description description">
+            Заведите дружбу с нашими милыми
+            животными и многое другое. У нас всегда найдется что-то увлекательное для каждого
+            посетителя!
+          <section class="splide" id="actions-slider" aria-label="Досуг">
+            <div class="splide__track">
+              <ul class="splide__list">
+                {% for action in actions %}
+                  <li class="splide__slide">
+                    <article class="slide">
+                      <div class="slide__photos">
+                        {% for media in action.media.all %}
+                          <div class="f-carousel__slide">
+                            <a data-fancybox="{{ action.get_unique_name }}"
+                               data-src="{{ media.file.url }}"
+                               {% if media.is_video %}data-thumb="{% static 'landing/img/video-stub.png' %}"{% endif %}>
+                              {% if media.is_video %}
+                                <video src="{{ media.file.url }}"></video>
+                              {% else %}
+                                <img data-lazy-src="{{ media.get_miniature_or_original }}"
+                                     loading="lazy" alt="Фото или видео досуга">
+                              {% endif %}
+                            </a>
+                          </div>
+                        {% endfor %}
+                      </div>
+                      <section class="slide__content">
+                        <header class="slide__header">
+                          <span class="slide__title">{{ action.name }}</span>
+                          {% if action.is_free %}
+                            <span class="slide__price free">Бесплатно</span>
+                          {% else %}
+                            <span class="slide__price">{{ action.start_price }}<span
+                                class="period">{{ action.get_duration_if_it_gte_1|default:"" }}{{ action.get_pluralized_period }}</span>
                         </span>
-                        {% endif %}
-                      </header>
-                      <p class="slide__description">
-                        {{ action.description }}
-                        {% if action.additional_info %}
-                          <span class="open-dialog-btn" dialog="{{ action.additional_info.get_unique_name }}">
+                          {% endif %}
+                        </header>
+                        <p class="slide__description">
+                          {{ action.description }}
+                          {% if action.additional_info %}
+                            <span class="open-dialog-btn" dialog="{{ action.additional_info.get_unique_name }}">
                           {{ action.additional_info.displayed_name }}
                         </span>
+                          {% endif %}
+                        </p>
+                        {% if action.booking_identifier %}
+                          <button
+                              class="slide__booking-btn booking-btn open-booking-dialog"
+                              onclick="onOpenBookingDialog(
+                                  '{{ action.name }}',
+                                  '{{ action.booking_identifier_id }}',
+                                  {{ action.period_id }})">
+                            Забронировать
+                          </button>
                         {% endif %}
-                      </p>
-                      <a class="slide__booking-btn booking-btn"
-                         href="https://wa.me/79269159153">
-                        Забронировать</a>
-                    </section>
-                  </article>
-                </li>
-              {% endfor %}
-            </ul>
-          </div>
-        </section>
-        <ul class="actions-list">
-          <li>В зимний период работает большая тюбинговая горка</li>
-          <li>Услуги по копчению мяса</li>
-          <li>Большая территория и выходы в поле, в лес</li>
-          <li>Большая зимняя горка для катания на тюбинге</li>
-          <li>Спортивная площадка (воркаут)</li>
-          <li>Платная рыбалка - летняя и зимняя</li>
-          <li>Для любителей сноуборда и лыж - FHPark. В 15 минутах езды. Катание за лебедкой. С 12.00 до 18.00
-          </li>
-          <li>Для любителей большого тенниса - СК Михнево. В 10 минутах езды. Свободно для аренды площадка в
-            выходные
-            дни, с 8.00 первая половина дня
-          </li>
-        </ul>
-      </div>
-    </section>
+                      </section>
+                    </article>
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+          </section>
+          {#        <ul class="actions-list">#}
+          {#          <li>В зимний период работает большая тюбинговая горка</li>#}
+          {#          <li>Услуги по копчению мяса</li>#}
+          {#          <li>Большая территория и выходы в поле, в лес</li>#}
+          {#          <li>Большая зимняя горка для катания на тюбинге</li>#}
+          {#          <li>Спортивная площадка (воркаут)</li>#}
+          {#          <li>Платная рыбалка - летняя и зимняя</li>#}
+          {#          <li>Для любителей сноуборда и лыж - FHPark. В 15 минутах езды. Катание за лебедкой. С 12.00 до 18.00#}
+          {#          </li>#}
+          {#          <li>Для любителей большого тенниса - СК Михнево. В 10 минутах езды. Свободно для аренды площадка в#}
+          {#            выходные#}
+          {#            дни, с 8.00 первая половина дня#}
+          {#          </li>#}
+          {#        </ul>#}
+        </div>
+      </section>
+    {% endif %}
 
     <!-- Наша продукция -->
     <section class="our-products" id="our-products">
@@ -318,6 +346,56 @@
         </div>
       </div>
     </section>
+
+    <!-- Наши питомыцы -->
+    {% if our_pets %}
+      <section class="our-pets" id="our-pets">
+        <div class="our-pets__container container">
+          <h2 class="our-pets__title title">Наши питомцы 🐔</h2>
+          <p class="our-pets__description description">Здесь вы найдете удивительные фотографии животных, которые стали
+            неотъемлемой
+            частью нашей экофермы. От мягких мордочек до перьев и шерсти, каждый наш питомец несет в себе частичку
+            радости
+            и неповторимости</p>
+          <section class="splide" id="our-pets-slider" aria-label="Наши питомцы">
+            <div class="splide__track">
+              <ul class="splide__list">
+                {% for our_pet in our_pets %}
+                  <li class="splide__slide">
+                    <article class="slide">
+                      <div class="slide__photos">
+                        {% for media in our_pet.media.all %}
+                          <div class="f-carousel__slide">
+                            <a data-fancybox="{{ our_pet.get_unique_name }}"
+                               data-src="{{ media.file.url }}"
+                               {% if media.is_video %}data-thumb="{% static 'landing/img/video-stub.png' %}"{% endif %}>
+                              {% if media.is_video %}
+                                <video src="{{ media.file.url }}"></video>
+                              {% else %}
+                                <img data-lazy-src="{{ media.get_miniature_or_original }}"
+                                     loading="lazy" alt="Фото питомца">
+                              {% endif %}
+                            </a>
+                          </div>
+                        {% endfor %}
+                      </div>
+                      <section class="slide__content">
+                        <header class="slide__header">
+                          <span class="slide__title">{{ our_pet.name }}</span>
+                        </header>
+                        <p class="slide__description">
+                          {{ our_pet.description }}
+                        </p>
+                      </section>
+                    </article>
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+          </section>
+        </div>
+      </section>
+    {% endif %}
 
     <!-- Контакты -->
     <section class="contacts" id="contacts">
@@ -350,6 +428,92 @@
     </section>
 
   </main>
+
+  <div class="dialogs">
+    {% if additional_info %}
+      {% for info in additional_info %}
+        <dialog class="dialog" id="{{ info.get_unique_name }}">
+          <header class="dialog__header">
+            <h3 class="dialog__title">{{ info.displayed_name }}</h3>
+            <button class="close-dialog-btn">❌</button>
+          </header>
+          <div class="dialog__content">
+            <ul>
+              {% for item in info.additionalinfoitem_set.all %}
+                <li>{{ item.text }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        </dialog>
+      {% endfor %}
+    {% endif %}
+
+    <dialog class="dialog" id="booking-dialog">
+      <header class="dialog__header">
+        <h3 class="dialog__title">Бронирование</h3>
+        <button class="close-dialog-btn">❌</button>
+      </header>
+      <div class="dialog__content">
+        <form action="{% url 'add_booking' %}" class="booking-form">
+          {% csrf_token %}
+          <div class="form-elem">
+            <label for="fio">ФИО</label>
+            <input type="text" id="fio" placeholder="Иванов Иван Иванович" name="fio" required>
+          </div>
+          <div class="form-elem">
+            <label for="phone">Телефон</label>
+            <input type="tel" placeholder="81234567890" min="10" id="phone" name="phone" required
+                   pattern="^(\+7|7|8)?[\s\-]?\(?[489][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$"
+                   oninvalid="this.setCustomValidity('Пожалуйста, укажите свой номер телефона')"
+                   oninput="this.setCustomValidity('')">
+          </div>
+          <div class="form-elem">
+            <label for="adults">Кол-во взрослых</label>
+            <input type="number" min="1" id="adults" value="1" name="adults" required>
+          </div>
+          <div class="form-elem">
+            <label for="childrens">Кол-во детей</label>
+            <input type="number" min="0" id="childrens" value="0" name="childrens" required>
+          </div>
+          <div class="form-elem">
+            <label for="date">Желаемые даты</label>
+            <input id="date" name="date" required>
+          </div>
+          <div class="form-elem form-elem--inline">
+            <label for="whatsapp">У меня есть WhatsApp</label>
+            <input type="checkbox" id="whatsapp" name="whatsapp">
+          </div>
+          <span class="help-text">Если Вам удобней списаться в WhatsApp, а не разговаривать по телефону</span>
+          <button class="booking-btn" id="add-booking-btn">Забронировать</button>
+        </form>
+      </div>
+    </dialog>
+    <dialog class="dialog" id="booking-result-dialog--success">
+      <header class="dialog__header">
+        <button class="close-dialog-btn">❌</button>
+      </header>
+      <div class="dialog__content">
+        <div class="booking-result booking-result">
+          <span class="booking-result__title small-title">Спасибо за оставленную заявку! 😊</span>
+          <span class="booking-result__add-message">В скором времени мы свяжемся с Вами!</span>
+          <a class="booking-btn booking-result__btn" href="https://wa.me/79269159153">Написать нам</a>
+        </div>
+      </div>
+    </dialog>
+    <dialog class="dialog" id="booking-result-dialog--failure">
+      <header class="dialog__header">
+        <button class="close-dialog-btn">❌</button>
+      </header>
+      <div class="dialog__content">
+        <div class="booking-result booking-result">
+          <span class="booking-result__title small-title">Что-то пошло не так 😔</span>
+          <span class="booking-result__add-message">Простите за неудобства, но у нас что-то пошло не так. Попробуйте ещё раз или напишите нам напрямую.</span>
+          <a class="booking-btn booking-result__btn" href="https://wa.me/79269159153">Написать нам</a>
+        </div>
+      </div>
+    </dialog>
+  </div>
+
 {% endblock %}
 
 {% block javascript %}

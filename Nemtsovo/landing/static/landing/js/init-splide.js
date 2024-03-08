@@ -25,4 +25,13 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     actionsSlider.mount();
+
+    const ourPetsSlider = new Splide('#our-pets-slider', {
+        autoWidth: true,
+        autoHeight: true,
+        gap: '50px',
+        pagination: false
+    });
+
+    ourPetsSlider.mount();
 });

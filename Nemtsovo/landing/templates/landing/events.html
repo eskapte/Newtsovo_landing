@@ -1,37 +1,82 @@
 {% extends 'landing/base.html' %}
+{% load static %}
 
 {% block title %}
   Мероприятия
 {% endblock %}
 
 {% block content %}
-  <main class="block-after-header">
-    <section class="events-list">
-      <div class="events-list__container container">
-        <h1 class="events-list__title main-title">Мероприятия</h1>
-
-        <article class="future-events">
-          <h2 class="future-events__title small-title">Предстоящие</h2>
-          <div class="future-events__list">
-            {% for future_event in future_events %}
-              <a href="{% url 'event-detail' future_event.id %}">
-                {{ future_event }}
-              </a>
+  <main class="block-after-header events-page">
+    <div class="container">
+      <h1 class="main-title">Мероприятия</h1>
+      <section class="events">
+        <h2 class="events__title">Предстоящие</h2>
+        <div class="events__list">
+          {% for event in future_events %}
+            <article class="event">
+              <p class="event__title small-title">{{ event.title }}</p>
+              <p class="event__date-time description">{{ event.date }}</p>
+              <p class="event__description description">{{ event.description }}</p>
+              {% if event.media.exists %}
+                <div class="gallery event-detail__gallery">
+                  {% for media in event.media.all %}
+                    <a class="gallery__item"
+                       data-fancybox="{{ event.get_unique_name }}"
+                       data-src="{{ media.file.url }}"
+                       {% if media.is_video %}data-thumb="{% static 'landing/img/video-stub.png' %}"{% endif %}
+                    >
+                      {% if media.is_video %}
+                        <video src="{{ media.file.url }}"></video>
+                      {% else %}
+                        <img src="{{ media.get_miniature_or_original }}"
+                             loading="lazy" alt="Фото или видео с мероприятия">
+                      {% endif %}
+                    </a>
+                  {% endfor %}
+                </div>
+              {% endif %}
+            </article>
+          {% empty %}
+            <p class="description">В ближайшее время мероприятия не планируется</p>
+          {% endfor %}
+        </div>
+      </section>
+      {% if future_events %}
+        <section class="events">
+          <h2 class="events__title">Прошедшие</h2>
+          <div class="events__list">
+            {% for event in past_events %}
+              <article class="event">
+                <p class="event__title small-title">{{ event.title }}</p>
+                <p class="event__date-time description">{{ event.date }}</p>
+                <p class="event__description description">{{ event.description }}</p>
+                {% if event.media.exists %}
+                  <div class="gallery event-detail__gallery">
+                    {% for media in event.media.all %}
+                      <a class="gallery__item"
+                         data-fancybox="{{ event.get_unique_name }}"
+                         data-src="{{ media.file.url }}"
+                         {% if media.is_video %}data-thumb="{% static 'landing/img/video-stub.png' %}"{% endif %}
+                      >
+                        {% if media.is_video %}
+                          <video src="{{ media.file.url }}"></video>
+                        {% else %}
+                          <img src="{{ media.get_miniature_or_original }}"
+                               loading="lazy" alt="Фото или видео с мероприятия">
+                        {% endif %}
+                      </a>
+                    {% endfor %}
+                  </div>
+                {% endif %}
+              </article>
             {% endfor %}
           </div>
-        </article>
-
-        <article class="past-events">
-          <h2 class="past-events__title small-title">Прошедшие</h2>
-          <div class="past-events__list">
-            {% for past_event in past_events %}
-              <a href="{% url 'event-detail' past_event.id %}">
-                {{ past_event }}
-              </a>
-            {% endfor %}
-          </div>
-        </article>
-      </div>
-    </section>
+        </section>
+      {% endif %}
+    </div>
   </main>
+{% endblock %}
+
+{% block javascript %}
+  <script src="{% static 'landing/js/init-fancybox.js' %}"></script>
 {% endblock %}

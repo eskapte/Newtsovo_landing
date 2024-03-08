@@ -16,10 +16,6 @@ main {
   min-height: 100vh;
 }
 
-h2 {
-  margin-bottom: 4vh;
-}
-
 p,
 li {
   @include mixins.adaptiv-font(16, 20);
@@ -28,23 +24,27 @@ li {
 
 .main-title {
   font-weight: 800;
-  @include mixins.adaptiv-font(30, 60);
+  @include mixins.adaptiv-font(36, 60);
+  color: common.$white;
 }
 
 .title {
   font-weight: 800;
   @include mixins.adaptiv-font(28, 55);
   text-transform: uppercase;
+  color: common.$white;
 }
 
 .small-title {
   @include mixins.adaptiv-font(28, 36);
   margin-bottom: 2vh;
   font-weight: bold;
+  color: common.$white;
 }
 
 .description {
   margin-bottom: 4vh;
+  color: common.$white;
 }
 
 .block-after-header {
@@ -143,7 +143,7 @@ li {
   background: url("../img/header-photo-compressed.jpg") no-repeat max(calc(100vw - 1920px), -700px) 0;
 
   @media (min-width: 1981px) {
-    background: url("../img/header-photo-4k-compressed.jpg") no-repeat 50% 30%;
+    background: url("../img/header-photo-4k-compressed.jpg") no-repeat 50% 40%;
   }
 
   @media (max-height: 700px) {
@@ -161,6 +161,7 @@ li {
     line-height: 2em;
     @include mixins.adaptiv-font(16, 20);
     max-width: 620px;
+    color: common.$white;
   }
 
   .side-social-links {
@@ -237,6 +238,7 @@ li {
 
   padding: 0.8em 1.2em;
   background-color: common.$green;
+  color: common.$white;
   border-radius: 60px;
   height: max-content;
 
@@ -256,6 +258,10 @@ li {
   top: -10vh;
   z-index: 10;
   overflow-x: hidden;
+
+  &__title {
+    margin-bottom: 4vh;
+  }
 
   &::before {
     content: "";
@@ -280,6 +286,7 @@ li {
     gap: 2vw;
     padding-top: 10vh;
     padding-bottom: 10vh;
+    color: common.$white;
 
     @media (max-width: $about-us-transform-size) {
       flex-direction: column;
@@ -322,6 +329,7 @@ li {
 
     .events, .news {
       flex: 1 0 fit-content;
+      color: common.$white;
 
       .links-list {
         display: flex;
@@ -344,8 +352,12 @@ li {
   }
 }
 
-section.houses {
+.houses {
   margin-top: 4vh;
+
+  &__title {
+    margin-bottom: 4vh;
+  }
 }
 
 // splide
@@ -404,6 +416,11 @@ section.houses {
     }
   }
 
+  .f-button {
+    color: common.$white !important;
+    filter: drop-shadow(0px 0px 3px black);
+  }
+
   &__photos {
     height: 50%;
     margin: 0 !important;
@@ -426,10 +443,10 @@ section.houses {
   &__content {
     padding: 20px;
     height: 50%;
-    display: grid;
-    grid-template-columns: 100%;
-    grid-template-rows: 0.3fr 1fr 0.5fr;
-    row-gap: 1vh;
+    display: flex;
+    flex-direction: column;
+    gap: 1vh;
+    align-items: center;
   }
 
   &__header {
@@ -487,6 +504,8 @@ section.houses {
     color: common.$black;
     @include mixins.adaptiv-font(14, 15);
     overflow-y: auto;
+    flex-grow: 2;
+    width: 100%;
 
     b {
       color: inherit;
@@ -495,18 +514,22 @@ section.houses {
 
     @include mixins.use-custom-scrollbar();
   }
+}
 
-  &__booking-btn {
-    justify-self: center;
+.wellness-treatments {
+  margin-top: $section-gap;
+
+  &__title {
+    margin-bottom: 4vh;
   }
 }
 
-section.wellness-treatments {
+.actions {
   margin-top: $section-gap;
-}
 
-section.actions {
-  margin-top: $section-gap;
+  &__title {
+    margin-bottom: 4vh;
+  }
 }
 
 .no-scroll {
@@ -519,8 +542,8 @@ section.actions {
   left: 0;
   margin: 50vh auto;
   transform: translateY(-50%);
-  z-index: 10;
-  width: clamp(280px, 100vw, #{common.$containerWidth + px} - 30%);
+  z-index: 1;
+  width: clamp(280px, 100vw, #{common.$containerWidth + px} - 400px);
   max-height: 80vh;
   padding: 2vh;
   border: none;
@@ -575,9 +598,29 @@ section.actions {
   }
 }
 
+.booking-result {
+  margin-top: 2vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+
+  &__title, &__add-message {
+    text-align: center;
+    color: common.$black;
+  }
+
+  &__btn {
+    margin-top: 2em;
+  }
+
+}
+
 .actions-list {
   list-style: "🍀";
   margin-top: 4vh;
+  color: common.$white;
 
   li {
     margin-top: 2vh;
@@ -587,6 +630,10 @@ section.actions {
 
 .our-products {
   margin-top: $section-gap;
+
+  &__title {
+    margin-bottom: 4vh;
+  }
 
   &__btn-container {
     display: flex;
@@ -599,6 +646,7 @@ section.actions {
     flex-direction: column;
     gap: 1vh;
     padding-left: 20px;
+    color: common.$white;
   }
 
   &__list-item {
@@ -612,6 +660,10 @@ section.actions {
 .contacts {
   margin-top: $section-gap;
 
+  &__title {
+    margin-bottom: 4vh;
+  }
+
   &__content {
     display: flex;
     flex-direction: column;
@@ -622,6 +674,7 @@ section.actions {
       display: flex;
       align-items: center;
       gap: 2vw;
+      color: common.$white;
 
       &__icon {
         width: min(10%, 50px);
@@ -673,46 +726,6 @@ section.actions {
 }
 
 
-// events page
-
-.events-list {
-  margin-top: $margin-from-header;
-}
-
-.future-events, .past-events {
-  &__title {
-    margin-top: 4vh;
-  }
-
-  &__list {
-    display: flex;
-    flex-direction: column;
-    gap: 1vh;
-
-    a {
-      width: max-content;
-      max-width: 100%;
-      @include mixins.adaptiv-font(16, 20);
-    }
-  }
-}
-
-.event-detail, .news-detail {
-  margin-top: $margin-from-header;
-
-  &__description {
-    margin-top: 4vh;
-  }
-
-  &__gallery {
-    margin-top: 4vh;
-  }
-
-  .booking-btn {
-    margin-top: 4vh;
-  }
-}
-
 .gallery {
   display: flex;
   flex-wrap: wrap;
@@ -732,24 +745,6 @@ section.actions {
   }
 }
 
-.news-list {
-  margin-top: $margin-from-header;
-
-  &__list {
-    margin-top: 4vh;
-
-    display: flex;
-    flex-direction: column;
-    gap: 1vh;
-
-    a {
-      width: max-content;
-      max-width: 100%;
-      @include mixins.adaptiv-font(16, 20);
-    }
-  }
-}
-
 .our-products-list {
   margin-top: $margin-from-header;
 
@@ -758,16 +753,167 @@ section.actions {
     display: flex;
     flex-direction: column;
     gap: 4vh;
+    color: common.$white;
 
     .product-item {
       &__name {
         margin-bottom: 1vh;
+
+        &--not-available {
+          text-decoration: line-through;
+        }
+      }
+
+      &__description {
+        margin-bottom: 2vh;
       }
 
       &__price {
         display: block;
         margin-bottom: 2vh;
+        margin-top: 1vh;
       }
     }
+  }
+}
+
+.events-page {
+  .container {
+    margin-top: $margin-from-header;
+  }
+
+  .events {
+    &__title {
+      @include mixins.adaptiv-font(36, 48);
+      font-weight: bold;
+      margin-top: 4vh;
+      color: common.$white;
+    }
+
+    &__list {
+      display: flex;
+      flex-direction: column;
+      gap: 4vh;
+      margin: 4vh 0;
+
+      .event {
+        &__title {
+          font-weight: 500;
+        }
+
+        &__date-time {
+          font-style: italic;
+          margin-bottom: 2vh;
+        }
+
+        &__description {
+          margin-bottom: 2vh;
+        }
+      }
+    }
+
+    &__title {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.news-page {
+  .container {
+    margin-top: $margin-from-header;
+  }
+
+  .news {
+    display: flex;
+    flex-direction: column;
+    gap: 4vh;
+    margin: 4vh 0;
+
+    .news-item {
+      &__title {
+        font-weight: 500;
+      }
+
+      &__date-time {
+        font-style: italic;
+        margin-bottom: 2vh;
+      }
+
+      &__description {
+        margin-bottom: 2vh;
+      }
+    }
+  }
+}
+
+.paginator {
+  display: flex;
+  justify-content: center;
+  gap: 5vw;
+}
+
+.booking-form {
+  color: common.$black;
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+  padding-left: 1vw;
+  overflow-y: visible;
+
+  *:not(.booking-btn):not(#date) {
+    color: inherit;
+  }
+
+  .booking-btn {
+    color: common.$white;
+  }
+
+  .help-text {
+    @include mixins.adaptiv-font(12, 14);
+    margin-top: -1em;
+  }
+
+  .form-elem {
+    display: flex;
+    flex-direction: column;
+    width: 98%;
+
+    label {
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    input[type='text'],
+    input[type='tel'],
+    input[type='number'],
+    input[type='time'],
+    #date {
+      margin-top: 0.5em;
+      padding: 0.5em;
+      @include mixins.adaptiv-font(14, 16);
+    }
+
+    input[type='checkbox'] {
+      width: 1.2em;
+      height: 1.2em;
+    }
+
+    &--inline {
+      flex-direction: row;
+      gap: 1vmax;
+      align-items: center;
+    }
+  }
+}
+
+.text-line-throught {
+  text-decoration-line: line-through;
+}
+
+.our-pets {
+  margin-top: $section-gap;
+
+  &__title {
+    margin-bottom: 4vh;
   }
 }

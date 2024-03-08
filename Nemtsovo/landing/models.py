@@ -8,6 +8,57 @@ from django.conf import settings
 import pytz
 
 
+class BookingIdentifier(models.Model):
+    name = models.CharField('Название', max_length=200, unique=True)
+
+    class Meta:
+        verbose_name = 'Идентификатор бронируемого объекта'
+        verbose_name_plural = 'Индентификаторы бронируемых объектов'
+
+    def __str__(self):
+        return self.name
+
+
+class Booking(models.Model):
+    booking_identifier = models.ForeignKey(
+        BookingIdentifier,
+        on_delete=models.CASCADE,
+        verbose_name='Что забронировано',
+        editable=False)
+    fio = models.CharField(verbose_name='ФИО', max_length=100, editable=False)
+    phone_number = models.CharField(verbose_name='Номер телефона', max_length=20, editable=False)
+    adults_count = models.PositiveIntegerField(
+        "Кол-во взрослых",
+        default=1,
+        validators=[MinValueValidator(1)],
+        editable=False)
+    childs_count = models.PositiveIntegerField("Кол-во детей", default=0, editable=False)
+    desired_dates = models.CharField(verbose_name='Желаемые даты', max_length=400, editable=False)
+    is_has_whatsapp = models.BooleanField("Имеется Whatsapp", editable=False)
+
+    date_create = models.DateTimeField('Дата создания', editable=False, auto_now_add=True)
+
+    # так сделано ради сортировки
+    class BookingStatus(models.TextChoices):
+        ACTIVE = 'a', 'Активно'
+        APPROVED = 'b', 'Одобрено'
+        CANCELED = 'c', 'Отменено'
+
+    status = models.CharField('Статус', choices=BookingStatus, default=BookingStatus.ACTIVE, max_length=20)
+    manager_comment = models.TextField('Комментарий', blank=True, null=True,
+                                       help_text='Если надо что-то пометить для себя')
+    date_start_fact = models.DateTimeField("Фактическое начало бронирования", blank=True, null=True)
+    date_end_fact = models.DateTimeField("Фактическое окончание бронирования", blank=True, null=True)
+
+    class Meta:
+        verbose_name = 'Заявка на бронирование'
+        verbose_name_plural = 'Заявки на бронирование'
+        ordering = ['status', '-date_create']
+
+    def __str__(self):
+        return self.booking_identifier.name
+
+
 class Period(models.Model):
     singular = models.CharField(max_length=6, verbose_name="Единственное число (1 час)")
     plural = models.CharField(max_length=6, verbose_name="Множественное число (2 часа)")
@@ -25,8 +76,8 @@ class Period(models.Model):
         return self.singular
 
     class Meta:
-        verbose_name = 'Период'
-        verbose_name_plural = 'Периоды'
+        verbose_name = 'Период/Кол-во'
+        verbose_name_plural = 'Периоды/Кол-во'
 
 
 class AdditionalInfo(models.Model):
@@ -113,7 +164,7 @@ class House(models.Model):
         verbose_name='Продолжительность',
         default=1,
         validators=[MinValueValidator(1)])
-    period = models.ForeignKey(Period, verbose_name='Период', default=1, on_delete=models.SET_DEFAULT)
+    period = models.ForeignKey(Period, verbose_name='Период/Кол-во', default=1, on_delete=models.SET_DEFAULT)
     description = models.TextField(verbose_name='Описание', max_length=400)
     additional_info = models.ForeignKey(
         AdditionalInfo,
@@ -126,6 +177,13 @@ class House(models.Model):
     order = models.PositiveIntegerField("Порядок отображения", default=0, db_index=True)
 
     media = GenericRelation(Attachment)
+    booking_identifier = models.ForeignKey(
+        BookingIdentifier,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name="Идентификатор бронируемого объекта",
+        help_text='Нужен для системы бронирования. Если пустой, то забронировать данный эл-т будет нельзя')
 
     def get_pluralized_period(self):
         return self.period.pluralize(self.duration)
@@ -157,7 +215,7 @@ class WellnessTreatment(models.Model):
         verbose_name='Продолжительность',
         default=1,
         validators=[MinValueValidator(1)])
-    period = models.ForeignKey(Period, verbose_name='Период', default=1, on_delete=models.SET_DEFAULT)
+    period = models.ForeignKey(Period, verbose_name='Период/Кол-во', default=1, on_delete=models.SET_DEFAULT)
     description = models.TextField(verbose_name='Описание', max_length=400)
     additional_info = models.ForeignKey(
         AdditionalInfo,
@@ -169,6 +227,13 @@ class WellnessTreatment(models.Model):
     order = models.PositiveIntegerField("Порядок отображения", default=0, db_index=True)
 
     media = GenericRelation(Attachment)
+    booking_identifier = models.ForeignKey(
+        BookingIdentifier,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name="Идентификатор бронируемого объекта",
+        help_text='Нужен для системы бронирования. Если пустой, то забронировать данный эл-т будет нельзя')
 
     def get_pluralized_period(self):
         return self.period.pluralize(self.duration)
@@ -200,7 +265,7 @@ class Action(models.Model):
         verbose_name='Продолжительность / кол-во',
         default=1,
         validators=[MinValueValidator(1)])
-    period = models.ForeignKey(Period, verbose_name='Период', default=1, on_delete=models.SET_DEFAULT)
+    period = models.ForeignKey(Period, verbose_name='Период/Кол-во', default=1, on_delete=models.SET_DEFAULT)
     description = models.TextField(verbose_name='Описание', max_length=400)
     additional_info = models.ForeignKey(
         AdditionalInfo,
@@ -212,6 +277,13 @@ class Action(models.Model):
     order = models.PositiveIntegerField("Порядок отображения", default=0, db_index=True)
 
     media = GenericRelation(Attachment)
+    booking_identifier = models.ForeignKey(
+        BookingIdentifier,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name="Идентификатор бронируемого объекта",
+        help_text='Нужен для системы бронирования. Если пустой, то забронировать данный эл-т будет нельзя')
 
     def get_pluralized_period(self):
         return self.period.pluralize(self.duration)
@@ -307,3 +379,22 @@ class News(models.Model):
         verbose_name = 'Новость'
         verbose_name_plural = 'Новости'
         ordering = ['-date']
+
+
+class OurPet(models.Model):
+    name = models.CharField('Имя питомаца', max_length=100)
+    description = models.TextField('Описание', blank=True, null=True)
+    media = GenericRelation(Attachment)
+
+    order = models.PositiveIntegerField("Порядок отображения", default=0, db_index=True)
+
+    def __str__(self):
+        return self.name
+
+    def get_unique_name(self):
+        return self.name + str(self.id)
+
+    class Meta:
+        verbose_name = 'Питомец'
+        verbose_name_plural = 'Питомцы'
+        ordering = ['order']

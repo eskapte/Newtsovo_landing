@@ -86,6 +86,29 @@ class NewsAdmin(SortableAdminBase, admin.ModelAdmin):
     search_fields = ("title", "description")
 
 
+@admin.register(Booking)
+class BookingAdmin(admin.ModelAdmin):
+    list_display = ('get_booking_name', "fio", 'phone_number', 'desired_dates', 'date_create', 'date_start_fact', 'date_end_fact', 'status')
+    list_editable = ['status']
+    readonly_fields = (
+    'fio', 'phone_number', 'adults_count', 'childs_count', 'desired_dates', 'is_has_whatsapp', 'date_create')
+    list_filter = ["status", 'date_create', 'date_start_fact', 'date_end_fact']
+    ordering = ['status', '-date_create']
+    save_on_top = True
+    list_per_page = 10
+
+    @admin.display(description="Название")
+    def get_booking_name(self, obj):
+        return obj.booking_identifier.name
+
+
+@admin.register(OurPet)
+class OurPetAdmin(SortableAdminMixin, admin.ModelAdmin):
+    list_display = ('name', 'order')
+    inlines = [AttachmentInline]
+
+
+admin.site.register(BookingIdentifier)
 admin.site.register(Period)
 # admin.site.register(House, HouseAdmin)
 # admin.site.register(BookingConditions, BookingConditionsAdmin)
