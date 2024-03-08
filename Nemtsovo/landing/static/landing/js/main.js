@@ -90,27 +90,6 @@ async function onOpenBookingDialog(houseName, bookingIdentifierId, periodId = un
     // для всего, что бронируется на сутки, отображаем период
     const isRange = periodId === DAYS_PERIOD_ID;
 
-    const csrfToken = getCookie('csrftoken')
-    const url = `/get-booked-days/${bookingIdentifierId}` + (isRange ? '?all=1' : '')
-
-    let booked_days = []
-    try {
-        const response = await fetch(url, {
-            method: "GET",
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'X-CSRFToken': csrfToken
-            }
-        });
-
-        const data = await response.json()
-        data['booked_dates'].forEach(x => booked_days.push(Date.parse(x)))
-
-    } catch (e) {
-        console.error(e.message)
-    }
-
     const showTimeBtn = {
         content: 'Время',
         onClick: (datepicker) => {
@@ -124,27 +103,28 @@ async function onOpenBookingDialog(houseName, bookingIdentifierId, periodId = un
         multipleDates: 7,
         multipleDatesSeparator: isRange ? ' - ' : ', ',
         range: isRange,
-        // timepicker: !isRange,
         position: 'top center',
         minHours: ecofarmStartWorkTimeHour,
         maxHours: ecofarmEndWorkTimeHour,
         buttons: !isRange ? [showTimeBtn, 'clear'] : ['clear'],
         onBeforeSelect: ({date, datepicker}) => {
-            console.log(date)
-            console.log(datepicker)
-            return !isDisabledDateIsInRange({date, datepicker, booked_days});
+            return !isDisabledDateIsInRange({date, datepicker});
         },
         onFocus: ({date, datepicker}) => {
-            if (isDisabledDateIsInRange({date, datepicker, booked_days})
-                || booked_days.includes(date.getTime())) {
+            const disabledDates = [...datepicker.disabledDates].map(x => new Date(Date.parse(x)).setHours(0));
+            if (isDisabledDateIsInRange({date, datepicker})
+                || disabledDates.some(x => x === date.getTime())) {
                 datepicker.$datepicker.classList.add('-disabled-range-')
             } else {
                 datepicker.$datepicker.classList.remove('-disabled-range-')
             }
         },
-        onRenderCell({date, cellType}) {
+        onRenderCell({date, cellType, datepicker}) {
             if (cellType === 'day') {
-                if (booked_days.includes(date.getTime())) {
+                const disabledDates= [...datepicker.disabledDates]
+                    .map(x => new Date(Date.parse(x)).setHours(0))
+
+                if (disabledDates.includes(date.getTime())) {
                     return {
                         disabled: true,
                         classes: 'text-line-throught',
@@ -157,11 +137,29 @@ async function onOpenBookingDialog(houseName, bookingIdentifierId, periodId = un
         }
     });
 
-    // console.log(datePicker.disabledDates)
-
     openDialog(bookingDialog);
 
     booking_identifier = bookingIdentifierId
+
+    const csrfToken = getCookie('csrftoken')
+    const url = `/get-booked-days/${bookingIdentifierId}` + (isRange ? '?all=1' : '')
+
+    try {
+        const response = await fetch(url, {
+            method: "GET",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken
+            }
+        });
+
+        const data = await response.json()
+        data['booked_dates'].forEach(x => datePicker.disableDate(new Date(Date.parse(x))))
+
+    } catch (e) {
+        console.error(e.message)
+    }
 }
 
 const addBookingBtn = document.querySelector('#add-booking-btn');
@@ -181,7 +179,7 @@ addBookingBtn?.addEventListener('click', evt => {
         'phone': bookingForm.phone.value,
         'adults': bookingForm.adults.value,
         'childrens': bookingForm.childrens.value,
-        'desired_dates': bookingForm.date.value,
+        'desired_dates': bookingForm.date.value.replaceAll(' 00:00', ''),
         'whatsapp': bookingForm.whatsapp.value === 'on',
         'booking_identifier': booking_identifier
     }
@@ -205,7 +203,7 @@ addBookingBtn?.addEventListener('click', evt => {
     }).catch(_ => toggleDialogs('#booking-dialog', '#booking-result-dialog--failure'))
 })
 
-const isDisabledDateIsInRange = ({date, datepicker, booked_days}) => {
+const isDisabledDateIsInRange = ({date, datepicker}) => {
     const selectedDate = datepicker.selectedDates[0];
     if (datePicker.opts.range && selectedDate && datepicker.selectedDates.length === 1) {
         const sortedDates = [selectedDate, date].toSorted((a, b) => {
@@ -215,7 +213,8 @@ const isDisabledDateIsInRange = ({date, datepicker, booked_days}) => {
             return -1;
         })
 
-        return booked_days
+        return [...datepicker.disabledDates]
+            .map(date => new Date(Date.parse(date)).setHours(0))
             .some(disabledDate => sortedDates[0].getTime() <= disabledDate && disabledDate <= sortedDates[1].getTime())
     }
 }

@@ -86,6 +86,21 @@ class NewsAdmin(SortableAdminBase, admin.ModelAdmin):
     search_fields = ("title", "description")
 
 
+@admin.action(description="Подтвердить выбранные Заявки на бронирование")
+def make_approved(model_admin, request, queryset):
+    queryset.update(status='b')
+
+
+@admin.action(description="Закрыть выбранные Заявки на бронирование")
+def make_canceled(model_admin, request, queryset):
+    queryset.update(status='c')
+
+
+@admin.action(description="Сделать активными выбранные Заявки на бронирование")
+def make_active(model_admin, request, queryset):
+    queryset.update(status='a')
+
+
 @admin.register(Booking)
 class BookingAdmin(admin.ModelAdmin):
     list_display = ('get_booking_name', "fio", 'phone_number', 'desired_dates', 'date_create', 'date_start_fact', 'date_end_fact', 'status')
@@ -96,6 +111,7 @@ class BookingAdmin(admin.ModelAdmin):
     ordering = ['status', '-date_create']
     save_on_top = True
     list_per_page = 10
+    actions = [make_approved, make_canceled, make_active]
 
     @admin.display(description="Название")
     def get_booking_name(self, obj):
