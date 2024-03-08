@@ -3,6 +3,8 @@
 #Django
 Nemtsovo/media/
 
+.idea/
+
 ### OSX ###
 .DS_Store
 .AppleDouble
