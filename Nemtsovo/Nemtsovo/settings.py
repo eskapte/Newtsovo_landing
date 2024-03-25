@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os.path
 from pathlib import Path
+from easy_thumbnails.conf import Settings as thumbnail_settings
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,7 +27,7 @@ SECRET_KEY = 'django-insecure-r6enj3l6qvv)xhub(if73ann5dcar-ywpeapnr9r%5-xs-)9x8
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-
+CSRF_TRUSTED_ORIGINS = ['https://2796-37-45-175-174.ngrok-free.app/']
 
 # Application definition
 
@@ -38,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'adminsortable2',
+    'easy_thumbnails',
+    'image_cropping',
 
     'landing'
 ]
@@ -53,6 +56,10 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'Nemtsovo.urls'
+
+THUMBNAIL_PROCESSORS = (
+    'image_cropping.thumbnail_processors.crop_corners',
+) + thumbnail_settings.THUMBNAIL_PROCESSORS
 
 TEMPLATES = [
     {

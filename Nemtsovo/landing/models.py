@@ -37,6 +37,8 @@ class Booking(models.Model):
     is_has_whatsapp = models.BooleanField("Имеется Whatsapp", editable=False)
 
     date_create = models.DateTimeField('Дата создания', editable=False, auto_now_add=True)
+    is_dayly = models.BooleanField("Суточное бронирование", default=False)
+    is_late_checkout = models.BooleanField("Поздний выезд", null=True, blank=True, default=None)
 
     # так сделано ради сортировки
     class BookingStatus(models.TextChoices):
@@ -44,11 +46,17 @@ class Booking(models.Model):
         APPROVED = 'b', 'Одобрено'
         CANCELED = 'c', 'Отменено'
 
+
+
     status = models.CharField('Статус', choices=BookingStatus, default=BookingStatus.ACTIVE, max_length=20)
     manager_comment = models.TextField('Комментарий', blank=True, null=True,
                                        help_text='Если надо что-то пометить для себя')
     date_start_fact = models.DateTimeField("Фактическое начало бронирования", blank=True, null=True)
-    date_end_fact = models.DateTimeField("Фактическое окончание бронирования", blank=True, null=True)
+    date_end_fact = models.DateTimeField(
+        "Дата окончания бронирования",
+        blank=True,
+        null=True,
+        help_text="При поздном выезде другие люди не смогут забронировать последнюю дату")
 
     class Meta:
         verbose_name = 'Заявка на бронирование'
@@ -157,6 +165,11 @@ class Attachment(models.Model):
         ordering = ['order']
 
 
+class BookingBtnTextChoice(models.TextChoices):
+    BOOKING = "Забронировать", "Забронировать"
+    APPOINTMENT = "Записаться", "Записаться"
+
+
 class House(models.Model):
     name = models.CharField(verbose_name='Название', max_length=32)
     start_price = models.PositiveIntegerField(verbose_name='Начальная цена', help_text="Поставьте 0 если это бесплатно")
@@ -184,6 +197,11 @@ class House(models.Model):
         blank=True,
         verbose_name="Идентификатор бронируемого объекта",
         help_text='Нужен для системы бронирования. Если пустой, то забронировать данный эл-т будет нельзя')
+    booking_btn_text = models.CharField(
+        "Текст кнопки в карточке",
+        max_length=25,
+        choices=BookingBtnTextChoice,
+        default=BookingBtnTextChoice.BOOKING)
 
     def get_pluralized_period(self):
         return self.period.pluralize(self.duration)
@@ -235,6 +253,12 @@ class WellnessTreatment(models.Model):
         verbose_name="Идентификатор бронируемого объекта",
         help_text='Нужен для системы бронирования. Если пустой, то забронировать данный эл-т будет нельзя')
 
+    booking_btn_text = models.CharField(
+        "Текст кнопки в карточке",
+        max_length=25,
+        choices=BookingBtnTextChoice,
+        default=BookingBtnTextChoice.BOOKING)
+
     def get_pluralized_period(self):
         return self.period.pluralize(self.duration)
 
@@ -284,6 +308,12 @@ class Action(models.Model):
         blank=True,
         verbose_name="Идентификатор бронируемого объекта",
         help_text='Нужен для системы бронирования. Если пустой, то забронировать данный эл-т будет нельзя')
+
+    booking_btn_text = models.CharField(
+        "Текст кнопки в карточке",
+        max_length=25,
+        choices=BookingBtnTextChoice,
+        default=BookingBtnTextChoice.BOOKING)
 
     def get_pluralized_period(self):
         return self.period.pluralize(self.duration)

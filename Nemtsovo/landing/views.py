@@ -1,5 +1,6 @@
 import json
 from datetime import datetime, timedelta
+from django.utils import timezone
 
 from django.core.paginator import Paginator
 from django.http import JsonResponse, HttpResponseBadRequest, HttpResponseServerError, HttpResponse
@@ -73,23 +74,28 @@ def add_booking(request):
     if not request.body:
         return HttpResponseBadRequest("The request body is empty")
 
-    form_data = json.loads(request.body.decode('utf-8'))
-    print(form_data)
-
-    new_booking = Booking(
-        fio=form_data['fio'],
-        phone_number=form_data['phone'],
-        adults_count=form_data['adults'],
-        childs_count=form_data['childrens'],
-        desired_dates=form_data['desired_dates'],
-        booking_identifier_id=form_data['booking_identifier'],
-        is_has_whatsapp=form_data['whatsapp']
-    )
-
     try:
+        form_data = json.loads(request.body.decode('utf-8'))
+        print(form_data)
+
+        late_checkout = None \
+            if 'late_checkout' not in form_data or form_data['late_checkout'] in ['undefined', 'null', ''] \
+            else form_data['late_checkout']
+
+        new_booking = Booking(
+            fio=form_data['fio'],
+            phone_number=form_data['phone'],
+            adults_count=form_data['adults'],
+            childs_count=form_data['childrens'],
+            desired_dates=form_data['desired_dates'],
+            booking_identifier_id=form_data['booking_identifier'],
+            is_has_whatsapp=form_data['whatsapp'],
+            is_dayly=form_data['is_dayly'],
+            is_late_checkout=late_checkout
+        )
         new_booking.save()
     except Exception as e:
-        err_message = "An error occured while saveing new booking " + str(e)
+        err_message = "An error occured while saveing new booking: " + e
         print(err_message)
         return HttpResponseServerError(err_message)
 
@@ -98,49 +104,89 @@ def add_booking(request):
 
 def get_booked_days(request, booking_identifier_id):
     if not booking_identifier_id or booking_identifier_id == 0:
-        return HttpResponseBadRequest("booking_identifier_id is " + str(booking_identifier_id))
-
-    bookings = list(Booking.objects
-                    .filter(booking_identifier_id=booking_identifier_id)
-                    .exclude(status='c')
-                    .values('desired_dates'))
-
-    booked_ranges_strings = list(filter(lambda days: "-" in days['desired_dates'], bookings))
-    single_booked_dates = [day for day in bookings if day not in booked_ranges_strings]
+        return HttpResponseBadRequest("booking_identifier_id is empty")
 
     booked_dates = set()
 
-    # работаем с промежутками дат для суточной аренды
     try:
-        for booked_day in booked_ranges_strings:
-            splited = booked_day['desired_dates'].split('-')
-            if not len(splited) == 2:
-                continue
+        get_bookings_query = Booking.objects \
+                        .filter(booking_identifier_id=booking_identifier_id) \
+                        .filter(date_create__lt=timezone.now()) \
+                        .exclude(status='c') \
+                        .values('desired_dates', 'date_start_fact', 'date_end_fact', 'is_late_checkout')
 
-            start_date = datetime.strptime(splited[0].strip(), '%d.%m.%Y')
-            end_date = datetime.strptime(splited[1].strip(), '%d.%m.%Y')
+        if 'only_dayly' in request.GET:
+            get_bookings_query = get_bookings_query.filter(is_dayly=True)
 
-            current_date = start_date
-            while current_date <= end_date:
-                booked_dates.add(current_date.strftime('%Y.%m.%d'))
-                current_date += timedelta(days=1)
+        bookings = list(get_bookings_query)
+
+        for booking in bookings:
+            if booking['date_start_fact'] and booking['date_end_fact']:
+                fact_booked_dates = get_all_dates_in_range(
+                    booking['date_start_fact'],
+                    booking['date_end_fact'],
+                    booking['is_late_checkout'])
+                booked_dates.update(fact_booked_dates)
+            elif booking['date_start_fact']:
+                parsed_date = get_parsed_date(booking['date_start_fact'])
+                if parsed_date is not None:
+                    booked_dates.add(parsed_date)
+            elif booking['desired_dates'] and '-' in booking['desired_dates']:
+                dates_arr = booking['desired_dates'].split('-')
+                if len(dates_arr) == 2:
+                    fact_booked_dates = get_all_dates_in_range(dates_arr[0], dates_arr[1], booking['is_late_checkout'])
+                    booked_dates.update(fact_booked_dates)
+            else:
+                desired_dates = booking['desired_dates'].split(',')
+                for date_str in desired_dates:
+                    date = get_parsed_date(date_str)
+                    if date is not None:
+                        booked_dates.add(date)
     except Exception as e:
-        print("failed to get range booked days: " + str(e))
+        print("failed to get booked days: " + e)
 
-    date_time_formats = ['%d.%m.%Y %H:%M', '%d.%m.%Y']
+    booked_dates_str = set([get_string_from_date(date) for date in booked_dates])
 
+    return JsonResponse({'booked_dates': list(booked_dates_str)})
+
+
+def get_all_dates_in_range(date_start_str, date_end_str, is_include_last=False):
+    current_date = get_parsed_date(date_start_str)
+    date_end = get_parsed_date(date_end_str)
+
+    if current_date is None or date_end is None:
+        return []
+
+    dates_in_range = []
+    while current_date < date_end:
+        dates_in_range.append(current_date)
+        current_date += timedelta(days=1)
+
+    if is_include_last:
+        dates_in_range.append(date_end)
+
+    return dates_in_range
+
+
+date_time_formats = ['%d.%m.%Y %H:%M', '%d.%m.%Y']
+def get_parsed_date(date):
+    if isinstance(date, datetime):
+        return date
+    if not isinstance(date, str):
+        return None
+
+    for date_time_format in date_time_formats:
+        try:
+            parsed_date = datetime.strptime(date.strip(), date_time_format)
+            return parsed_date
+        except ValueError:
+            continue
+
+    return None
+
+
+def get_string_from_date(date):
     try:
-        if 'all' in request.GET:
-            for booking in single_booked_dates:
-                booked_days = booking['desired_dates'].split(',')
-                for booked_day in booked_days:
-                    for date_time_format in date_time_formats:
-                        try:
-                            parsed_date = datetime.strptime(booked_day.strip(), date_time_format).strftime('%Y.%m.%d')
-                            booked_dates.add(parsed_date)
-                        except ValueError:
-                            pass
-    except Exception as e:
-        print("failed to get single booked days: " + str(e))
-
-    return JsonResponse({'booked_dates': list(booked_dates)})
+        return date.strftime('%Y.%m.%d')
+    except Exception:
+        return ""

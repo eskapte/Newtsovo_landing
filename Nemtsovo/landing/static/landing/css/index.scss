@@ -373,8 +373,8 @@ li {
 }
 
 .splide__slide {
-  filter: drop-shadow(-10px 15px 3px rgba(0, 0, 0, 0.415));
-  padding-left: 15px;
+  filter: drop-shadow(-4px 4px 3px rgba(0, 0, 0, 0.3));
+  padding-left: 8px;
 
   @media (max-width: $slider-transform-size) {
     padding-left: 0;
@@ -669,6 +669,9 @@ li {
     flex-direction: column;
     justify-content: flex-start;
     gap: 3vh;
+    background-color: common.$green;
+    padding: 1.5em;
+    border-radius: 40px;
 
     .contacts-item {
       display: flex;
@@ -915,5 +918,20 @@ li {
 
   &__title {
     margin-bottom: 4vh;
+  }
+}
+
+.hidden {
+  display: none!important;
+}
+
+.custom-pagination-page {
+
+  &.is-active {
+    background: common.$green!important;
+  }
+
+  &:hover {
+    background: common.$green!important;
   }
 }

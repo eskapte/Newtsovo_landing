@@ -103,7 +103,7 @@ def make_active(model_admin, request, queryset):
 
 @admin.register(Booking)
 class BookingAdmin(admin.ModelAdmin):
-    list_display = ('get_booking_name', "fio", 'phone_number', 'desired_dates', 'date_create', 'date_start_fact', 'date_end_fact', 'status')
+    list_display = ('get_booking_name', "fio", 'phone_number', 'desired_dates', 'date_create', 'date_start_fact', 'date_end_fact', 'is_late_checkout', 'status')
     list_editable = ['status']
     readonly_fields = (
     'fio', 'phone_number', 'adults_count', 'childs_count', 'desired_dates', 'is_has_whatsapp', 'date_create')
@@ -112,6 +112,21 @@ class BookingAdmin(admin.ModelAdmin):
     save_on_top = True
     list_per_page = 10
     actions = [make_approved, make_canceled, make_active]
+    exclude = ['is_dayly']
+    fieldsets = [
+        (
+            "Информация из формы бронирования",
+            {
+                'fields': ['fio', 'phone_number', 'adults_count', 'childs_count', 'desired_dates', 'is_late_checkout', 'is_has_whatsapp', 'date_create']
+            }
+        ),
+        (
+            'Редактирование заявки',
+            {
+                'fields': ['status', 'date_start_fact', 'date_end_fact']
+            }
+        )
+    ]
 
     @admin.display(description="Название")
     def get_booking_name(self, obj):

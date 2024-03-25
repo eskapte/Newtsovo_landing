@@ -3,7 +3,11 @@ document.addEventListener('DOMContentLoaded', function () {
         autoWidth: true,
         autoHeight: true,
         gap: '50px',
-        pagination: false
+        pagination: true,
+        arrows: false,
+        classes: {
+            page: 'splide__pagination__page custom-pagination-page'
+        }
     });
 
     housesSlider.mount();
@@ -12,7 +16,11 @@ document.addEventListener('DOMContentLoaded', function () {
         autoWidth: true,
         autoHeight: true,
         gap: '50px',
-        pagination: false
+        pagination: true,
+        arrows: false,
+        classes: {
+            page: 'splide__pagination__page custom-pagination-page'
+        }
     });
 
     wellnesTreatmentSlider.mount();
@@ -21,7 +29,11 @@ document.addEventListener('DOMContentLoaded', function () {
         autoWidth: true,
         autoHeight: true,
         gap: '50px',
-        pagination: false
+        pagination: true,
+        arrows: false,
+        classes: {
+            page: 'splide__pagination__page custom-pagination-page'
+        }
     });
 
     actionsSlider.mount();
@@ -30,7 +42,11 @@ document.addEventListener('DOMContentLoaded', function () {
         autoWidth: true,
         autoHeight: true,
         gap: '50px',
-        pagination: false
+        pagination: true,
+        arrows: false,
+        classes: {
+            page: 'splide__pagination__page custom-pagination-page'
+        }
     });
 
     ourPetsSlider.mount();

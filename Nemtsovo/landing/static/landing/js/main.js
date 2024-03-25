@@ -6,6 +6,7 @@ const DAYS_PERIOD_ID = 2;
 
 let booking_identifier;
 let datePicker;
+let isDaylyBooking = false;
 
 function openDialog(dialog) {
     if (typeof dialog === 'string') {
@@ -27,8 +28,11 @@ function closeDialog(dialog, isRemoveNoScroll = true) {
         return
 
     dialog.close();
+    dialog.querySelector(".dialog__content").scrollTo(0, 0);
     if (isRemoveNoScroll)
         document.body.classList.remove('no-scroll');
+
+    isLateCheckoutCheckbox.classList.add('hidden')
 }
 
 function toggleDialogs(oldDialog, newDialog) {
@@ -38,6 +42,7 @@ function toggleDialogs(oldDialog, newDialog) {
 
 dialogs.forEach(dialog => {
     const closeBtn = dialog.querySelector('.close-dialog-btn');
+    const content = dialog.querySelector('.dialog__content');
     if (!closeBtn) return
 
     closeBtn.onclick = evt => closeDialog(dialog);
@@ -75,20 +80,24 @@ navLinks.forEach(navLink => navLink.onclick = evt => {
 });
 
 const bookingDialog = document.querySelector("#booking-dialog");
+const isLateCheckoutCheckbox = document.querySelector('#late-checkout').parentElement;
 
 async function onOpenBookingDialog(houseName, bookingIdentifierId, periodId = undefined) {
     if (!bookingDialog || !bookingIdentifierId)
         return
 
     const dialogTitle = bookingDialog.querySelector('.dialog__title');
-    if (dialogTitle && houseName && !dialogTitle.textContent.includes(houseName))
-        dialogTitle.textContent = `Бронирование ${houseName}`
+    if (dialogTitle && !dialogTitle.textContent.includes(houseName))
+        dialogTitle.textContent = houseName
 
     bookingForm?.reset();
     datePicker?.destroy()
 
     // для всего, что бронируется на сутки, отображаем период
-    const isRange = periodId === DAYS_PERIOD_ID;
+    isDaylyBooking = periodId === DAYS_PERIOD_ID;
+    if (isDaylyBooking) {
+        isLateCheckoutCheckbox.classList.remove('hidden')
+    }
 
     const showTimeBtn = {
         content: 'Время',
@@ -101,12 +110,12 @@ async function onOpenBookingDialog(houseName, bookingIdentifierId, periodId = un
         inline: false,
         minDate: getFirstPossibleDate(),
         multipleDates: 7,
-        multipleDatesSeparator: isRange ? ' - ' : ', ',
-        range: isRange,
+        multipleDatesSeparator: isDaylyBooking ? ' - ' : ', ',
+        range: isDaylyBooking,
         position: 'top center',
         minHours: ecofarmStartWorkTimeHour,
         maxHours: ecofarmEndWorkTimeHour,
-        buttons: !isRange ? [showTimeBtn, 'clear'] : ['clear'],
+        buttons: !isDaylyBooking ? [showTimeBtn, 'clear'] : ['clear'],
         onBeforeSelect: ({date, datepicker}) => {
             return !isDisabledDateIsInRange({date, datepicker});
         },
@@ -121,7 +130,7 @@ async function onOpenBookingDialog(houseName, bookingIdentifierId, periodId = un
         },
         onRenderCell({date, cellType, datepicker}) {
             if (cellType === 'day') {
-                const disabledDates= [...datepicker.disabledDates]
+                const disabledDates = [...datepicker.disabledDates]
                     .map(x => new Date(Date.parse(x)).setHours(0))
 
                 if (disabledDates.includes(date.getTime())) {
@@ -142,7 +151,7 @@ async function onOpenBookingDialog(houseName, bookingIdentifierId, periodId = un
     booking_identifier = bookingIdentifierId
 
     const csrfToken = getCookie('csrftoken')
-    const url = `/get-booked-days/${bookingIdentifierId}` + (isRange ? '?all=1' : '')
+    const url = `/get-booked-days/${bookingIdentifierId}` + (!isDaylyBooking ? '?only_dayly=1' : '')
 
     try {
         const response = await fetch(url, {
@@ -167,12 +176,16 @@ addBookingBtn?.addEventListener('click', evt => {
     if (!bookingForm)
         return
 
+    evt.preventDefault()
+
     if (!bookingForm.checkValidity()) {
         bookingForm.reportValidity();
         return;
     }
 
-    evt.preventDefault()
+    if (bookingForm.date.value.trim() === '') {
+        return;
+    }
 
     const formData = {
         'fio': bookingForm.fio.value,
@@ -180,8 +193,10 @@ addBookingBtn?.addEventListener('click', evt => {
         'adults': bookingForm.adults.value,
         'childrens': bookingForm.childrens.value,
         'desired_dates': bookingForm.date.value.replaceAll(' 00:00', ''),
-        'whatsapp': bookingForm.whatsapp.value === 'on',
-        'booking_identifier': booking_identifier
+        'whatsapp': bookingForm.whatsapp.checked,
+        'booking_identifier': booking_identifier,
+        'is_dayly': isDaylyBooking,
+        'late_checkout': isDaylyBooking ? bookingForm.lateCheckout?.checked : undefined
     }
 
     const csrfToken = getCookie('csrftoken')
@@ -201,6 +216,8 @@ addBookingBtn?.addEventListener('click', evt => {
             toggleDialogs('#booking-dialog', '#booking-result-dialog--failure')
         }
     }).catch(_ => toggleDialogs('#booking-dialog', '#booking-result-dialog--failure'))
+
+    booking_identifier = undefined;
 })
 
 const isDisabledDateIsInRange = ({date, datepicker}) => {
@@ -221,7 +238,7 @@ const isDisabledDateIsInRange = ({date, datepicker}) => {
 
 function getFirstPossibleDate() {
     const today = new Date();
-    today.setHours(ecofarmStartWorkTimeHour)
+
     if (today.getHours() >= ecofarmEndWorkTimeHour) {
         const tommorow = new Date(today);
         tommorow.setDate(today.getDate() + 1);

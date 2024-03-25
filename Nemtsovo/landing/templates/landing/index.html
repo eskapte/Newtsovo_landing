@@ -10,12 +10,10 @@
     <div class="introduction__container container">
       <h1 class="introduction__title font-shadow main-title">Отдохните на природе</h1>
       <p class="introduction__description font-shadow">
-        Откройте для себя Экоферму Немцово – уединенный уголок
-        природы.
-        Аренда коттеджей, разнообразные развлечения и собственные натуральные продукты.
-        Забронируйте&nbsp;прямо&nbsp;сейчас!
+        Откройте для себя Экоферму Немцово – уединенный уголок природы.
+        Оздоровительные процедуры, собственные натуральные продукты, аренда домиков, экскурсии на ферму
       </p>
-      <a href="#houses" class="booking-btn">Забронировать</a>
+      <a href="#houses" class="booking-btn">Посмотреть</a>
       <div class="side-social-links">
         <a href="https://wa.me/79269159153" class="side-social-links__link">
           <img src="{% static 'landing/svg/whatsapp-icon.svg' %}" alt="whatsapp">
@@ -151,7 +149,7 @@
                                   '{{ house.name }}',
                                   '{{ house.booking_identifier_id }}',
                                   {{ house.period_id }})">
-                            Забронировать
+                            {{ house.booking_btn_text }}
                           </button>
                         {% endif %}
                       </section>
@@ -225,7 +223,7 @@
                                   '{{ wellness_treatment.name }}',
                                   '{{ wellness_treatment.booking_identifier_id }}',
                                   {{ wellness_treatment.period_id }})">
-                            Забронировать
+                            {{ wellness_treatment.booking_btn_text }}
                           </button>
                         {% endif %}
                       </section>
@@ -296,7 +294,7 @@
                                   '{{ action.name }}',
                                   '{{ action.booking_identifier_id }}',
                                   {{ action.period_id }})">
-                            Забронировать
+                            {{ action.booking_btn_text }}
                           </button>
                         {% endif %}
                       </section>
@@ -306,20 +304,6 @@
               </ul>
             </div>
           </section>
-          {#        <ul class="actions-list">#}
-          {#          <li>В зимний период работает большая тюбинговая горка</li>#}
-          {#          <li>Услуги по копчению мяса</li>#}
-          {#          <li>Большая территория и выходы в поле, в лес</li>#}
-          {#          <li>Большая зимняя горка для катания на тюбинге</li>#}
-          {#          <li>Спортивная площадка (воркаут)</li>#}
-          {#          <li>Платная рыбалка - летняя и зимняя</li>#}
-          {#          <li>Для любителей сноуборда и лыж - FHPark. В 15 минутах езды. Катание за лебедкой. С 12.00 до 18.00#}
-          {#          </li>#}
-          {#          <li>Для любителей большого тенниса - СК Михнево. В 10 минутах езды. Свободно для аренды площадка в#}
-          {#            выходные#}
-          {#            дни, с 8.00 первая половина дня#}
-          {#          </li>#}
-          {#        </ul>#}
         </div>
       </section>
     {% endif %}
@@ -331,7 +315,7 @@
         <p class="our-products__description description">
           На нашей экоферме вы можете продегустировать и купить продукцию нашего собственного производства. Также
           у нас
-          есть доставка.
+          есть регулярная доставка до города Москва.
         </p>
         <ul class="our-products__list">
           {% for our_product in our_products %}
@@ -464,20 +448,26 @@
             <label for="phone">Телефон</label>
             <input type="tel" placeholder="81234567890" min="10" id="phone" name="phone" required
                    pattern="^(\+7|7|8)?[\s\-]?\(?[489][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$"
-                   oninvalid="this.setCustomValidity('Пожалуйста, укажите свой номер телефона')"
+                   oninvalid="this.setCustomValidity('Пожалуйста, укажите свой номер телефона без пробелов и скобок')"
                    oninput="this.setCustomValidity('')">
           </div>
           <div class="form-elem">
-            <label for="adults">Кол-во взрослых</label>
+            <label for="adults">Кол-во человек</label>
             <input type="number" min="1" id="adults" value="1" name="adults" required>
           </div>
+          <span class="help-text">Пожалуйста, учитывайте, что стоимость указана на определённое кол-во человек (не включая детей до 8-ми лет). Подробнее читайте в условиях.</span>
           <div class="form-elem">
-            <label for="childrens">Кол-во детей</label>
+            <label for="childrens">Кол-во детей до 8-ми лет</label>
             <input type="number" min="0" id="childrens" value="0" name="childrens" required>
           </div>
+          <span class="help-text">Дети до 8-ми лет бесплатно</span>
           <div class="form-elem">
             <label for="date">Желаемые даты</label>
-            <input id="date" name="date" required>
+            <input id="date" name="date" required onkeydown="return false;" style="caret-color: transparent !important;">
+          </div>
+          <div class="form-elem form-elem--inline hidden">
+            <label for="late-checkout">Поздний выезд</label>
+            <input type="checkbox" id="late-checkout" name="lateCheckout">
           </div>
           <div class="form-elem form-elem--inline">
             <label for="whatsapp">У меня есть WhatsApp</label>
