@@ -6,6 +6,7 @@ from django.utils import timezone
 from django.contrib import admin
 from django.conf import settings
 import pytz
+from image_cropping import ImageRatioField
 
 
 class BookingIdentifier(models.Model):
@@ -135,26 +136,18 @@ class Attachment(models.Model):
         return f'landing/mini/{self.content_type.name}_{self.object_id}/{filename}'
 
     file = models.FileField("Фото/Видео", upload_to=get_upload_path)
-    miniature = models.FileField(
-        "Миниатюра (опционально)",
-        upload_to=get_miniature_upload_path,
-        null=True,
-        blank=True,
-        help_text='Изображение, чье разрешение должно быть приближено к 420х300, но не меньше. ' +
-                  'Опционально, но так сайт будет грузиться быстрее')
+    miniature = ImageRatioField(
+        "file",
+        '420x300',
+        verbose_name="Миниатюра",
+        size_warning=True)
     order = models.PositiveIntegerField("Порядок отображения", default=0, db_index=True)
-
-    def is_video(self):
-        return self.file.name.endswith('.mp4')
-
-    def get_miniature_or_original(self):
-        if self.miniature:
-            return self.miniature.url
-
-        return self.file.url
 
     def __str__(self):
         return self.file.name
+
+    def is_video(self):
+        return self.file.name.endswith('.mp4')
 
     class Meta:
         indexes = [

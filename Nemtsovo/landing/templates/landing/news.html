@@ -1,5 +1,6 @@
 {% extends 'landing/base.html' %}
 {% load static %}
+{% load cropping %}
 
 {% block title %}Новости{% endblock %}
 
@@ -19,13 +20,11 @@
                   <a class="gallery__item"
                      data-fancybox="{{ news_item.get_unique_name }}"
                      data-src="{{ media.file.url }}"
-                     {% if media.is_video %}data-thumb="{% static 'landing/img/video-stub.png' %}"{% endif %}
-                  >
+                     {% if media.is_video %}data-thumb="{% static 'landing/img/video-stub.png' %}"{% endif %}>
                     {% if media.is_video %}
                       <video src="{{ media.file.url }}"></video>
                     {% else %}
-                      <img src="{{ media.get_miniature_or_original }}"
-                           loading="lazy" alt="Фото или видео с мероприятия">
+                      <img src="{% cropped_thumbnail media 'miniature' %}" alt="Новость">
                     {% endif %}
                   </a>
                 {% endfor %}
@@ -44,7 +43,6 @@
           <a href='?page={{ news.next_page_number }}' class="next booking-btn">След.</a>
         {% endif %}
       </div>
-{#      <a href="{% url 'index' %}#events-news" class="booking-btn">На главную</a>#}
     </div>
   </main>
 {% endblock %}

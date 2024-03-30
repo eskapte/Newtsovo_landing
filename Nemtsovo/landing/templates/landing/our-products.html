@@ -1,5 +1,6 @@
 {% extends 'landing/base.html' %}
 {% load static %}
+{% load cropping %}
 
 {% block title %}
   Наша продукция
@@ -13,7 +14,8 @@
         <div class="our-products-list__list">
           {% for product in products %}
             <article class="product-item">
-              <span class="product-item__name{% if product.is_available == False %}--not-available{% endif %} small-title">
+              <span
+                  class="product-item__name{% if product.is_available == False %}--not-available{% endif %} small-title">
                 {{ product.name }}
               </span>
               <i class="product-item__price">{{ product.price }}₽ за {{ product.count }} {{ product.measure }}.</i>
@@ -29,8 +31,7 @@
                       {% if media.is_video %}
                         <video src="{{ media.file.url }}"></video>
                       {% else %}
-                        <img src="{{ media.get_miniature_or_original }}"
-                             loading="lazy" alt="Фото или видео продукции">
+                        <img data-lazy-src="{% cropped_thumbnail media 'miniature' %}" alt="Продукция" loading="lazy">
                       {% endif %}
                     </a>
                   {% endfor %}

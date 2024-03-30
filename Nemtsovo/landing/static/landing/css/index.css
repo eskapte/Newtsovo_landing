@@ -426,6 +426,7 @@ li {
 
 .slide {
   max-width: 420px;
+  width: 420px;
   height: max-content;
   max-height: 600px;
   aspect-ratio: 7/10;

@@ -1,5 +1,6 @@
 {% extends 'landing/base.html' %}
 {% load static %}
+{% load cropping %}
 
 {% block title %}
   Экоферма в Немцово
@@ -116,8 +117,8 @@
                               {% if media.is_video %}
                                 <video src="{{ media.file.url }}"></video>
                               {% else %}
-                                <img data-lazy-src="{{ media.get_miniature_or_original }}"
-                                     loading="lazy" alt="Фото или видео домика">
+                                <img data-lazy-src="{% cropped_thumbnail media 'miniature' %}" alt="Домик"
+                                     loading="lazy">
                               {% endif %}
                             </a>
                           </div>
@@ -189,8 +190,8 @@
                               {% if media.is_video %}
                                 <video src="{{ media.file.url }}"></video>
                               {% else %}
-                                <img data-lazy-src="{{ media.get_miniature_or_original }}"
-                                     loading="lazy" alt="Фото или видео оздоровительных процедур">
+                                <img data-lazy-src="{% cropped_thumbnail media 'miniature' %}"
+                                     alt="Оздоровительная процедура" loading="lazy">
                               {% endif %}
                             </a>
                           </div>
@@ -261,8 +262,8 @@
                               {% if media.is_video %}
                                 <video src="{{ media.file.url }}"></video>
                               {% else %}
-                                <img data-lazy-src="{{ media.get_miniature_or_original }}"
-                                     loading="lazy" alt="Фото или видео досуга">
+                                <img data-lazy-src="{% cropped_thumbnail media 'miniature' %}" alt="Досуг"
+                                     loading="lazy">
                               {% endif %}
                             </a>
                           </div>
@@ -323,7 +324,6 @@
           {% empty %}
             <p class="description">Нет в наличии</p>
           {% endfor %}
-
         </ul>
         <div class="our-products__btn-container">
           <a href='{% url "our_products" %}' class="our-products__btn booking-btn">Посмотреть всё</a>
@@ -350,15 +350,9 @@
                       <div class="slide__photos">
                         {% for media in our_pet.media.all %}
                           <div class="f-carousel__slide">
-                            <a data-fancybox="{{ our_pet.get_unique_name }}"
-                               data-src="{{ media.file.url }}"
-                               {% if media.is_video %}data-thumb="{% static 'landing/img/video-stub.png' %}"{% endif %}>
-                              {% if media.is_video %}
-                                <video src="{{ media.file.url }}"></video>
-                              {% else %}
-                                <img data-lazy-src="{{ media.get_miniature_or_original }}"
-                                     loading="lazy" alt="Фото питомца">
-                              {% endif %}
+                            <a data-fancybox="{{ our_pet.get_unique_name }}" data-src="{{ media.file.url }}">
+                              <img data-lazy-src="{% cropped_thumbnail media 'miniature' %}" alt="Питомец"
+                                   loading="lazy">
                             </a>
                           </div>
                         {% endfor %}
@@ -463,7 +457,8 @@
           <span class="help-text">Дети до 8-ми лет бесплатно</span>
           <div class="form-elem">
             <label for="date">Желаемые даты</label>
-            <input id="date" name="date" required onkeydown="return false;" style="caret-color: transparent !important;">
+            <input id="date" name="date" required onkeydown="return false;"
+                   style="caret-color: transparent !important;">
           </div>
           <div class="form-elem form-elem--inline hidden">
             <label for="late-checkout">Поздний выезд</label>

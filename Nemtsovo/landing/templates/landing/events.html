@@ -1,5 +1,6 @@
 {% extends 'landing/base.html' %}
 {% load static %}
+{% load cropping %}
 
 {% block title %}
   Мероприятия
@@ -28,8 +29,7 @@
                       {% if media.is_video %}
                         <video src="{{ media.file.url }}"></video>
                       {% else %}
-                        <img src="{{ media.get_miniature_or_original }}"
-                             loading="lazy" alt="Фото или видео с мероприятия">
+                        <img src="{% cropped_thumbnail media 'miniature' %}" alt="Домик" loading="lazy">
                       {% endif %}
                     </a>
                   {% endfor %}
@@ -41,7 +41,7 @@
           {% endfor %}
         </div>
       </section>
-      {% if future_events %}
+      {% if past_events %}
         <section class="events">
           <h2 class="events__title">Прошедшие</h2>
           <div class="events__list">
@@ -61,8 +61,7 @@
                         {% if media.is_video %}
                           <video src="{{ media.file.url }}"></video>
                         {% else %}
-                          <img src="{{ media.get_miniature_or_original }}"
-                               loading="lazy" alt="Фото или видео с мероприятия">
+                          <img src="{% cropped_thumbnail media 'miniature' %}" alt="Домик" loading="lazy">
                         {% endif %}
                       </a>
                     {% endfor %}

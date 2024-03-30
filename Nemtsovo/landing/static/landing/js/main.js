@@ -80,7 +80,7 @@ navLinks.forEach(navLink => navLink.onclick = evt => {
 });
 
 const bookingDialog = document.querySelector("#booking-dialog");
-const isLateCheckoutCheckbox = document.querySelector('#late-checkout').parentElement;
+const isLateCheckoutCheckbox = document.querySelector('#late-checkout')?.parentElement;
 
 async function onOpenBookingDialog(houseName, bookingIdentifierId, periodId = undefined) {
     if (!bookingDialog || !bookingIdentifierId)

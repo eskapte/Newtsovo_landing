@@ -1,13 +1,12 @@
 from .models import *
+from django import forms
 from django.contrib.contenttypes.admin import GenericTabularInline
-import admin_thumbnails
 from django.forms import TextInput
 from adminsortable2.admin import SortableAdminBase, SortableGenericInlineAdminMixin, SortableAdminMixin
+from image_cropping import ImageCroppingMixin, ImageCropWidget
 
 
-@admin_thumbnails.thumbnail('miniature', 'Миниатюра')
-@admin_thumbnails.thumbnail('file', 'Фото/Видео')
-class AttachmentInline(SortableGenericInlineAdminMixin, GenericTabularInline):
+class AttachmentInline(ImageCroppingMixin, SortableGenericInlineAdminMixin, GenericTabularInline):
     model = Attachment
     extra = 5
 
@@ -141,5 +140,3 @@ class OurPetAdmin(SortableAdminMixin, admin.ModelAdmin):
 
 admin.site.register(BookingIdentifier)
 admin.site.register(Period)
-# admin.site.register(House, HouseAdmin)
-# admin.site.register(BookingConditions, BookingConditionsAdmin)
