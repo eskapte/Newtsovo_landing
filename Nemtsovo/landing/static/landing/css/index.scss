@@ -729,7 +729,6 @@ li {
   }
 }
 
-
 .gallery {
   display: flex;
   flex-wrap: wrap;
@@ -891,6 +890,7 @@ li {
     input[type='tel'],
     input[type='number'],
     input[type='time'],
+    textarea,
     #date {
       margin-top: 0.5em;
       padding: 0.5em;

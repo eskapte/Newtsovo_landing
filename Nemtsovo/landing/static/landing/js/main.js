@@ -32,7 +32,7 @@ function closeDialog(dialog, isRemoveNoScroll = true) {
     if (isRemoveNoScroll)
         document.body.classList.remove('no-scroll');
 
-    isLateCheckoutCheckbox.classList.add('hidden')
+    checkoutCheckboxs.classList.add('hidden')
 }
 
 function toggleDialogs(oldDialog, newDialog) {
@@ -80,7 +80,7 @@ navLinks.forEach(navLink => navLink.onclick = evt => {
 });
 
 const bookingDialog = document.querySelector("#booking-dialog");
-const isLateCheckoutCheckbox = document.querySelector('#late-checkout')?.parentElement;
+const checkoutCheckboxs = document.querySelector('#late-checkout')?.parentElement;
 
 async function onOpenBookingDialog(houseName, bookingIdentifierId, periodId = undefined) {
     if (!bookingDialog || !bookingIdentifierId)
@@ -96,7 +96,7 @@ async function onOpenBookingDialog(houseName, bookingIdentifierId, periodId = un
     // для всего, что бронируется на сутки, отображаем период
     isDaylyBooking = periodId === DAYS_PERIOD_ID;
     if (isDaylyBooking) {
-        isLateCheckoutCheckbox.classList.remove('hidden')
+        checkoutCheckboxs.classList.remove('hidden')
     }
 
     const showTimeBtn = {
@@ -196,7 +196,9 @@ addBookingBtn?.addEventListener('click', evt => {
         'whatsapp': bookingForm.whatsapp.checked,
         'booking_identifier': booking_identifier,
         'is_dayly': isDaylyBooking,
-        'late_checkout': isDaylyBooking ? bookingForm.lateCheckout?.checked : undefined
+        'late_checkout': isDaylyBooking ? bookingForm.lateCheckout?.checked : undefined,
+        'early_checkin': isDaylyBooking ? bookingForm.earlyCheckin?.checked : undefined,
+        'comment': bookingForm.comment.value
     }
 
     const csrfToken = getCookie('csrftoken')

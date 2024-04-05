@@ -39,25 +39,25 @@ class Booking(models.Model):
 
     date_create = models.DateTimeField('Дата создания', editable=False, auto_now_add=True)
     is_dayly = models.BooleanField("Суточное бронирование", default=False)
-    is_late_checkout = models.BooleanField("Поздний выезд", null=True, blank=True, default=None)
+    is_late_checkout = models.BooleanField("Поздний выезд", blank=True, default=False)
+    is_early_checkin = models.BooleanField("Ранний заезд", blank=True, default=False)
 
     # так сделано ради сортировки
     class BookingStatus(models.TextChoices):
-        ACTIVE = 'a', 'Активно'
-        APPROVED = 'b', 'Одобрено'
-        CANCELED = 'c', 'Отменено'
-
-
+        ACTIVE = 'a', 'Активно 🟢'
+        APPROVED = 'b', 'Бронь ✔️'
+        CANCELED = 'c', 'Отменено ❌'
 
     status = models.CharField('Статус', choices=BookingStatus, default=BookingStatus.ACTIVE, max_length=20)
     manager_comment = models.TextField('Комментарий', blank=True, null=True,
                                        help_text='Если надо что-то пометить для себя')
-    date_start_fact = models.DateTimeField("Фактическое начало бронирования", blank=True, null=True)
+    user_comment = models.TextField(
+        "Комментарий клиента", blank=True, null=True, help_text="Из заявки на бронирование", editable=False)
+    date_start_fact = models.DateTimeField("Факт. начало", blank=True, null=True)
     date_end_fact = models.DateTimeField(
-        "Дата окончания бронирования",
+        "Факт. конец",
         blank=True,
-        null=True,
-        help_text="При поздном выезде другие люди не смогут забронировать последнюю дату")
+        null=True)
 
     class Meta:
         verbose_name = 'Заявка на бронирование'

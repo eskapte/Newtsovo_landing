@@ -891,6 +891,7 @@ li {
 .booking-form .form-elem input[type=tel],
 .booking-form .form-elem input[type=number],
 .booking-form .form-elem input[type=time],
+.booking-form .form-elem textarea,
 .booking-form .form-elem #date {
   margin-top: 0.5em;
   padding: 0.5em;

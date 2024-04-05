@@ -458,9 +458,11 @@
           <div class="form-elem">
             <label for="date">Желаемые даты</label>
             <input id="date" name="date" required onkeydown="return false;"
-                   style="caret-color: transparent !important;">
+                   style="caret-color: transparent !important;" autocomplete="off">
           </div>
-          <div class="form-elem form-elem--inline hidden">
+          <div class="form-elem form-elem--inline">
+            <label for="early-checkin">Ранний заезд</label>
+            <input type="checkbox" id="early-checkin" name="earlyCheckin">
             <label for="late-checkout">Поздний выезд</label>
             <input type="checkbox" id="late-checkout" name="lateCheckout">
           </div>
@@ -469,6 +471,10 @@
             <input type="checkbox" id="whatsapp" name="whatsapp">
           </div>
           <span class="help-text">Если Вам будет удобней связаться по WhatsApp, а не разговаривать по телефону</span>
+          <div class="form-elem">
+            <label for="comment">Ваши вопросы и пожелания</label>
+            <textarea id="comment" name="comment" style="resize: none"></textarea>
+          </div>
           <button class="booking-btn" id="add-booking-btn">Забронировать</button>
         </form>
       </div>

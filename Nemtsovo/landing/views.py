@@ -42,7 +42,7 @@ def events(request):
 
     return render(request, "landing/events.html", {
         'future_events': future_events,
-        'past_events': past_events
+        'past_events': past_events[:10]
     })
 
 
@@ -78,9 +78,13 @@ def add_booking(request):
         form_data = json.loads(request.body.decode('utf-8'))
         print(form_data)
 
-        late_checkout = None \
+        late_checkout = False \
             if 'late_checkout' not in form_data or form_data['late_checkout'] in ['undefined', 'null', ''] \
             else form_data['late_checkout']
+
+        early_checkin = False \
+            if 'early_checkin' not in form_data or form_data['early_checkin'] in ['undefined', 'null', ''] \
+            else form_data['early_checkin']
 
         new_booking = Booking(
             fio=form_data['fio'],
@@ -91,7 +95,9 @@ def add_booking(request):
             booking_identifier_id=form_data['booking_identifier'],
             is_has_whatsapp=form_data['whatsapp'],
             is_dayly=form_data['is_dayly'],
-            is_late_checkout=late_checkout
+            is_late_checkout=late_checkout,
+            is_early_checkin=early_checkin,
+            user_comment=form_data['comment']
         )
         new_booking.save()
     except Exception as e:
@@ -151,16 +157,16 @@ def get_booked_days(request, booking_identifier_id):
 
 
 def get_all_dates_in_range(date_start_str, date_end_str, is_include_last=False):
-    current_date = get_parsed_date(date_start_str)
+    date_start = get_parsed_date(date_start_str)
     date_end = get_parsed_date(date_end_str)
 
-    if current_date is None or date_end is None:
+    if date_start is None or date_end is None:
         return []
 
     dates_in_range = []
-    while current_date < date_end:
-        dates_in_range.append(current_date)
-        current_date += timedelta(days=1)
+    while date_start < date_end:
+        dates_in_range.append(date_start)
+        date_start += timedelta(days=1)
 
     if is_include_last:
         dates_in_range.append(date_end)

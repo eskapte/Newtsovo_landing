@@ -31,7 +31,7 @@
                       {% if media.is_video %}
                         <video src="{{ media.file.url }}"></video>
                       {% else %}
-                        <img data-lazy-src="{% cropped_thumbnail media 'miniature' %}" alt="Продукция" loading="lazy">
+                        <img src="{% cropped_thumbnail media 'miniature' %}" alt="Продукция" loading="lazy">
                       {% endif %}
                     </a>
                   {% endfor %}
