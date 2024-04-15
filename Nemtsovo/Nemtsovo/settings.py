@@ -13,7 +13,7 @@ import os.path
 from pathlib import Path
 from easy_thumbnails.conf import Settings as thumbnail_settings
 
-from Nemtsovo.config import secret_key
+import Nemtsovo.config as config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = secret_key
+SECRET_KEY = config.secret_key
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -86,8 +86,11 @@ WSGI_APPLICATION = 'Nemtsovo.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': config.mysql_db_name,
+        'USER': config.mysql_login,
+        'PASSWORD': config.mysql_password,
+        'HOST': config.mysql_host
     }
 }
 
