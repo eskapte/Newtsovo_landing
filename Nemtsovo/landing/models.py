@@ -43,12 +43,20 @@ class Booking(models.Model):
     is_early_checkin = models.BooleanField("Ранний заезд", blank=True, default=False)
 
     # так сделано ради сортировки
-    class BookingStatus(models.TextChoices):
-        ACTIVE = 'a', 'Активно 🟢'
-        APPROVED = 'b', 'Бронь ✔️'
-        CANCELED = 'c', 'Отменено ❌'
+    ACTIVE = 'a'
+    APPROVED = 'b'
+    CANCELED = 'c'
+    BOOKING_STATUS = [
+        (ACTIVE, 'Активно 🟢'),
+        (APPROVED, 'Бронь ✔️'),
+        (CANCELED, 'Отменено ❌')
+    ]
+    # class BookingStatus(models.TextChoices):
+    #     ACTIVE = 'a', 'Активно 🟢'
+    #     APPROVED = 'b', 'Бронь ✔️'
+    #     CANCELED = 'c', 'Отменено ❌'
 
-    status = models.CharField('Статус', choices=BookingStatus, default=BookingStatus.ACTIVE, max_length=20)
+    status = models.CharField('Статус', choices=BOOKING_STATUS, default=ACTIVE, max_length=20)
     manager_comment = models.TextField('Комментарий', blank=True, null=True,
                                        help_text='Если надо что-то пометить для себя')
     user_comment = models.TextField(
@@ -158,10 +166,17 @@ class Attachment(models.Model):
         ordering = ['order']
 
 
-class BookingBtnTextChoice(models.TextChoices):
-    BOOKING = "Забронировать", "Забронировать"
-    APPOINTMENT = "Записаться", "Записаться"
+# class BookingBtnTextChoice(models.TextChoices):
+#     BOOKING = "Забронировать", "Забронировать"
+#     APPOINTMENT = "Записаться", "Записаться"
 
+BOOKING_BTN_TEXT = 'Забронировать'
+APPOINTMENT_BTN_TEXT = "Записаться"
+
+BTN_TEXT_CHOICES = [
+    (BOOKING_BTN_TEXT, "Забронировать"),
+    (APPOINTMENT_BTN_TEXT, 'Записаться')
+]
 
 class House(models.Model):
     name = models.CharField(verbose_name='Название', max_length=32)
@@ -190,11 +205,12 @@ class House(models.Model):
         blank=True,
         verbose_name="Идентификатор бронируемого объекта",
         help_text='Нужен для системы бронирования. Если пустой, то забронировать данный эл-т будет нельзя')
+
     booking_btn_text = models.CharField(
         "Текст кнопки в карточке",
         max_length=25,
-        choices=BookingBtnTextChoice,
-        default=BookingBtnTextChoice.BOOKING)
+        choices=BTN_TEXT_CHOICES,
+        default=BOOKING_BTN_TEXT)
 
     def get_pluralized_period(self):
         return self.period.pluralize(self.duration)
@@ -249,8 +265,8 @@ class WellnessTreatment(models.Model):
     booking_btn_text = models.CharField(
         "Текст кнопки в карточке",
         max_length=25,
-        choices=BookingBtnTextChoice,
-        default=BookingBtnTextChoice.BOOKING)
+        choices=BTN_TEXT_CHOICES,
+        default=BOOKING_BTN_TEXT)
 
     def get_pluralized_period(self):
         return self.period.pluralize(self.duration)
@@ -305,8 +321,8 @@ class Action(models.Model):
     booking_btn_text = models.CharField(
         "Текст кнопки в карточке",
         max_length=25,
-        choices=BookingBtnTextChoice,
-        default=BookingBtnTextChoice.BOOKING)
+        choices=BTN_TEXT_CHOICES,
+        default=BOOKING_BTN_TEXT)
 
     def get_pluralized_period(self):
         return self.period.pluralize(self.duration)

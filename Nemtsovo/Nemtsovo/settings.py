@@ -17,7 +17,7 @@ SECRET_KEY = config.secret_key
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['nemtsovo-ecofarm.ru', 'www.nemtsovo-ecofarm.ru']
+ALLOWED_HOSTS = ['nemtsovo-ecofarm.ru', 'www.nemtsovo-ecofarm.ru'] if not DEBUG else ['*']
 
 # Application definition
 
@@ -80,6 +80,11 @@ DATABASES = {
         'USER': config.mysql_login,
         'PASSWORD': config.mysql_password,
         'HOST': config.mysql_host
+    }
+} if not DEBUG else {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
