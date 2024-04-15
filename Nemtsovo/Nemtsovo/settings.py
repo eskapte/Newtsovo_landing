@@ -13,6 +13,8 @@ import os.path
 from pathlib import Path
 from easy_thumbnails.conf import Settings as thumbnail_settings
 
+from Nemtsovo.config import secret_key
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -21,13 +23,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-r6enj3l6qvv)xhub(if73ann5dcar-ywpeapnr9r%5-xs-)9x8'
+SECRET_KEY = secret_key
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
-CSRF_TRUSTED_ORIGINS = ['https://4660-178-127-100-118.ngrok-free.app/']
 
 # Application definition
 
