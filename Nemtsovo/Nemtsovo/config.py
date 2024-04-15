@@ -1,1 +1,0 @@
-secret_key = 'h#$x7(!f*ruz554!sq&6$3+5wdl6+0-cn+6+9q&9k6qtv=8kr4'
