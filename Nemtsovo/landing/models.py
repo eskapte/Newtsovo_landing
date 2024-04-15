@@ -421,3 +421,19 @@ class OurPet(models.Model):
         verbose_name = 'Питомец'
         verbose_name_plural = 'Питомцы'
         ordering = ['order']
+
+
+class ErrorLog(models.Model):
+    error_message = models.CharField('Сообщение об ошибке', max_length=500, editable=False)
+    stack_trace = models.TextField('Трассировка', blank=True, null=True, editable=False)
+    date = models.DateTimeField('Дата и время', auto_now_add=True, editable=False)
+    additional_info = models.TextField('Доп. информация', blank=True, null=True, editable=False)
+    is_solved = models.BooleanField('Решено', default=False)
+
+    def __str__(self):
+        return self.error_message
+
+    class Meta:
+        verbose_name = 'Ошибка'
+        verbose_name_plural = 'Ошибки'
+        ordering = ['is_solved', '-date']

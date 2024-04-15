@@ -1,5 +1,3 @@
-from django.contrib.admin import SimpleListFilter
-
 from .models import *
 from django.contrib.contenttypes.admin import GenericTabularInline
 from django.forms import TextInput
@@ -138,9 +136,14 @@ class BookingAdmin(admin.ModelAdmin):
 
     @admin.display(description="Название")
     def get_booking_name(self, obj):
-        return obj.booking_identifier.name
+        name = obj.booking_identifier.name
 
-    @admin.display(description="Поздний выезд/ранний заезд")
+        if obj.is_dayly:
+            name += ' (посуточно)'
+
+        return name
+
+    @admin.display(description="Ранний заезд/Поздний выезд")
     def early_late_check(self, obj):
         text = []
 
@@ -156,6 +159,16 @@ class BookingAdmin(admin.ModelAdmin):
 class OurPetAdmin(SortableAdminMixin, admin.ModelAdmin):
     list_display = ('name', 'order')
     inlines = [AttachmentInline]
+
+
+@admin.register(ErrorLog)
+class ErrorLogAdmin(admin.ModelAdmin):
+    list_display = ('error_message', 'date', 'is_solved')
+    list_filter = ('is_solved', 'date')
+    list_editable = ['is_solved']
+    readonly_fields = ('error_message', 'stack_trace', 'date', 'additional_info')
+    def has_add_permission(self, request):
+        return False
 
 
 admin.site.register(BookingIdentifier)

@@ -5,7 +5,9 @@ from django.utils import timezone
 from django.core.paginator import Paginator
 from django.http import JsonResponse, HttpResponseBadRequest, HttpResponseServerError, HttpResponse
 from django.shortcuts import render
-from landing.models import House, AdditionalInfo, WellnessTreatment, Action, OurProduct, Event, News, Booking, OurPet
+from landing.models import House, AdditionalInfo, WellnessTreatment, Action, OurProduct, Event, News, Booking, OurPet, \
+    ErrorLog
+import traceback
 
 
 def index(request):
@@ -72,8 +74,12 @@ def add_booking(request):
         return HttpResponseBadRequest("The request type must be POST")
 
     if not request.body:
-        return HttpResponseBadRequest("The request body is empty")
+        message = "The request body is empty"
+        add_log_to_db(message)
 
+        return HttpResponseBadRequest(message)
+
+    form_data = None
     try:
         form_data = json.loads(request.body.decode('utf-8'))
         print(form_data)
@@ -101,8 +107,9 @@ def add_booking(request):
         )
         new_booking.save()
     except Exception as e:
-        err_message = "An error occured while saveing new booking: " + e
-        print(err_message)
+        err_message = "An error occured while saveing new booking: " + str(e)
+        add_log_to_db(err_message, traceback.extract_stack(), form_data)
+
         return HttpResponseServerError(err_message)
 
     return HttpResponse(status=201)
@@ -110,7 +117,9 @@ def add_booking(request):
 
 def get_booked_days(request, booking_identifier_id):
     if not booking_identifier_id or booking_identifier_id == 0:
-        return HttpResponseBadRequest("booking_identifier_id is empty")
+        message = 'booking_identifier is empty'
+        add_log_to_db(message)
+        return HttpResponseBadRequest(message)
 
     booked_dates = set()
 
@@ -149,7 +158,8 @@ def get_booked_days(request, booking_identifier_id):
                     if date is not None:
                         booked_dates.add(date)
     except Exception as e:
-        print("failed to get booked days: " + e)
+        message = "failed to get booked days: " + str(e)
+        add_log_to_db(message, traceback.extract_stack(), request.GET)
 
     booked_dates_str = set([get_string_from_date(date) for date in booked_dates])
 
@@ -196,3 +206,21 @@ def get_string_from_date(date):
         return date.strftime('%Y.%m.%d')
     except Exception:
         return ""
+
+
+def add_log_to_db(message, stack_trace=None, additional=None):
+    payload = None
+    try:
+        payload = additional if isinstance(additional, str) else json.dumps(additional)
+    except Exception:
+        pass
+
+    try:
+        error_log = ErrorLog(
+            error_message=message,
+            stack_trace=str(stack_trace),
+            additional_info=str(additional)
+        )
+        error_log.save()
+    except Exception as e:
+        print("Failed to save ErrorLog: " + str(e))
