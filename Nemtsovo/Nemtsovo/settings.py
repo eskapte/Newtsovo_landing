@@ -28,7 +28,7 @@ SECRET_KEY = config.secret_key
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['nemtsovo-ecofarm.ru', 'www.nemtsovo-ecofarm.ru']
 
 # Application definition
 
