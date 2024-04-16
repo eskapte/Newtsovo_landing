@@ -350,9 +350,15 @@
                       <div class="slide__photos">
                         {% for media in our_pet.media.all %}
                           <div class="f-carousel__slide">
-                            <a data-fancybox="{{ our_pet.get_unique_name }}" data-src="{{ media.file.url }}">
-                              <img data-lazy-src="{% cropped_thumbnail media 'miniature' %}" alt="Питомец"
-                                   loading="lazy">
+                            <a data-fancybox="{{ our_pet.get_unique_name }}"
+                               data-src="{{ media.file.url }}"
+                               {% if media.is_video %}data-thumb="{% static 'landing/img/video-stub.png' %}"{% endif %}>
+                              {% if media.is_video %}
+                                <video src="{{ media.file.url }}"></video>
+                              {% else %}
+                                <img data-lazy-src="{% cropped_thumbnail media 'miniature' %}" alt="Питомец"
+                                     loading="lazy">
+                              {% endif %}
                             </a>
                           </div>
                         {% endfor %}

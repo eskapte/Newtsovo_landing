@@ -15,9 +15,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config.secret_key
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
+IS_PROD = False
 
-ALLOWED_HOSTS = ['nemtsovo-ecofarm.ru', 'www.nemtsovo-ecofarm.ru'] if not DEBUG else ['*']
+ALLOWED_HOSTS = ['nemtsovo-ecofarm.ru', 'www.nemtsovo-ecofarm.ru'] if IS_PROD else ['*']
 
 # Application definition
 
@@ -81,7 +82,7 @@ DATABASES = {
         'PASSWORD': config.mysql_password,
         'HOST': config.mysql_host
     }
-} if not DEBUG else {
+} if IS_PROD else {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
@@ -124,7 +125,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
-STATIC_ROOT='static/'
+STATIC_ROOT = 'static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
