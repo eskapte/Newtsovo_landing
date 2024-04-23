@@ -1,8 +1,11 @@
+import os
 import os.path
 from pathlib import Path
+
+from dotenv import load_dotenv
 from easy_thumbnails.conf import Settings as thumbnail_settings
 
-import Nemtsovo.config as config
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -12,11 +15,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config.secret_key
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-IS_PROD = False
+DEBUG = os.getenv("DEBUG") or True
+IS_PROD = os.getenv("IS_PROD") or False
 
 ALLOWED_HOSTS = ['nemtsovo-ecofarm.ru', 'www.nemtsovo-ecofarm.ru'] if IS_PROD else ['*']
 
@@ -77,10 +80,10 @@ WSGI_APPLICATION = 'Nemtsovo.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': config.mysql_db_name,
-        'USER': config.mysql_login,
-        'PASSWORD': config.mysql_password,
-        'HOST': config.mysql_host
+        'NAME': os.getenv("MYSQL_DB_NAME"),
+        'USER': os.getenv("MYSQL_LOGIN"),
+        'PASSWORD': os.getenv("MYSQL_PASSWORD"),
+        'HOST': os.getenv("MYSQL_HOST")
     }
 } if IS_PROD else {
     'default': {
