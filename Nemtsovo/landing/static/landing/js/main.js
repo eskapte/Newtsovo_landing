@@ -2,7 +2,7 @@ const dialogs = document.querySelectorAll('dialog');
 const bookingForm = document.querySelector('.booking-form');
 const ecofarmStartWorkTimeHour = 8
 const ecofarmEndWorkTimeHour = 20
-const DAYS_PERIOD_ID = 2;
+const DAYS_PERIOD_ID = 1;
 
 let booking_identifier;
 let datePicker;
