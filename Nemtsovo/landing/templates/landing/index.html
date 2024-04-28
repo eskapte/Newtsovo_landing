@@ -328,10 +328,12 @@
             <p class="description">Нет в наличии</p>
           {% endfor %}
         </ul>
+      {% if our_products %}
         <div class="our-products__btn-container">
           <a href='{% url "our_products" %}' class="our-products__btn booking-btn">Посмотреть всё</a>
         </div>
       </div>
+    {% endif %}
     </section>
 
     <!-- Наши питомыцы -->

@@ -83,7 +83,7 @@ li {
   .header-nav-links {
     display: flex;
     align-items: center;
-    gap: 2vw;
+    gap: min(2vw, 30px);
     @include mixins.adaptiv-font(16, 20);
     transition: display .3s ease, background-color .3s ease;
 
@@ -430,6 +430,10 @@ li {
     .f-carousel {
       &__dots {
         transform: translateY(-30px);
+      }
+
+      &__dot {
+        color: common.$white!important;
       }
 
       &__nav {

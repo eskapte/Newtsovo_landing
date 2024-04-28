@@ -144,7 +144,7 @@ li {
 .main-header .header-nav-links {
   display: flex;
   align-items: center;
-  gap: 2vw;
+  gap: min(2vw, 30px);
   font-size: min(16px + 4 * (100vw - 360px) / 1080, 20px);
   transition: display 0.3s ease, background-color 0.3s ease;
 }
@@ -458,6 +458,9 @@ li {
 }
 .slide__photos .f-carousel__dots {
   transform: translateY(-30px);
+}
+.slide__photos .f-carousel__dot {
+  color: #fff !important;
 }
 .slide__photos .f-carousel__nav .f-button svg {
   width: 50px;
