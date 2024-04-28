@@ -18,7 +18,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = not os.getenv("DEBUG")
+DEBUG = not not os.getenv("DEBUG")
 IS_PROD = not not os.getenv("IS_PROD")
 
 ALLOWED_HOSTS = ['nemtsovo-ecofarm.ru', 'www.nemtsovo-ecofarm.ru'] if IS_PROD else ['*']
