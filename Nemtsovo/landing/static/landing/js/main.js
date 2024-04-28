@@ -82,7 +82,11 @@ navLinks.forEach(navLink => navLink.onclick = evt => {
 const bookingDialog = document.querySelector("#booking-dialog");
 const checkoutCheckboxs = document.querySelector('#late-checkout')?.parentElement;
 
-async function onOpenBookingDialog(houseName, bookingIdentifierId, periodId = undefined) {
+async function onOpenBookingDialog(
+    houseName,
+    bookingIdentifierId,
+    periodId = undefined,
+    buttonText = 'Забронировать') {
     if (!bookingDialog || !bookingIdentifierId)
         return
 
@@ -104,6 +108,11 @@ async function onOpenBookingDialog(houseName, bookingIdentifierId, periodId = un
         onClick: (datepicker) => {
             datepicker.update({timepicker: !datepicker.opts.timepicker})
         }
+    }
+
+    const addBookingBtn = document.querySelector("#add-booking-btn");
+    if (addBookingBtn) {
+        addBookingBtn.textContent = buttonText;
     }
 
     datePicker = new AirDatepicker("#date", {

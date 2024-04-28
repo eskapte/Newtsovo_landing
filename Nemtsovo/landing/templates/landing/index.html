@@ -149,7 +149,8 @@
                               onclick="onOpenBookingDialog(
                                   '{{ house.name }}',
                                   '{{ house.booking_identifier_id }}',
-                                  {{ house.period_id }})">
+                                  {{ house.period_id }},
+                                  '{{ house.booking_btn_text }}')">
                             {{ house.booking_btn_text }}
                           </button>
                         {% endif %}
@@ -223,7 +224,8 @@
                               onclick="onOpenBookingDialog(
                                   '{{ wellness_treatment.name }}',
                                   '{{ wellness_treatment.booking_identifier_id }}',
-                                  {{ wellness_treatment.period_id }})">
+                                  {{ wellness_treatment.period_id }},
+                                  '{{ wellness_treatment.booking_btn_text }}')">
                             {{ wellness_treatment.booking_btn_text }}
                           </button>
                         {% endif %}
@@ -294,7 +296,8 @@
                               onclick="onOpenBookingDialog(
                                   '{{ action.name }}',
                                   '{{ action.booking_identifier_id }}',
-                                  {{ action.period_id }})">
+                                  {{ action.period_id }},
+                                  '{{ action.booking_btn_text }}')">
                             {{ action.booking_btn_text }}
                           </button>
                         {% endif %}
@@ -481,6 +484,12 @@
             <label for="comment">Ваши вопросы и пожелания</label>
             <textarea id="comment" name="comment" style="resize: none"></textarea>
           </div>
+          <span class="help-text" style="margin-top: 1vh">
+            Нажимая кнопку ниже, вы соглашаетесь с
+            <a href="{% static 'landing/files/obrabotka_pd.pdf' %}" target="_blank" style="text-decoration: underline">
+              политикой обработки персональных данных
+            </a>
+          </span>
           <button class="booking-btn" id="add-booking-btn">Забронировать</button>
         </form>
       </div>
