@@ -21,19 +21,20 @@
               <i class="product-item__price">{{ product.price }}₽ за {{ product.count }} {{ product.measure }}.</i>
               <p class="product-item__description description">{{ product.description }}</p>
               {% if product.media.exists %}
-                <div class="gallery news-detail__gallery">
+                <div class="slide__photos">
                   {% for media in product.media.all %}
-                    <a class="gallery__item"
-                       data-fancybox="{{ product.get_unique_name }}"
-                       data-src="{{ media.file.url }}"
-                       {% if media.is_video %}data-thumb="{% static 'landing/img/video-stub.png' %}"{% endif %}
-                    >
-                      {% if media.is_video %}
-                        <video src="{{ media.file.url }}"></video>
-                      {% else %}
-                        <img src="{% cropped_thumbnail media 'miniature' %}" alt="Продукция" loading="lazy">
-                      {% endif %}
-                    </a>
+                    <div class="f-carousel__slide gallery-item-slide">
+                      <a data-fancybox="{{ product.get_unique_name }}"
+                         data-src="{{ media.file.url }}"
+                         {% if media.is_video %}data-thumb="{% static 'landing/img/video-stub.png' %}"{% endif %}>
+                        {% if media.is_video %}
+                          <video src="{{ media.file.url }}"></video>
+                        {% else %}
+                          <img src="{% cropped_thumbnail media 'miniature' %}" alt="Домик"
+                               loading="lazy">
+                        {% endif %}
+                      </a>
+                    </div>
                   {% endfor %}
                 </div>
               {% endif %}
@@ -50,4 +51,5 @@
 
 {% block javascript %}
   <script src="{% static 'landing/js/init-fancybox.js' %}"></script>
+  <script src="{% static 'landing/js/init-fancybox-carousels.js' %}"></script>
 {% endblock %}

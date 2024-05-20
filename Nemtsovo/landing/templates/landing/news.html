@@ -15,18 +15,20 @@
             <p class="news-item__date-time description">{{ news_item.date }}</p>
             <p class="news-item__description description">{{ news_item.description }}</p>
             {% if news_item.media.exists %}
-              <div class="gallery event-detail__gallery">
+              <div class="slide__photos">
                 {% for media in news_item.media.all %}
-                  <a class="gallery__item"
-                     data-fancybox="{{ news_item.get_unique_name }}"
-                     data-src="{{ media.file.url }}"
-                     {% if media.is_video %}data-thumb="{% static 'landing/img/video-stub.png' %}"{% endif %}>
-                    {% if media.is_video %}
-                      <video src="{{ media.file.url }}"></video>
-                    {% else %}
-                      <img src="{% cropped_thumbnail media 'miniature' %}" alt="Новость">
-                    {% endif %}
-                  </a>
+                  <div class="f-carousel__slide gallery-item-slide">
+                    <a data-fancybox="{{ news_item.get_unique_name }}"
+                       data-src="{{ media.file.url }}"
+                       {% if media.is_video %}data-thumb="{% static 'landing/img/video-stub.png' %}"{% endif %}>
+                      {% if media.is_video %}
+                        <video src="{{ media.file.url }}"></video>
+                      {% else %}
+                        <img src="{% cropped_thumbnail media 'miniature' %}" alt="Домик"
+                             loading="lazy">
+                      {% endif %}
+                    </a>
+                  </div>
                 {% endfor %}
               </div>
             {% endif %}
@@ -49,4 +51,5 @@
 
 {% block javascript %}
   <script src="{% static 'landing/js/init-fancybox.js' %}"></script>
+  <script src="{% static 'landing/js/init-fancybox-carousels.js' %}"></script>
 {% endblock %}

@@ -19,19 +19,20 @@
               <p class="event__date-time description">{{ event.date }}</p>
               <p class="event__description description">{{ event.description }}</p>
               {% if event.media.exists %}
-                <div class="gallery event-detail__gallery">
+                <div class="slide__photos">
                   {% for media in event.media.all %}
-                    <a class="gallery__item"
-                       data-fancybox="{{ event.get_unique_name }}"
-                       data-src="{{ media.file.url }}"
-                       {% if media.is_video %}data-thumb="{% static 'landing/img/video-stub.png' %}"{% endif %}
-                    >
-                      {% if media.is_video %}
-                        <video src="{{ media.file.url }}"></video>
-                      {% else %}
-                        <img src="{% cropped_thumbnail media 'miniature' %}" alt="Домик" loading="lazy">
-                      {% endif %}
-                    </a>
+                    <div class="f-carousel__slide">
+                      <a data-fancybox="{{ event.get_unique_name }}"
+                         data-src="{{ media.file.url }}"
+                         {% if media.is_video %}data-thumb="{% static 'landing/img/video-stub.png' %}"{% endif %}>
+                        {% if media.is_video %}
+                          <video src="{{ media.file.url }}"></video>
+                        {% else %}
+                          <img src="{% cropped_thumbnail media 'miniature' %}" alt="Домик"
+                               loading="lazy">
+                        {% endif %}
+                      </a>
+                    </div>
                   {% endfor %}
                 </div>
               {% endif %}
@@ -51,19 +52,20 @@
                 <p class="event__date-time description">{{ event.date }}</p>
                 <p class="event__description description">{{ event.description }}</p>
                 {% if event.media.exists %}
-                  <div class="gallery event-detail__gallery">
+                  <div class="slide__photos">
                     {% for media in event.media.all %}
-                      <a class="gallery__item"
-                         data-fancybox="{{ event.get_unique_name }}"
-                         data-src="{{ media.file.url }}"
-                         {% if media.is_video %}data-thumb="{% static 'landing/img/video-stub.png' %}"{% endif %}
-                      >
-                        {% if media.is_video %}
-                          <video src="{{ media.file.url }}"></video>
-                        {% else %}
-                          <img src="{% cropped_thumbnail media 'miniature' %}" alt="Домик" loading="lazy">
-                        {% endif %}
-                      </a>
+                      <div class="f-carousel__slide gallery-item-slide">
+                        <a data-fancybox="{{ event.get_unique_name }}"
+                           data-src="{{ media.file.url }}"
+                           {% if media.is_video %}data-thumb="{% static 'landing/img/video-stub.png' %}"{% endif %}>
+                          {% if media.is_video %}
+                            <video src="{{ media.file.url }}"></video>
+                          {% else %}
+                            <img src="{% cropped_thumbnail media 'miniature' %}" alt="Домик"
+                                 loading="lazy">
+                          {% endif %}
+                        </a>
+                      </div>
                     {% endfor %}
                   </div>
                 {% endif %}
@@ -78,4 +80,5 @@
 
 {% block javascript %}
   <script src="{% static 'landing/js/init-fancybox.js' %}"></script>
+  <script src="{% static 'landing/js/init-fancybox-carousels.js' %}"></script>
 {% endblock %}

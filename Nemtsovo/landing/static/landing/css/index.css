@@ -769,10 +769,11 @@ li {
 .gallery {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 }
 .gallery__item {
   flex: 1 1 250px;
-  max-height: 250px;
+  max-height: 350px;
   border: none;
   cursor: pointer;
 }
@@ -780,6 +781,7 @@ li {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  aspect-ratio: 1/1;
   background: #36271D;
 }
 
@@ -930,6 +932,20 @@ li {
 }
 .custom-pagination-page:hover {
   background: #516938 !important;
+}
+
+.gallery-item-slide {
+  max-height: 320px;
+  max-width: 320px !important;
+  border: none;
+  cursor: pointer;
+}
+.gallery-item-slide a > img, .gallery-item-slide a > video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  aspect-ratio: 1/1;
+  background: #36271D;
 }
 
 /*# sourceMappingURL=index.css.map */

@@ -433,7 +433,7 @@ li {
       }
 
       &__dot {
-        color: common.$white!important;
+        color: common.$white !important;
       }
 
       &__nav {
@@ -736,10 +736,13 @@ li {
 .gallery {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 
   &__item {
     flex: 1 1 250px;
-    max-height: 250px;
+    //max-width: 250px;
+    //width: 250px;
+    max-height: 350px;
     border: none;
     cursor: pointer;
 
@@ -747,6 +750,7 @@ li {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      aspect-ratio: 1 / 1;
       background: common.$brown-dark;
     }
   }
@@ -927,16 +931,31 @@ li {
 }
 
 .hidden {
-  display: none!important;
+  display: none !important;
 }
 
 .custom-pagination-page {
 
   &.is-active {
-    background: common.$green!important;
+    background: common.$green !important;
   }
 
   &:hover {
-    background: common.$green!important;
+    background: common.$green !important;
+  }
+}
+
+.gallery-item-slide {
+  max-height: 320px;
+  max-width: 320px!important;
+  border: none;
+  cursor: pointer;
+
+  a > img, a > video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    aspect-ratio: 1 / 1;
+    background: common.$brown-dark;
   }
 }

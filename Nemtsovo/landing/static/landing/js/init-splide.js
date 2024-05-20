@@ -4,7 +4,6 @@ document.addEventListener('DOMContentLoaded', function () {
         autoHeight: true,
         gap: '50px',
         pagination: true,
-        arrows: false,
         classes: {
             page: 'splide__pagination__page custom-pagination-page'
         }
@@ -17,7 +16,6 @@ document.addEventListener('DOMContentLoaded', function () {
         autoHeight: true,
         gap: '50px',
         pagination: true,
-        arrows: false,
         classes: {
             page: 'splide__pagination__page custom-pagination-page'
         }
@@ -30,7 +28,6 @@ document.addEventListener('DOMContentLoaded', function () {
         autoHeight: true,
         gap: '50px',
         pagination: true,
-        arrows: false,
         classes: {
             page: 'splide__pagination__page custom-pagination-page'
         }
@@ -43,7 +40,6 @@ document.addEventListener('DOMContentLoaded', function () {
         autoHeight: true,
         gap: '50px',
         pagination: true,
-        arrows: false,
         classes: {
             page: 'splide__pagination__page custom-pagination-page'
         }
