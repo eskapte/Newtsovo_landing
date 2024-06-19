@@ -17,11 +17,11 @@
             <article class="event">
               <p class="event__title small-title">{{ event.title }}</p>
               <p class="event__date-time description">{{ event.date }}</p>
-              <p class="event__description description">{{ event.description }}</p>
+              <p class="event__description description">{{ event.description|linebreaksbr }}</p>
               {% if event.media.exists %}
                 <div class="slide__photos">
                   {% for media in event.media.all %}
-                    <div class="f-carousel__slide">
+                    <div class="f-carousel__slide gallery-item-slide">
                       <a data-fancybox="{{ event.get_unique_name }}"
                          data-src="{{ media.file.url }}"
                          {% if media.is_video %}data-thumb="{% static 'landing/img/video-stub.png' %}"{% endif %}>
