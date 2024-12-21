@@ -81,16 +81,13 @@ def add_booking(request):
 
     form_data = None
     try:
-        form_data = json.loads(request.body.decode('utf-8'))
-        print(form_data)
+        add_log_to_db("Raw request body: " + request.body)
+        decoded_body = request.body.strip().decode('utf-8')
+        add_log_to_db("Decoded body: " + decoded_body)
+        form_data = json.loads(decoded_body)
 
-        late_checkout = False \
-            if 'late_checkout' not in form_data or form_data['late_checkout'] in ['undefined', 'null', ''] \
-            else form_data['late_checkout']
-
-        early_checkin = False \
-            if 'early_checkin' not in form_data or form_data['early_checkin'] in ['undefined', 'null', ''] \
-            else form_data['early_checkin']
+        late_checkout = form_data.get('late_checkout', False) not in ['undefined', 'null', '']
+        early_checkin = form_data.get('early_checkin', False) not in ['undefined', 'null', '']
 
         new_booking = Booking(
             fio=form_data['fio'],
@@ -107,7 +104,7 @@ def add_booking(request):
         )
         new_booking.save()
     except Exception as e:
-        err_message = "An error occured while saveing new booking: " + str(e)
+        err_message = "An error occured while saving new booking: " + str(e)
         add_log_to_db(err_message, traceback.extract_stack(), form_data)
 
         return HttpResponseServerError(err_message)
