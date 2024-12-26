@@ -81,11 +81,8 @@ def add_booking(request):
 
     form_data = None
     try:
-        add_log_to_db("Raw request body: " + str(request.body))
         decoded_body = request.body.strip().decode('utf-8')
-        add_log_to_db("Decoded body: " + str(decoded_body))
         form_data = json.loads(decoded_body)
-        add_log_to_db("Form data: " + str(form_data))
 
         late_checkout = form_data.get('late_checkout', False) not in ['undefined', 'null', '']
         early_checkin = form_data.get('early_checkin', False) not in ['undefined', 'null', '']
